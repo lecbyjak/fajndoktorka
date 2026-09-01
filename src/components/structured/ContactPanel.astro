@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import Link from "../navigation/Link.astro";
 
 export interface Props {
     clinic?: CollectionEntry<"site">["data"];
@@ -34,7 +35,7 @@ const mapQuery = encodeURIComponent(address);
                 <p class="contact-line">
                     <>
                         <span>Adresa</span>
-                        <a href="/mapa/">{clinic.address.street}, Praha 8</a>
+                        <Link href="/mapa/">{clinic.address.street}, Praha 8</Link>
                     </>
                 </p>
             </aside>

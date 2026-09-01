@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactPanel from "../components/structured/ContactPanel.astro";
+import Link from "../components/navigation/Link.astro";
 
 const sites = await getCollection("site");
 const articles = await getCollection("articles");
@@ -70,9 +71,9 @@ const topics = [
                                 </a>
                             )
                         }
-                        <a class="button secondary" href="/ordinacni-hodiny/">
+                        <Link class="button secondary" href="/ordinacni-hodiny/">
                             Kdy ordinujeme
-                        </a>
+                        </Link>
                     </div>
                 </div><ContactPanel {clinic} compact />
             </div>
@@ -90,12 +91,12 @@ const topics = [
                                     <p>{respiratoryNotice.data.description}</p>
                                 </>
                             </div>
-                            <a
+                            <Link
                                 class="button secondary"
                                 href={respiratoryNotice.data.path}
                             >
                                 Více informací
-                            </a>
+                            </Link>
                         </>
                     </div>
                 </div>
@@ -113,7 +114,7 @@ const topics = [
                 <div class="home-card-grid">
                     {
                         features.map(([href, title, description], index) => (
-                            <a class="feature-card" {href}>
+                            <Link class="feature-card" {href}>
                                 <>
                                     <span class="card-index">
                                         {String(index + 1).padStart(2, "0")}
@@ -124,7 +125,7 @@ const topics = [
                                         Zjistit více →
                                     </span>
                                 </>
-                            </a>
+                            </Link>
                         ))
                     }
                 </div>
@@ -142,7 +143,7 @@ const topics = [
                 </div><div class="home-card-grid">
                     {
                         topics.map(([href, title, description], index) => (
-                            <a class="feature-card" {href}>
+                            <Link class="feature-card" {href}>
                                 <>
                                     <span class="card-index">
                                         {String(index + 1).padStart(2, "0")}
@@ -153,7 +154,7 @@ const topics = [
                                         Prohlédnout →
                                     </span>
                                 </>
-                            </a>
+                            </Link>
                         ))
                     }
                 </div>

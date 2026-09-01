@@ -1,5 +1,6 @@
 ---
 import MobileMenu from "./MobileMenu.astro";
+import Link from "./Link.astro";
 
 export interface Props {
     currentPath?: string;
@@ -26,13 +27,13 @@ const isActive = (href: string) => {
 
 <header class="site-header">
     <div class="header-inner">
-        <a class="brand" href="/" aria-label="Fajn doktorka – domů">
+        <Link class="brand" href="/" aria-label="Fajn doktorka – domů">
             <span class="brand-mark" aria-hidden="true">FD</span>
             <span class="brand-copy">
                 <strong>Fajn doktorka</strong>
                 <small>Ordinace praktického lékaře</small>
             </span>
-        </a>
+        </Link>
         <nav
             class="site-nav"
             id="site-navigation"
@@ -41,12 +42,12 @@ const isActive = (href: string) => {
         >
             {
                 navItems.map(({ href, label }) => (
-                    <a
+                    <Link
                         href={href}
                         aria-current={isActive(href) ? "page" : undefined}
                     >
                         {label}
-                    </a>
+                    </Link>
                 ))
             }
         </nav>

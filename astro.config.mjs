@@ -3,6 +3,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 export default defineConfig({
     // site: 'https://www.fajndoktorka.com',
     site: 'https://lecbyjak.github.io',
+    base: "/fajndoktorka",
     trailingSlash: 'always',
     fonts: [{
       provider: fontProviders.fontsource(),

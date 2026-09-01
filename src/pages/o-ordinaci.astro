@@ -1,5 +1,6 @@
 ---
 import LandingLayout from "../layouts/LandingLayout.astro";
+import Link from "../components/navigation/Link.astro";
 ---
 
 <LandingLayout
@@ -46,10 +47,10 @@ import LandingLayout from "../layouts/LandingLayout.astro";
             </p>
             <p>
                 Ordinace se řídí vnitřním řádem, který je závazný i pro naše
-                pacienty. <a
+                pacienty. <Link
                     href="/assets/vnitrni-rad-ordinace.pdf"
                     target="_blank"
-                    rel="noopener noreferrer">K nahlédnutí zde</a
+                    rel="noopener noreferrer">K nahlédnutí zde</Link
                 >.
             </p>
             <h3>DISPENZARIZACE</h3><p>
@@ -90,18 +91,18 @@ import LandingLayout from "../layouts/LandingLayout.astro";
                         přímo v naší ordinaci.
                     </p>
                 </div>
-                <a class="button secondary" href="/pristroje/"
-                    >Zobrazit vybavení →</a
+                <Link class="button secondary" href="/pristroje/"
+                    >Zobrazit vybavení →</Link
                 >
             </aside>
             <section class="resources">
                 <h2>Související zdroje</h2><ul>
                     <li>
-                        <a
+                        <Link
                             href="/assets/vnitrni-rad-ordinace.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
-                            >Vnitřní řád ordinace (PDF)</a>
+                            >Vnitřní řád ordinace (PDF)</Link>
                     </li>
                 </ul>
             </section>

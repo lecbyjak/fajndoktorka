@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import Link from "../navigation/Link.astro";
 
 export interface Props {
     site?: CollectionEntry<"site">["data"];
@@ -25,11 +26,11 @@ const mapQuery = addressLabel ? encodeURIComponent(addressLabel) : undefined;
             </div>
             <div>
                 <h3>Ordinace</h3>
-                <a href="/ordinacni-hodiny/">Ordinační hodiny</a>
-                <a href="/o-nas/">Náš tým</a>
-                <a href="/cenik/">Ceník</a>
-                <a href="/pristroje/">Vybavení ordinace</a>
-                <a href="/blog/"> Aktuality z ordinace </a>
+                <Link href="/ordinacni-hodiny/">Ordinační hodiny</Link>
+                <Link href="/o-nas/">Náš tým</Link>
+                <Link href="/cenik/">Ceník</Link>
+                <Link href="/pristroje/">Vybavení ordinace</Link>
+                <Link href="/blog/"> Aktuality z ordinace </Link>
             </div>
             {
                 site && (

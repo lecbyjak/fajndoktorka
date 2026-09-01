@@ -1,4 +1,6 @@
 ---
+import Link from "../navigation/Link.astro";
+
 export interface SideNavigationItem {
     href: string;
     label: string;
@@ -19,9 +21,12 @@ const { label = "Ordinace", items } = Astro.props;
             <strong>{label}</strong>
             <nav aria-label="Související stránky">
                 {items.map(({ href, label: itemLabel, current }) => (
-                    <a href={href} aria-current={current ? "page" : undefined}>
+                    <Link
+                        href={href}
+                        aria-current={current ? "page" : undefined}
+                    >
                         {itemLabel}
-                    </a>
+                    </Link>
                 ))}
             </nav>
         </aside>
