@@ -1,0 +1,47 @@
+---
+import { getCollection } from "astro:content";
+import ArticleCard from "../../components/content/ArticleCard.astro";
+import LandingLayout from "../../layouts/LandingLayout.astro";
+
+const entries = (await getCollection("articles"))
+    .filter((entry) => entry.data.category === "news")
+    .sort((a, b) => a.data.navigationOrder - b.data.navigationOrder);
+const description =
+    entries[0]?.data.description ??
+    "Aktuality a provozní informace z ordinace Fajn doktorka.";
+---
+
+<LandingLayout
+    title="Aktuality z ordinace"
+    {description}
+    canonical="https://www.fajndoktorka.com/blog/"
+    currentPath="/blog/"
+>
+    {
+        entries.length > 0 ? (
+            <section class="landing-subsection landing-subsection--first">
+                <div class="landing-intro">
+                    <h2>Aktuální témata</h2>
+                </div>
+                <div class="landing-grid">
+                    {entries.map((entry, index) => (
+                        <ArticleCard
+                            href={entry.data.path}
+                            title={entry.data.title}
+                            description={entry.data.description}
+                            index={index + 1}
+                            cta="Přečíst →"
+                        />
+                    ))}
+                </div>
+            </section>
+        ) : (
+            <section class="article">
+                <>
+                    <h2>Aktuality se připravují</h2>
+                    <p>Nové příspěvky zde zveřejníme.</p>
+                </>
+            </section>
+        )
+    }
+</LandingLayout>

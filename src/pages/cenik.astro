@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import LandingLayout from "../layouts/LandingLayout.astro";
+import PriceList from "../components/structured/PriceList.astro";
+const entries = await getCollection("pricing");
+---
+
+<LandingLayout
+    title="Ceník"
+    description="Ceník výkonů nehrazených z veřejného zdravotního pojištění."
+    canonical="https://www.fajndoktorka.com/cenik/"
+    currentPath="/cenik/"
+>
+    <div class="price-layout">
+        <div class="price-intro">
+            <div>
+                <p class="eyebrow">Samoplátecké služby</p><h2>Přehled cen</h2>
+            </div><p>
+                Ceny se vztahují na výkony nehrazené z veřejného zdravotního
+                pojištění. U očkování se výsledná cena může lišit podle zvolené
+                vakcíny.
+            </p>
+        </div><PriceList {entries} /><p class="price-note">
+            Potřebujete upřesnit cenu konkrétního výkonu? Kontaktujte ordinaci.
+        </p>
+    </div>
+</LandingLayout>

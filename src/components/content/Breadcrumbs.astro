@@ -1,0 +1,27 @@
+---
+export interface BreadcrumbItem {
+    label: string;
+    href?: string;
+}
+
+export interface Props {
+    items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumbs" aria-label="Drobečková navigace">
+    {
+        items.map((item, index) => (
+            <>
+                {item.href ? (
+                    <a href={item.href}>{item.label}</a>
+                ) : (
+                    <span aria-current="page">{item.label}</span>
+                )}
+                {index < items.length - 1 && <span aria-hidden="true">/</span>}
+            </>
+        ))
+    }
+</nav>

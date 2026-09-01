@@ -1,0 +1,29 @@
+---
+export interface SideNavigationItem {
+    href: string;
+    label: string;
+    current?: boolean;
+}
+
+export interface Props {
+    label?: string;
+    items: SideNavigationItem[];
+}
+
+const { label = "Ordinace", items } = Astro.props;
+---
+
+{
+    items.length > 0 && (
+        <aside class="side-nav">
+            <strong>{label}</strong>
+            <nav aria-label="Související stránky">
+                {items.map(({ href, label: itemLabel, current }) => (
+                    <a href={href} aria-current={current ? "page" : undefined}>
+                        {itemLabel}
+                    </a>
+                ))}
+            </nav>
+        </aside>
+    )
+}

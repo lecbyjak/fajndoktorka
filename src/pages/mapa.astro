@@ -1,0 +1,16 @@
+---
+import LandingLayout from "../layouts/LandingLayout.astro";
+import ContactPanel from "../components/structured/ContactPanel.astro";
+import clinics from "../data/site.json";
+const clinic = clinics[0];
+---
+
+<LandingLayout
+    title="Kontakt"
+    description="Ordinace praktického lékaře Fajn doktorka, Praha 8 – Bohnice."
+    canonical="https://www.fajndoktorka.com/mapa/"
+    currentPath="/mapa/"
+    bodyClass="contact-page"
+>
+    <ContactPanel {clinic} />
+</LandingLayout>

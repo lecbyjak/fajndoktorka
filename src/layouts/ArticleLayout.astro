@@ -1,0 +1,83 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import PageHero from "../components/content/PageHero.astro";
+import SideNavigation, {
+    type SideNavigationItem,
+} from "../components/content/SideNavigation.astro";
+import type { BreadcrumbItem } from "../components/content/Breadcrumbs.astro";
+
+export interface Props {
+    title: string;
+    description: string;
+    canonical?: string | URL;
+    currentPath?: string;
+    eyebrow?: string;
+    breadcrumbs?: BreadcrumbItem[];
+    sources?: { label: string; url: string }[];
+    sideNavigation?: SideNavigationItem[];
+    sideNavigationLabel?: string;
+    noindex?: boolean;
+}
+
+const {
+    title,
+    description,
+    canonical,
+    currentPath,
+    eyebrow,
+    breadcrumbs,
+    sources = [],
+    sideNavigation = [],
+    sideNavigationLabel,
+    noindex,
+} = Astro.props;
+const hasSidebar = sideNavigation.length > 0;
+---
+
+<BaseLayout {title} {description} {canonical} {currentPath} {noindex}>
+    <main id="obsah">
+        <PageHero {title} {eyebrow} {breadcrumbs} />
+        <section class="section">
+            <div class="shell">
+                <div
+                    class:list={[
+                        "content-layout",
+                        { "content-layout--single": !hasSidebar },
+                    ]}
+                >
+                    <article class="article">
+                        <slot />
+                        {
+                            sources.length > 0 && (
+                                <section class="resources article-sources">
+                                    <h2>Další zdroje</h2>
+                                    <ul>
+                                        {sources.map(({ label, url }) => (
+                                            <li>
+                                                <a
+                                                    href={url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    {label}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </section>
+                            )
+                        }
+                    </article>
+                    {
+                        hasSidebar && (
+                            <SideNavigation
+                                items={sideNavigation}
+                                label={sideNavigationLabel}
+                            />
+                        )
+                    }
+                </div>
+            </div>
+        </section>
+    </main>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from "astro:content";
+export interface Props {
+    entries: CollectionEntry<"pricing">[];
+}
+const { entries } = Astro.props;
+const categories = [
+    ...new Set(
+        entries
+            .sort((a, b) => a.data.order - b.data.order)
+            .map(({ data }) => data.category),
+    ),
+];
+---
+
+{
+    entries.length ? (
+        <div class="price-list">
+            {categories.map((category, index) => (
+                <section class="price-section">
+                    <header>
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <h2>{category}</h2>
+                    </header>
+                    <div class="price-rows">
+                        {entries
+                            .filter(({ data }) => data.category === category)
+                            .map(({ data }) => (
+                                <div class="price-row">
+                                    <span>{data.service}</span>
+                                    <strong>{data.price}</strong>
+                                </div>
+                            ))}
+                    </div>
+                </section>
+            ))}
+        </div>
+    ) : (
+        <p class="article-note" role="status">
+            Ceník čeká na ověření ordinací.
+        </p>
+    )
+}

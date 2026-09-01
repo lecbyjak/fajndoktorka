@@ -1,0 +1,68 @@
+---
+import { getCollection } from "astro:content";
+import { Font } from "astro:assets";
+import Header from "../components/navigation/Header.astro";
+import Footer from "../components/footer/Footer.astro";
+import "../styles/global.css";
+import "../styles/print.css";
+
+export interface Props {
+    title: string;
+    description: string;
+    canonical?: string | URL;
+    currentPath?: string;
+    image?: string | URL;
+    noindex?: boolean;
+    bodyClass?: string;
+}
+
+const {
+    title,
+    description,
+    canonical,
+    currentPath = Astro.url.pathname,
+    image,
+    noindex = false,
+    bodyClass,
+} = Astro.props;
+const siteName = "Fajn doktorka";
+const documentTitle = `${title} | ${siteName}`;
+const canonicalUrl = canonical
+    ? new URL(canonical, Astro.site ?? Astro.url.origin)
+    : new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const imageUrl = image
+    ? new URL(image, Astro.site ?? Astro.url.origin)
+    : undefined;
+const footerEntry = (await getCollection("site"))[0];
+const footerSite = footerEntry?.data;
+---
+
+<!doctype html>
+<html lang="cs">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#39735e" />
+        <meta name="description" content={description} />
+        {noindex && <meta name="robots" content="noindex, follow" />}
+        <title>{documentTitle}</title>
+        <link rel="canonical" href={canonicalUrl} />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <meta property="og:locale" content="cs_CZ" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={siteName} />
+        <meta property="og:title" content={documentTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonicalUrl} />
+        {imageUrl && <meta property="og:image" content={imageUrl} />}
+        <Font cssVariable="--font-inter" preload />
+        <slot name="head" />
+    </head>
+    <body class={bodyClass}>
+        <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
+        <Header currentPath={currentPath} />
+        <slot />
+        <Footer site={footerSite} />
+        <script src="../scripts/site.ts"></script>
+    </body>
+</html>

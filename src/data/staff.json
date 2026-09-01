@@ -1,0 +1,24 @@
+[
+  {
+    "id": "alexandra-krysova",
+    "name": "MUDr. Alexandra Krýšová",
+    "role": "Praktická lékařka",
+    "order": 1,
+    "education": [
+      "1. LF UK – 2003",
+      "Atestace z interního lékařství – 2011",
+      "Atestace ze všeobecného lékařství – 2014"
+    ],
+    "memberships": [
+      "Společnost všeobecného lékařství",
+      "Sdružení praktických lékařů",
+      "Internistická společnost JEP"
+    ],
+    "experience": [
+      "2003–2016 — Interní klinika FN Motol",
+      "2012–2019 — Praktický lékař a diabetologická ambulance Restrial s.r.o.",
+      "od 2019 — Praktický lékař"
+    ],
+    "portraitAlt": "MUDr. Alexandra Krýšová"
+  }
+]

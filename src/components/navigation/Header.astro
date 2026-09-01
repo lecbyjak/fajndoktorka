@@ -1,0 +1,55 @@
+---
+import MobileMenu from "./MobileMenu.astro";
+
+export interface Props {
+    currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+const path = decodeURI(currentPath).replace(/\/+$/, "") || "/";
+const navItems = [
+    { href: "/", label: "Domů" },
+    { href: "/o-ordinaci/", label: "O ordinaci" },
+    { href: "/o-nas/", label: "Náš tým" },
+    { href: "/ordinacni-hodiny/", label: "Ordinační hodiny" },
+    { href: "/informace-pro-pacienty/", label: "Pro pacienty" },
+    { href: "/cenik/", label: "Ceník" },
+    { href: "/mapa/", label: "Kontakt" },
+];
+const isActive = (href: string) => {
+    const target = href.replace(/\/+$/, "") || "/";
+    return target === "/"
+        ? path === "/"
+        : path === target || path.startsWith(`${target}/`);
+};
+---
+
+<header class="site-header">
+    <div class="header-inner">
+        <a class="brand" href="/" aria-label="Fajn doktorka – domů">
+            <span class="brand-mark" aria-hidden="true">FD</span>
+            <span class="brand-copy">
+                <strong>Fajn doktorka</strong>
+                <small>Ordinace praktického lékaře</small>
+            </span>
+        </a>
+        <nav
+            class="site-nav"
+            id="site-navigation"
+            data-open="false"
+            aria-label="Hlavní navigace"
+        >
+            {
+                navItems.map(({ href, label }) => (
+                    <a
+                        href={href}
+                        aria-current={isActive(href) ? "page" : undefined}
+                    >
+                        {label}
+                    </a>
+                ))
+            }
+        </nav>
+        <MobileMenu />
+    </div>
+</header>

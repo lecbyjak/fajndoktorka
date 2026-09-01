@@ -1,0 +1,65 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+    site?: CollectionEntry<"site">["data"];
+}
+
+const { site } = Astro.props;
+const year = new Date().getFullYear();
+const addressLabel = site
+    ? `${site.address.street}, ${site.address.locality.split(" – ")[0]}`
+    : undefined;
+const mapQuery = addressLabel ? encodeURIComponent(addressLabel) : undefined;
+---
+
+<footer class="site-footer">
+    <div class="shell">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h2>Fajn doktorka</h2>
+                <p>
+                    Praktická medicína postavená na srozumitelnosti, důvěře a
+                    dlouhodobé péči.
+                </p>
+            </div>
+            <div>
+                <h3>Ordinace</h3>
+                <a href="/ordinacni-hodiny/">Ordinační hodiny</a>
+                <a href="/o-nas/">Náš tým</a>
+                <a href="/cenik/">Ceník</a>
+                <a href="/pristroje/">Vybavení ordinace</a>
+                <a href="/blog/"> Aktuality z ordinace </a>
+            </div>
+            {
+                site && (
+                    <div>
+                        <h3>Kontakt</h3>
+                        <a href={`tel:${site.phone.replaceAll(" ", "")}`}>
+                            {site.phone}
+                        </a>
+                        <a href={`mailto:${site.email}`}>{site.email}</a>
+                        <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            {addressLabel}
+                        </a>
+                    </div>
+                )
+            }
+        </div>
+        <div class="footer-bottom">
+            <span>© {year} Fajn doktorka</span>
+            {
+                site && (
+                    <span>
+                        IČO {site.ico} · V akutním ohrožení volejte 155.
+                    </span>
+                )
+            }
+        </div>
+    </div>
+</footer>
+<button class="back-to-top" type="button" aria-label="Zpět nahoru">↑</button>

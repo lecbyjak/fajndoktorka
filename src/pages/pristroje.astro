@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import LandingLayout from "../layouts/LandingLayout.astro";
+import EquipmentList from "../components/structured/EquipmentList.astro";
+const entries = await getCollection("equipment");
+---
+
+<LandingLayout
+    title="Přístroje"
+    description="Přehled diagnostických přístrojů používaných v ordinaci Fajn doktorka."
+    canonical="https://www.fajndoktorka.com/pristroje/"
+    currentPath="/pristroje/"
+>
+    <div class="equipment-layout">
+        <div class="equipment-intro">
+            <p class="eyebrow">Vybavení ordinace</p>
+            <h2>Vyšetření přímo u nás</h2>
+            <p>
+                Moderní přístroje nám pomáhají získat důležité výsledky rychle,
+                šetrně a bez zbytečného odesílání na další pracoviště.
+            </p>
+        </div>
+        <EquipmentList {entries} />
+    </div>
+</LandingLayout>

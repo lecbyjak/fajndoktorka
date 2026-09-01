@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+    clinic?: CollectionEntry<"site">["data"];
+    compact?: boolean;
+}
+
+const { clinic, compact = false } = Astro.props;
+const phoneHref = clinic ? `tel:${clinic.phone.replace(/\s/g, "")}` : "";
+const address = clinic
+    ? `${clinic.address.street}, ${clinic.address.postalCode} ${clinic.address.locality}`
+    : "";
+const mapQuery = encodeURIComponent(address);
+---
+
+{
+    clinic ? (
+        compact ? (
+            <aside class="hero-panel" aria-label="Rychlý kontakt">
+                <h2>Jsme tu pro vás</h2>
+                <p class="contact-line">
+                    <>
+                        <span>Telefon</span>
+                        <a href={phoneHref}>{clinic.phone}</a>
+                    </>
+                </p>
+                <p class="contact-line">
+                    <>
+                        <span>E-mail</span>
+                        <a href={`mailto:${clinic.email}`}>{clinic.email}</a>
+                    </>
+                </p>
+                <p class="contact-line">
+                    <>
+                        <span>Adresa</span>
+                        <a href="/mapa/">{clinic.address.street}, Praha 8</a>
+                    </>
+                </p>
+            </aside>
+        ) : (
+            <section class="contact-overview" aria-labelledby="contact-location-title">
+                <div class="contact-content">
+                    <div class="contact-heading">
+                        <p class="eyebrow">Poliklinika Mazurská</p>
+                        <h2 id="contact-location-title">Jsme snadno dostupní v Praze 8</h2>
+                        <p>Objednejte se telefonicky před návštěvou. Pro neurgentní dotazy můžete využít e-mail.</p>
+                    </div>
+
+                    <div class="contact-methods">
+                        <a class="contact-method" href={phoneHref}>
+                            <span>Telefon</span>
+                            <strong>{clinic.phone}</strong>
+                            <small>Objednání a konzultace</small>
+                        </a>
+                        <a class="contact-method" href={`mailto:${clinic.email}`}>
+                            <span>E-mail</span>
+                            <strong>{clinic.email}</strong>
+                            <small>Neurgentní dotazy</small>
+                        </a>
+                        <div class="contact-method">
+                            <span>Adresa ordinace</span>
+                            <strong>{clinic.address.street}</strong>
+                            <small>{clinic.address.postalCode} {clinic.address.locality}</small>
+                        </div>
+                    </div>
+
+                    <div class="contact-actions">
+                        <a class="button" href={`https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`} target="_blank" rel="noopener">Naplánovat trasu</a>
+                        <a class="button secondary" href={phoneHref}>Zavolat do ordinace</a>
+                    </div>
+                    <p class="contact-legal">IČO {clinic.ico}</p>
+                </div>
+
+                <div class="location-map">
+                    <iframe
+                        title={`Mapa ordinace ${clinic.name}, ${clinic.address.street}`}
+                        src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen
+                    />
+                    <a href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noopener">Otevřít ve větší mapě →</a>
+                </div>
+            </section>
+        )
+    ) : (
+        <p class="article-note" role="status">
+            Kontaktní údaje čekají na ověření ordinací.
+        </p>
+    )
+}

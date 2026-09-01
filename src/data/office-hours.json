@@ -1,0 +1,117 @@
+[
+  {
+    "id": "monday",
+    "day": "Pondělí",
+    "clinician": "MUDr. Navrátilová",
+    "order": 0,
+    "slots": [
+      {
+        "from": "13:00",
+        "to": "16:00",
+        "purpose": "acute"
+      },
+      {
+        "from": "16:00",
+        "to": "18:00",
+        "purpose": "appointment"
+      },
+      {
+        "from": "18:00",
+        "to": "20:00",
+        "purpose": "prebooked"
+      }
+    ]
+  },
+  {
+    "id": "tuesday",
+    "day": "Úterý",
+    "clinician": "MUDr. Krýšová",
+    "order": 1,
+    "slots": [
+      {
+        "from": "07:30",
+        "to": "09:00",
+        "purpose": "vaccination-and-sampling"
+      },
+      {
+        "from": "09:00",
+        "to": "10:00",
+        "purpose": "acute"
+      },
+      {
+        "from": "10:00",
+        "to": "14:30",
+        "purpose": "appointment"
+      }
+    ]
+  },
+  {
+    "id": "wednesday",
+    "day": "Středa",
+    "clinician": "MUDr. Krýšová",
+    "order": 2,
+    "slots": [
+      {
+        "from": "13:00",
+        "to": "15:00",
+        "purpose": "acute"
+      },
+      {
+        "from": "15:00",
+        "to": "18:30",
+        "purpose": "appointment"
+      },
+      {
+        "from": "18:30",
+        "to": "20:00",
+        "purpose": "prebooked"
+      }
+    ]
+  },
+  {
+    "id": "thursday",
+    "day": "Čtvrtek",
+    "clinician": "MUDr. Krýšová",
+    "order": 3,
+    "slots": [
+      {
+        "from": "07:30",
+        "to": "09:00",
+        "purpose": "vaccination-and-sampling"
+      },
+      {
+        "from": "09:00",
+        "to": "10:00",
+        "purpose": "acute"
+      },
+      {
+        "from": "10:00",
+        "to": "14:30",
+        "purpose": "appointment"
+      }
+    ]
+  },
+  {
+    "id": "friday",
+    "day": "Pátek",
+    "clinician": "MUDr. Krýšová",
+    "order": 4,
+    "slots": [
+      {
+        "from": "07:30",
+        "to": "09:00",
+        "purpose": "vaccination-and-sampling"
+      },
+      {
+        "from": "09:00",
+        "to": "10:00",
+        "purpose": "acute"
+      },
+      {
+        "from": "10:00",
+        "to": "13:30",
+        "purpose": "appointment"
+      }
+    ]
+  }
+]

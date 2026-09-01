@@ -1,0 +1,78 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import portrait from "../../assets/mudr-alexandra-krysova.jpg";
+export interface Props {
+    entries: CollectionEntry<"staff">[];
+}
+const { entries } = Astro.props;
+const splitExperience = (value: string) => value.split(/\s+—\s+/, 2);
+---
+
+{
+    entries.length ? (
+        entries
+            .sort((a, b) => a.data.order - b.data.order)
+            .map(({ data }) => (
+                <div class="profile-layout">
+                    <>
+                        <figure class="team-portrait">
+                            <Image
+                                src={portrait}
+                                alt={data.portraitAlt}
+                                width={496}
+                                height={702}
+                            />
+                        </figure>
+                        <article class="profile-content">
+                            <>
+                                <p class="eyebrow">{data.role}</p>
+                                <h2>{data.name}</h2>
+                            </>
+                            <section class="credential-section">
+                                <>
+                                    <h3>Vzdělání</h3>
+                                    <ul>
+                                        {data.education.map((item) => (
+                                            <li>{item}</li>
+                                        ))}
+                                    </ul>
+                                </>
+                            </section>
+                            <section class="credential-section">
+                                <>
+                                    <h3>Členství v odborných společnostech</h3>
+                                    <ul>
+                                        {data.memberships.map((item) => (
+                                            <li>{item}</li>
+                                        ))}
+                                    </ul>
+                                </>
+                            </section>
+                            <section class="credential-section">
+                                <>
+                                    <h3>Praxe</h3>
+                                    <dl>
+                                        {data.experience.map((item) => {
+                                            const [term, description] =
+                                                splitExperience(item);
+                                            return (
+                                                <div>
+                                                    <dt>{term}</dt>
+                                                    <dd>{description}</dd>
+                                                </div>
+                                            );
+                                        })}
+                                    </dl>
+                                </>
+                            </section>
+                        </article>
+                    </>
+                </div>
+            ))
+    ) : (
+        <p class="article-note" role="status">
+            Informace o týmu čekají na ověření ordinací.
+        </p>
+    )
+}

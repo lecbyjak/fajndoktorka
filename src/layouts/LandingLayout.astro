@@ -1,0 +1,45 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import PageHero from "../components/content/PageHero.astro";
+import type { BreadcrumbItem } from "../components/content/Breadcrumbs.astro";
+
+export interface Props {
+    title: string;
+    description: string;
+    canonical?: string | URL;
+    currentPath?: string;
+    eyebrow?: string;
+    lead?: string;
+    breadcrumbs?: BreadcrumbItem[];
+    bodyClass?: string;
+    noindex?: boolean;
+}
+
+const {
+    title,
+    description,
+    canonical,
+    currentPath,
+    eyebrow,
+    lead,
+    breadcrumbs,
+    bodyClass,
+    noindex,
+} = Astro.props;
+---
+
+<BaseLayout
+    {title}
+    {description}
+    {canonical}
+    {currentPath}
+    {bodyClass}
+    {noindex}
+>
+    <main id="obsah">
+        <PageHero {title} {eyebrow} {lead} {breadcrumbs} />
+        <section class="section">
+            <div class="shell landing-layout"><slot /></div>
+        </section>
+    </main>
+</BaseLayout>

@@ -1,0 +1,191 @@
+[
+  {
+    "id": "price-01",
+    "category": "Administrativa",
+    "service": "Výpis ze zdravotní dokumentace",
+    "price": "300 Kč",
+    "order": 1
+  },
+  {
+    "id": "price-02",
+    "category": "Administrativa",
+    "service": "Malý administrativní úkon (potvrzení do letadla, omluvenka TV, fitness atd.)",
+    "price": "100 Kč",
+    "order": 2
+  },
+  {
+    "id": "price-03",
+    "category": "Administrativa",
+    "service": "Potvrzení ke studiu",
+    "price": "100 Kč",
+    "order": 3
+  },
+  {
+    "id": "price-04",
+    "category": "Administrativa",
+    "service": "Vystavení tiskopisu pro pojišťovny (úraz, pojistka, bolestné, apod.)",
+    "price": "400 Kč",
+    "order": 4
+  },
+  {
+    "id": "price-05",
+    "category": "Administrativa",
+    "service": "Potvrzení o stavu pacienta pro různé účely ( soudy, policii, domovy seniorů apod.)",
+    "price": "200 Kč",
+    "order": 5
+  },
+  {
+    "id": "price-06",
+    "category": "Posudky",
+    "service": "Posudek k výkonu povolání (vstupní, periodická, mimořádná prohlídka",
+    "price": "600 Kč",
+    "order": 6
+  },
+  {
+    "id": "price-07",
+    "category": "Posudky",
+    "service": "Vyšetření na řidičský průkaz (nový nebo rozšíření)",
+    "price": "500 Kč",
+    "order": 7
+  },
+  {
+    "id": "price-08",
+    "category": "Posudky",
+    "service": "Vyšetření pro prodloužení řidičského průkazu u osob nad 65 let",
+    "price": "350 Kč",
+    "order": 8
+  },
+  {
+    "id": "price-09",
+    "category": "Posudky",
+    "service": "Vyšetření pro zbrojní průkaz",
+    "price": "800 Kč",
+    "order": 9
+  },
+  {
+    "id": "price-10",
+    "category": "Posudky",
+    "service": "Vyšetření pro vodní plavidla",
+    "price": "500 Kč",
+    "order": 10
+  },
+  {
+    "id": "price-11",
+    "category": "Posudky",
+    "service": "Vyšetření pro profesní průkazy např. svářečský apod. (nejedná se o posudek do zaměstnání)",
+    "price": "500 Kč",
+    "order": 11
+  },
+  {
+    "id": "price-12",
+    "category": "Posudky",
+    "service": "Vyšetření pro zdravotní průkaz na dobu neurčitou",
+    "price": "400 Kč",
+    "order": 12
+  },
+  {
+    "id": "price-13",
+    "category": "Posudky",
+    "service": "Vyšetření pro zdravotní průkaz na dobu 1 roku",
+    "price": "200 Kč",
+    "order": 13
+  },
+  {
+    "id": "price-14",
+    "category": "Posudky",
+    "service": "Vyšetření pro sportovní kluby (kromě nebezpečné sportovní činnosti, potápění)",
+    "price": "500 Kč",
+    "order": 14
+  },
+  {
+    "id": "price-15",
+    "category": "Posudky",
+    "service": "Vyšetření pro nebezpečnou sportovní činnost (potápění)",
+    "price": "800 Kč",
+    "order": 15
+  },
+  {
+    "id": "price-16",
+    "category": "Posudky",
+    "service": "Posudek pro jednotlivé sportovní akce, tábory",
+    "price": "200 Kč",
+    "order": 16
+  },
+  {
+    "id": "price-17",
+    "category": "Posudky",
+    "service": "Posudek práce s dětmi",
+    "price": "200 Kč",
+    "order": 17
+  },
+  {
+    "id": "price-18",
+    "category": "Očkování nehrazené ze zdravotního pojištění",
+    "service": "Aplikace očkovací látky nehrazená ze zdravotního pojištění",
+    "price": "200 Kč",
+    "order": 18
+  },
+  {
+    "id": "price-19",
+    "category": "Očkování nehrazené ze zdravotního pojištění",
+    "service": "Očkování proti klíšťové encefalitidě (FSME) u osob pod 50 let včetně aplikace",
+    "price": "1000 Kč",
+    "order": 19
+  },
+  {
+    "id": "price-20",
+    "category": "Očkování nehrazené ze zdravotního pojištění",
+    "service": "Očkování tetanus+ černý kašel+ záškrt (Adacel, Boostrix)",
+    "price": "900 Kč",
+    "order": 20
+  },
+  {
+    "id": "price-21",
+    "category": "Očkování nehrazené ze zdravotního pojištění",
+    "service": "Očkování proti chřipce u osob pod 65 let",
+    "price": "450 Kč",
+    "order": 21
+  },
+  {
+    "id": "price-22",
+    "category": "Očkování nehrazené ze zdravotního pojištění",
+    "service": "Ostatní očkování na vyžádání",
+    "price": "Dle zvolené vakcíny",
+    "order": 22
+  },
+  {
+    "id": "price-23",
+    "category": "Vyšetření u osob bez zdravotního pojištění",
+    "service": "Komplexní vyšetření praktickým lékařem",
+    "price": "800 Kč",
+    "order": 23
+  },
+  {
+    "id": "price-24",
+    "category": "Vyšetření u osob bez zdravotního pojištění",
+    "service": "Cílené vyšetření praktickým lékařem",
+    "price": "300 Kč",
+    "order": 24
+  },
+  {
+    "id": "price-25",
+    "category": "Vyšetření u osob bez zdravotního pojištění",
+    "service": "Stanovení CRP, INR, TOKS",
+    "price": "200 Kč",
+    "order": 25
+  },
+  {
+    "id": "price-26",
+    "category": "Vyšetření u osob bez zdravotního pojištění",
+    "service": "Vyšetření EKG",
+    "price": "200 Kč",
+    "order": 26
+  },
+  {
+    "id": "price-27",
+    "category": "Vyšetření u osob bez zdravotního pojištění",
+    "service": "Vyšetření glykemie, vyšetření moči",
+    "price": "50 Kč",
+    "order": 27
+  }
+]

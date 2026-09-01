@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+    entries: CollectionEntry<"officeHours">[];
+}
+const { entries } = Astro.props;
+const purposeLabels = {
+    acute: "Akutní pacienti",
+    appointment: "Objednaní pacienti",
+    prebooked: "Pouze předem objednaní",
+    "vaccination-and-sampling": "Očkování a odběry",
+};
+---
+
+{
+    entries.length ? (
+        <section class="schedule-board" aria-labelledby="weekly-schedule-title">
+            <div class="schedule-board-heading">
+                <div>
+                    <>
+                        <p class="eyebrow">Pondělí až pátek</p>
+                        <h2 id="weekly-schedule-title">Týdenní přehled</h2>
+                    </>
+                </div>
+                <p>
+                    Časy se liší podle typu návštěvy. Vyberte den a zkontrolujte
+                    správný časový blok.
+                </p>
+            </div>
+            <div class="schedule-days">
+                {entries
+                    .sort((a, b) => a.data.order - b.data.order)
+                    .map(({ data }) => (
+                        <article class="schedule-day">
+                            <header>
+                                <h3>{data.day}</h3>
+                                <p>
+                                    <span>Ordinuje</span>
+                                    {data.clinician}
+                                </p>
+                            </header>
+                            <ol class="schedule-slots">
+                                {data.slots.map((slot) => (
+                                    <li data-purpose={slot.purpose}>
+                                        <time>
+                                            {slot.from} – {slot.to}
+                                        </time>
+                                        <span>
+                                            {purposeLabels[slot.purpose]}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ol>
+                        </article>
+                    ))}
+            </div>
+        </section>
+    ) : (
+        <p class="article-note" role="status">
+            Ordinační hodiny čekají na ověření ordinací.
+        </p>
+    )
+}

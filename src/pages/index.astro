@@ -1,0 +1,163 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactPanel from "../components/structured/ContactPanel.astro";
+
+const sites = await getCollection("site");
+const articles = await getCollection("articles");
+const clinic = sites[0]?.data;
+const respiratoryNotice = articles.find(
+    ({ data }) => data.path === "/post/roušky/",
+);
+const phoneHref = clinic ? `tel:${clinic.phone.replace(/\s/g, "")}` : undefined;
+
+const features = [
+    ["/o-nas/", "Kdo jsme", "Jsme zdravotníci a chceme se o vás starat."],
+    [
+        "/o-ordinaci/",
+        "Jak to vidíme",
+        "Koukněte se jaký je náš pohled na poskytování zdravotní péče",
+    ],
+    ["/mapa/", "Kde nás najdete", "Naše ordinace je na Poliklinice Mazurská"],
+    [
+        "/ordinacni-hodiny/",
+        "Kdy tu budeme",
+        "I my musíme odpočívat. Zkoukněte ordinační hodiny",
+    ],
+];
+const topics = [
+    [
+        "/informace-pro-pacienty/#prakticke-informace",
+        "Praktické informace",
+        "Odpovědi na administrativní a praktické otázky, které řešíme nejčastěji.",
+    ],
+    [
+        "/informace-pro-pacienty/#lecba-a-domaci-pece",
+        "Léčba a domácí péče",
+        "Srozumitelné informace k častým nemocem, léčbě a domácí péči.",
+    ],
+    [
+        "/informace-pro-pacienty/#prevence-a-ockovani",
+        "Prevence a očkování",
+        "Přehled preventivní péče a očkování pro děti i dospělé.",
+    ],
+    ["/cenik/", "Ceník", "Aktuální ceník za administrativní a lečebné úkony"],
+];
+---
+
+<BaseLayout
+    title="Fajn doktorka"
+    description="Ordinace praktického lékaře Fajn doktorka, Praha 8 – Bohnice."
+    canonical="https://www.fajndoktorka.com/"
+    currentPath="/"
+>
+    <main id="obsah">
+        <section class="hero">
+            <div class="shell hero-grid">
+                <div>
+                    <p class="eyebrow">Ordinace praktického lékaře</p><h1>
+                        FAJN DOKTORKA
+                    </h1>
+                    <p class="lead">
+                        Praktická péče srozumitelně, lidsky a v souvislostech.
+                        Pro děti od 14 let i dospělé v Praze 8.
+                    </p>
+                    <div class="actions">
+                        {
+                            phoneHref && (
+                                <a class="button" href={phoneHref}>
+                                    Zavolat do ordinace
+                                </a>
+                            )
+                        }
+                        <a class="button secondary" href="/ordinacni-hodiny/">
+                            Kdy ordinujeme
+                        </a>
+                    </div>
+                </div><ContactPanel {clinic} compact />
+            </div>
+        </section>
+        {
+            respiratoryNotice && (
+                <div class="notice shell">
+                    <div class="notice-inner">
+                        <>
+                            <div>
+                                <>
+                                    <strong>
+                                        {respiratoryNotice.data.title}
+                                    </strong>
+                                    <p>{respiratoryNotice.data.description}</p>
+                                </>
+                            </div>
+                            <a
+                                class="button secondary"
+                                href={respiratoryNotice.data.path}
+                            >
+                                Více informací
+                            </a>
+                        </>
+                    </div>
+                </div>
+            )
+        }
+        <section class="section">
+            <div class="shell">
+                <div class="section-heading">
+                    <h2>Péče, která dává smysl</h2>
+                    <p>
+                        Od prvního kontaktu po dlouhodobé sledování. Všechny
+                        důležité informace najdete přehledně na jednom místě.
+                    </p>
+                </div>
+                <div class="home-card-grid">
+                    {
+                        features.map(([href, title, description], index) => (
+                            <a class="feature-card" {href}>
+                                <>
+                                    <span class="card-index">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
+                                    <h3>{title}</h3>
+                                    <p>{description}</p>
+                                    <span class="card-arrow" aria-hidden="true">
+                                        Zjistit více →
+                                    </span>
+                                </>
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="section home-topics">
+            <div class="shell">
+                <div class="section-heading">
+                    <h2>Co potřebujete vyřešit?</h2>
+                    <p>
+                        Vyberte oblast a rychle se dostaňte k praktickým
+                        informacím, doporučením pro pacienty, vybavení ordinace
+                        nebo prevenci.
+                    </p>
+                </div><div class="home-card-grid">
+                    {
+                        topics.map(([href, title, description], index) => (
+                            <a class="feature-card" {href}>
+                                <>
+                                    <span class="card-index">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
+                                    <h3>{title}</h3>
+                                    <p>{description}</p>
+                                    <span class="card-arrow" aria-hidden="true">
+                                        Prohlédnout →
+                                    </span>
+                                </>
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
+    </main>
+</BaseLayout>

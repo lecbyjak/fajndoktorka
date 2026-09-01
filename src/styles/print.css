@@ -1,0 +1,35 @@
+@media print {
+  @page { margin: 1.5cm; }
+
+  body {
+    color: #000;
+    background: #fff;
+    font-size: 11pt;
+  }
+
+  .site-header,
+  .site-footer,
+  .back-to-top,
+  .side-nav,
+  .actions,
+  .skip-link {
+    display: none !important;
+  }
+
+  .section,
+  .page-hero {
+    padding: 1rem 0;
+    background: none;
+  }
+
+  .content-layout { display: block; }
+  .article { max-width: none; }
+
+  a { color: inherit; }
+  a[href^='http']::after { content: ' (' attr(href) ')'; font-size: 9pt; }
+  a[href^='tel:']::after,
+  a[href^='mailto:']::after { content: none; }
+
+  h1, h2, h3 { break-after: avoid; }
+  img, table, blockquote, .article-alert, .article-note { break-inside: avoid; }
+}

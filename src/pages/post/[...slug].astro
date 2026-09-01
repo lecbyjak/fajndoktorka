@@ -1,0 +1,58 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+
+export async function getStaticPaths() {
+    const postPrefix = "/post/";
+    const articles = await getCollection("articles");
+    const visible = articles.filter(
+        (entry) =>
+            entry.data.category === "news" &&
+            entry.data.path.startsWith(postPrefix),
+    );
+
+    return visible.map((entry) => ({
+        params: {
+            slug: entry.data.path.slice(postPrefix.length).replace(/\/$/, ""),
+        },
+        props: { entry, visible },
+    }));
+}
+
+interface Props {
+    entry: CollectionEntry<"articles">;
+    visible: CollectionEntry<"articles">[];
+}
+
+const { entry, visible } = Astro.props as Props;
+const { Content } = await render(entry);
+const peers = visible.sort(
+    (a, b) => a.data.navigationOrder - b.data.navigationOrder,
+);
+const sideNavigation = [
+    { href: "/blog/", label: "Aktuality z ordinace" },
+    ...peers.map((candidate) => ({
+        href: candidate.data.path,
+        label: candidate.data.title,
+        current: candidate.id === entry.id,
+    })),
+];
+---
+
+<ArticleLayout
+    title={entry.data.title}
+    description={entry.data.description}
+    canonical={entry.data.canonicalUrl}
+    currentPath={entry.data.path}
+    eyebrow="Aktuality z ordinace"
+    sources={entry.data.sources}
+    breadcrumbs={[
+        { label: "Domů", href: "/" },
+        { label: "Aktuality z ordinace", href: "/blog/" },
+        { label: entry.data.title },
+    ]}
+    {sideNavigation}
+    sideNavigationLabel="Aktuality"
+>
+    <Content />
+</ArticleLayout>

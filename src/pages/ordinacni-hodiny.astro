@@ -1,0 +1,105 @@
+---
+import { getCollection } from "astro:content";
+import LandingLayout from "../layouts/LandingLayout.astro";
+import OfficeHours from "../components/structured/OfficeHours.astro";
+const entries = await getCollection("officeHours");
+const site = (await getCollection("site"))[0]?.data;
+---
+
+<LandingLayout
+    title="Ordinační hodiny"
+    description="Ordinace praktického lékaře Fajn doktorka, Praha 8 – Bohnice."
+    canonical="https://www.fajndoktorka.com/ordinacni-hodiny/"
+    currentPath="/ordinacni-hodiny/"
+    bodyClass="schedule-page"
+>
+    <div class="schedule-layout">
+        <section class="schedule-intro" aria-labelledby="schedule-intro-title">
+            <div>
+                <p class="eyebrow">Před návštěvou</p><h2
+                    id="schedule-intro-title"
+                >
+                    Objednejte se prosím předem
+                </h2>
+                <p>
+                    Při telefonickém objednání sdělte sestřičce stručně důvod
+                    návštěvy. Pomůže nám to vybrat vhodný čas a omezit čekání.
+                </p>
+            </div>
+            {
+                site && (
+                    <div class="schedule-contact">
+                        <>
+                            <span>Telefonické objednání</span>
+                            <a href={`tel:${site.phone.replaceAll(" ", "")}`}>
+                                {site.phone}
+                            </a>
+                            <small>V ordinační době</small>
+                        </>
+                    </div>
+                )
+            }
+        </section>
+        <OfficeHours {entries} />
+        {
+            entries.length > 0 && (
+                <section
+                    class="schedule-meta"
+                    aria-label="Důležité informace k návštěvě"
+                >
+                    <div class="patient-order-compact">
+                        <>
+                            <p class="eyebrow">Při příchodu</p>
+                            <h2>Pořadí ošetření</h2>
+                            <ol>
+                                <>
+                                    <li>
+                                        <>
+                                            <span>Velmi akutní stavy</span>
+                                            <small>Mají vždy přednost.</small>
+                                        </>
+                                    </li>
+                                    <li>
+                                        <>
+                                            <span>Objednaní pacienti</span>
+                                            <small>
+                                                Podle sjednaného času.
+                                            </small>
+                                        </>
+                                    </li>
+                                    <li>
+                                        <>
+                                            <span>Neobjednaní pacienti</span>
+                                            <small>
+                                                Podle aktuální kapacity
+                                                ordinace.
+                                            </small>
+                                        </>
+                                    </li>
+                                </>
+                            </ol>
+                        </>
+                    </div>
+                    <div class="schedule-note">
+                        <>
+                            <p class="eyebrow">Pondělí a středa</p>
+                            <h2>Večerní ordinace</h2>
+                            <p>
+                                <strong>
+                                    Čas mezi 18:00–20:00 je vyhrazený pro
+                                    preventivní prohlídky a kontroly pracujících
+                                    a studujících klientů.
+                                </strong>
+                            </p>
+                            <p>
+                                Lékař je přítomen pouze podle objednání a bez
+                                sestry. Tyto hodiny nejsou určené pro
+                                telefonické konzultace ani předpisy léků.
+                            </p>
+                        </>
+                    </div>
+                </section>
+            )
+        }
+    </div>
+</LandingLayout>

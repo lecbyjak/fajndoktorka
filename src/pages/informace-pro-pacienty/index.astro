@@ -1,0 +1,90 @@
+---
+import { getCollection } from "astro:content";
+import ArticleCard from "../../components/content/ArticleCard.astro";
+import LandingLayout from "../../layouts/LandingLayout.astro";
+
+const articles = (await getCollection("articles"))
+    .filter((entry) => entry.data.category !== "news")
+    .sort((a, b) => a.data.navigationOrder - b.data.navigationOrder);
+
+const sections = [
+    {
+        id: "lecba-a-domaci-pece",
+        category: "medical",
+        heading:
+            "Srozumitelné informace k častým nemocem, léčbě a domácí péči.",
+    },
+    {
+        id: "prevence-a-ockovani",
+        category: "prevention",
+        heading: "Přehled preventivní péče a očkování pro děti i dospělé.",
+    },
+    {
+        id: "prakticke-informace",
+        category: "practical",
+        heading:
+            "Odpovědi na administrativní a praktické otázky, které řešíme nejčastěji.",
+    },
+] as const;
+---
+
+<LandingLayout
+    title="Info pro pacienty"
+    description="Srozumitelné informace k častým nemocem, léčbě a domácí péči."
+    canonical="https://www.fajndoktorka.com/informace-pro-pacienty/"
+    currentPath="/informace-pro-pacienty/"
+    eyebrow="Pro pacienty"
+>
+    {
+        sections.map((section, sectionIndex) => {
+            const entries = articles.filter(
+                (entry) => entry.data.category === section.category,
+            );
+            return (
+                <section
+                    class:list={[
+                        "landing-subsection",
+                        { "landing-subsection--first": sectionIndex === 0 },
+                    ]}
+                    id={section.id}
+                >
+                    <div class="landing-intro">
+                        <h2>{section.heading}</h2>
+                    </div>
+                    {entries.length > 0 ? (
+                        <div class="feature-grid landing-grid">
+                            {entries.map((entry, index) => (
+                                <ArticleCard
+                                    href={entry.data.path}
+                                    title={entry.data.title}
+                                    description={entry.data.description}
+                                    index={index + 1}
+                                    cta="Přečíst →"
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <p>Informace se připravují.</p>
+                    )}
+                </section>
+            );
+        })
+    }
+
+    <aside class="landing-support">
+        <div>
+            <p class="eyebrow">Nenašli jste odpověď?</p>
+            <h2>Ozvěte se přímo do ordinace</h2>
+            <p>
+                Pokud si nejste jistí, kam váš dotaz patří, rádi vás
+                nasměrujeme.
+            </p>
+        </div>
+        <div class="actions">
+            <a class="button" href="tel:+420725537123">Zavolat 725 537 123</a>
+            <a class="button secondary" href="mailto:ordinace@fajndoktorka.com"
+                >Napsat e-mail</a
+            >
+        </div>
+    </aside>
+</LandingLayout>

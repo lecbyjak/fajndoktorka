@@ -1,0 +1,50 @@
+[
+  {
+    "id": "equipment-1",
+    "name": "EKG",
+    "order": 1,
+    "description": "Tento přístroj slouží k vyšetření elektrické aktivity srdce. Aktivita je snímána pomocí elektrod, které se umísťují na hrudník, ruce a nohy.",
+    "purpose": "Z výstupů vyšetření lze vyčíst zda vaše srdce správně bije. V naší ordinaci slouží zejména jako prevence, ale také k diagnostice akutních infarktů.",
+    "procedure": "Není se vůbec čeho bát. Vyšetření probíhá v leže na lůžku. Trvá cca 2 minuty. Je nutné se svléknout do půl těla. Na místa umístění elektrod se aplikuje vodivý gel, elektrody se připnou a následně je proveden záznam do počítače."
+  },
+  {
+    "id": "equipment-2",
+    "name": "CRP",
+    "order": 2,
+    "description": "Tento přístroj slouží k zjištění hladiny tzv. C-reaktivního proteinu.",
+    "purpose": "Toto vyštření slouží ke zjištění přítomnosti akutního zánětu. Je vhodné zejména v chřipkovém období, kdy lza snadno a rychle zjistit zda je nutné nasadit antibiotika.",
+    "procedure": "Vyšetření obnáší drobné píchnutí do prstu, kdy je nutné získat kapku krve. Krev se v pipetě potom vloží do přístroje. Výsledek je znám cca za 3 minuty."
+  },
+  {
+    "id": "equipment-3",
+    "name": "INR",
+    "order": 3,
+    "description": "Tento přístroj slouží k zjištění úrovně naředění krve u pacientů užívajících Warfarin.",
+    "purpose": "Je nutné, aby u pacientů, kteří užívají warfarin byla pravidelně kontrolována úroveň naředění. Je důležité tuto úroveň udržovat tak, aby nedocházelo ke nebezpečnému srážení krve, ale zároveň, aby nevznikaly modřiny. Optimální perioda je cca 5 týdnů.",
+    "procedure": "Vyšetření obnáší drobné píchnutí do prstu, kdy je nutné získat kapku krve. Krev se v pipetě potom vloží do přístroje. Výsledek je znám cca za 3 minuty."
+  },
+  {
+    "id": "equipment-4",
+    "name": "Clover HbA1c - glykovaný hemoglobin",
+    "order": 4,
+    "description": "Přístroj k měření tzv. „dlouhého“ cukru.",
+    "purpose": "Z vyšetření vyplyne jaká je dlouhodobá kompenzace u cukrovkářů. Takže dieta 3 dny před kontrolou vás nezachrání.",
+    "procedure": "Vyšetření obnáší drobné píchnutí do prstu, kdy je nutné získat kapku krve. Krev se v pipetě potom vloží do přístroje. Výsledek je znám cca za 10 minut."
+  },
+  {
+    "id": "equipment-5",
+    "name": "TK Holter",
+    "order": 5,
+    "description": "Přístroj pro 24-hodinové měření krevního tlaku.",
+    "purpose": "K měření krevního tlaku v domácích podmínkách pacienta, k přesnějšímu přehledu o výši krevního tlaku během dne.",
+    "procedure": "Vlastní přístroj velký cca 5x10cm je připevněn v pouzdře kolem pasu, hadičkou je spojen s manžetou umístěnou na levé paži. Lékař nastaví požadované doby měření a pacient s přístrojem odchází, přístroj v zadaných intervalech měří krevní tlak, následující den lékař vyhodnotí výsledky z přístroje."
+  },
+  {
+    "id": "equipment-6",
+    "name": "Oxymetr",
+    "order": 6,
+    "description": "Malý a přenosný přístroj na měření okysličení organismu, zároveň měří tepovou frekvenci (puls).",
+    "purpose": "K přesnému zhodnocení stavu okysličení krve při dušnosti, navíc zároveň přesně změří tepovou frekvenci.",
+    "procedure": "Přístroj se nasadí na jakýkoliv z prstů (nebolestivé, bez jakýchkoli vpichů). Nehet nesmí být nalakován. Aktuální výsledek je k dispozici okamžitě."
+  }
+]
