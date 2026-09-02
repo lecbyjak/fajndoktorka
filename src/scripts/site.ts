@@ -8,7 +8,6 @@ function closeMenu({ restoreFocus = false } = {}) {
   menuButton.setAttribute('aria-expanded', 'false');
   menuButton.setAttribute('aria-label', 'Otevřít menu');
   navigation.dataset.open = 'false';
-  document.body.classList.remove('menu-open');
   if (restoreFocus) menuButton.focus();
 }
 
@@ -18,7 +17,6 @@ menuButton?.addEventListener('click', () => {
   menuButton.setAttribute('aria-expanded', String(willOpen));
   menuButton.setAttribute('aria-label', willOpen ? 'Zavřít menu' : 'Otevřít menu');
   navigation.dataset.open = String(willOpen);
-  document.body.classList.toggle('menu-open', willOpen);
 });
 
 document.addEventListener('keydown', (event) => {

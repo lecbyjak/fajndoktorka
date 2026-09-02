@@ -1,107 +1,109 @@
 ---
 import { getCollection } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import ContactPanel from "../components/structured/ContactPanel.astro";
+import ArticleCard from "../components/page-content/ArticleCard.astro";
 import Link from "../components/navigation/Link.astro";
+import ContactPanel from "../components/structured/ContactPanel.astro";
+import { getSite, phoneHref } from "../lib/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-const sites = await getCollection("site");
-const articles = await getCollection("articles");
-const clinic = sites[0]?.data;
+const [clinic, articles] = await Promise.all([getSite(), getCollection("articles")]);
 const respiratoryNotice = articles.find(
     ({ data }) => data.path === "/post/roušky/",
 );
-const phoneHref = clinic ? `tel:${clinic.phone.replace(/\s/g, "")}` : undefined;
+const clinicPhoneHref = clinic ? phoneHref(clinic.phone) : undefined;
 
 const features = [
-    ["/o-nas/", "Kdo jsme", "Jsme zdravotníci a chceme se o vás starat."],
-    [
-        "/o-ordinaci/",
-        "Jak to vidíme",
-        "Koukněte se jaký je náš pohled na poskytování zdravotní péče",
-    ],
-    ["/mapa/", "Kde nás najdete", "Naše ordinace je na Poliklinice Mazurská"],
-    [
-        "/ordinacni-hodiny/",
-        "Kdy tu budeme",
-        "I my musíme odpočívat. Zkoukněte ordinační hodiny",
-    ],
+    {
+        href: "/o-nas/",
+        title: "Kdo jsme",
+        description: "Jsme zdravotníci a chceme se o vás starat.",
+    },
+    {
+        href: "/o-ordinaci/",
+        title: "Jak to vidíme",
+        description: "Koukněte se jaký je náš pohled na poskytování zdravotní péče",
+    },
+    {
+        href: "/mapa/",
+        title: "Kde nás najdete",
+        description: "Naše ordinace je na Poliklinice Mazurská",
+    },
+    {
+        href: "/ordinacni-hodiny/",
+        title: "Kdy tu budeme",
+        description: "I my musíme odpočívat. Zkoukněte ordinační hodiny",
+    },
 ];
+
 const topics = [
-    [
-        "/informace-pro-pacienty/#prakticke-informace",
-        "Praktické informace",
-        "Odpovědi na administrativní a praktické otázky, které řešíme nejčastěji.",
-    ],
-    [
-        "/informace-pro-pacienty/#lecba-a-domaci-pece",
-        "Léčba a domácí péče",
-        "Srozumitelné informace k častým nemocem, léčbě a domácí péči.",
-    ],
-    [
-        "/informace-pro-pacienty/#prevence-a-ockovani",
-        "Prevence a očkování",
-        "Přehled preventivní péče a očkování pro děti i dospělé.",
-    ],
-    ["/cenik/", "Ceník", "Aktuální ceník za administrativní a lečebné úkony"],
+    {
+        href: "/informace-pro-pacienty/#prakticke-informace",
+        title: "Praktické informace",
+        description: "Odpovědi na administrativní a praktické otázky, které řešíme nejčastěji.",
+    },
+    {
+        href: "/informace-pro-pacienty/#lecba-a-domaci-pece",
+        title: "Léčba a domácí péče",
+        description: "Srozumitelné informace k častým nemocem, léčbě a domácí péči.",
+    },
+    {
+        href: "/informace-pro-pacienty/#prevence-a-ockovani",
+        title: "Prevence a očkování",
+        description: "Přehled preventivní péče a očkování pro děti i dospělé.",
+    },
+    {
+        href: "/cenik/",
+        title: "Ceník",
+        description: "Aktuální ceník za administrativní a lečebné úkony",
+    },
 ];
 ---
 
 <BaseLayout
     title="Fajn doktorka"
     description="Ordinace praktického lékaře Fajn doktorka, Praha 8 – Bohnice."
-    canonical="https://www.fajndoktorka.com/"
     currentPath="/"
 >
     <main id="obsah">
         <section class="hero">
             <div class="shell hero-grid">
                 <div>
-                    <p class="eyebrow">Ordinace praktického lékaře</p><h1>
-                        FAJN DOKTORKA
-                    </h1>
+                    <p class="eyebrow">Ordinace praktického lékaře</p>
+                    <h1>FAJN DOKTORKA</h1>
                     <p class="lead">
                         Praktická péče srozumitelně, lidsky a v souvislostech.
                         Pro děti od 14 let i dospělé v Praze 8.
                     </p>
                     <div class="actions">
-                        {
-                            phoneHref && (
-                                <a class="button" href={phoneHref}>
-                                    Zavolat do ordinace
-                                </a>
-                            )
-                        }
+                        {clinicPhoneHref && (
+                            <a class="button" href={clinicPhoneHref}>
+                                Zavolat do ordinace
+                            </a>
+                        )}
                         <Link class="button secondary" href="/ordinacni-hodiny/">
                             Kdy ordinujeme
                         </Link>
                     </div>
-                </div><ContactPanel {clinic} compact />
+                </div>
+                <ContactPanel {clinic} compact />
             </div>
         </section>
-        {
-            respiratoryNotice && (
-                <div class="notice shell">
-                    <div class="notice-inner">
-                        <>
-                            <div>
-                                <>
-                                    <strong>
-                                        {respiratoryNotice.data.title}
-                                    </strong>
-                                    <p>{respiratoryNotice.data.description}</p>
-                                </>
-                            </div>
-                            <Link
-                                class="button secondary"
-                                href={respiratoryNotice.data.path}
-                            >
-                                Více informací
-                            </Link>
-                        </>
+        {respiratoryNotice && (
+            <div class="notice shell">
+                <div class="notice-inner">
+                    <div>
+                        <strong>{respiratoryNotice.data.title}</strong>
+                        <p>{respiratoryNotice.data.description}</p>
                     </div>
+                    <Link
+                        class="button secondary"
+                        href={respiratoryNotice.data.path}
+                    >
+                        Více informací
+                    </Link>
                 </div>
-            )
-        }
+            </div>
+        )}
         <section class="section">
             <div class="shell">
                 <div class="section-heading">
@@ -112,26 +114,13 @@ const topics = [
                     </p>
                 </div>
                 <div class="home-card-grid">
-                    {
-                        features.map(([href, title, description], index) => (
-                            <Link class="feature-card" {href}>
-                                <>
-                                    <span class="card-index">
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
-                                    <h3>{title}</h3>
-                                    <p>{description}</p>
-                                    <span class="card-arrow" aria-hidden="true">
-                                        Zjistit více →
-                                    </span>
-                                </>
-                            </Link>
-                        ))
-                    }
+                    {features.map((feature, index) => (
+                        <ArticleCard {...feature} index={index + 1} cta="Zjistit více →" />
+                    ))}
                 </div>
             </div>
         </section>
-        <section class="section home-topics">
+        <section class="section">
             <div class="shell">
                 <div class="section-heading">
                     <h2>Co potřebujete vyřešit?</h2>
@@ -140,23 +129,11 @@ const topics = [
                         informacím, doporučením pro pacienty, vybavení ordinace
                         nebo prevenci.
                     </p>
-                </div><div class="home-card-grid">
-                    {
-                        topics.map(([href, title, description], index) => (
-                            <Link class="feature-card" {href}>
-                                <>
-                                    <span class="card-index">
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
-                                    <h3>{title}</h3>
-                                    <p>{description}</p>
-                                    <span class="card-arrow" aria-hidden="true">
-                                        Prohlédnout →
-                                    </span>
-                                </>
-                            </Link>
-                        ))
-                    }
+                </div>
+                <div class="home-card-grid">
+                    {topics.map((topic, index) => (
+                        <ArticleCard {...topic} index={index + 1} cta="Prohlédnout →" />
+                    ))}
                 </div>
             </div>
         </section>

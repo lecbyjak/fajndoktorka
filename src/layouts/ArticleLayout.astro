@@ -1,15 +1,14 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import PageHero from "../components/content/PageHero.astro";
+import PageHero from "../components/page-content/PageHero.astro";
 import SideNavigation, {
     type SideNavigationItem,
-} from "../components/content/SideNavigation.astro";
-import type { BreadcrumbItem } from "../components/content/Breadcrumbs.astro";
+} from "../components/page-content/SideNavigation.astro";
+import type { BreadcrumbItem } from "../components/page-content/Breadcrumbs.astro";
 
 export interface Props {
     title: string;
     description: string;
-    canonical?: string | URL;
     currentPath?: string;
     eyebrow?: string;
     breadcrumbs?: BreadcrumbItem[];
@@ -22,7 +21,6 @@ export interface Props {
 const {
     title,
     description,
-    canonical,
     currentPath,
     eyebrow,
     breadcrumbs,
@@ -34,7 +32,7 @@ const {
 const hasSidebar = sideNavigation.length > 0;
 ---
 
-<BaseLayout {title} {description} {canonical} {currentPath} {noindex}>
+<BaseLayout {title} {description} {currentPath} {noindex}>
     <main id="obsah">
         <PageHero {title} {eyebrow} {breadcrumbs} />
         <section class="section">

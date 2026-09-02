@@ -2,16 +2,15 @@
 import { getCollection } from "astro:content";
 import LandingLayout from "../layouts/LandingLayout.astro";
 import OfficeHours from "../components/structured/OfficeHours.astro";
-const entries = await getCollection("officeHours");
-const site = (await getCollection("site"))[0]?.data;
+import { getSite, phoneHref } from "../lib/site";
+
+const [entries, site] = await Promise.all([getCollection("officeHours"), getSite()]);
 ---
 
 <LandingLayout
     title="Ordinační hodiny"
     description="Ordinace praktického lékaře Fajn doktorka, Praha 8 – Bohnice."
-    canonical="https://www.fajndoktorka.com/ordinacni-hodiny/"
     currentPath="/ordinacni-hodiny/"
-    bodyClass="schedule-page"
 >
     <div class="schedule-layout">
         <section class="schedule-intro" aria-labelledby="schedule-intro-title">
@@ -31,7 +30,7 @@ const site = (await getCollection("site"))[0]?.data;
                     <div class="schedule-contact">
                         <>
                             <span>Telefonické objednání</span>
-                            <a href={`tel:${site.phone.replaceAll(" ", "")}`}>
+                            <a href={phoneHref(site.phone)}>
                                 {site.phone}
                             </a>
                             <small>V ordinační době</small>

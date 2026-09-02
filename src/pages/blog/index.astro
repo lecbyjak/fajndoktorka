@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import ArticleCard from "../../components/content/ArticleCard.astro";
+import ArticleCard from "../../components/page-content/ArticleCard.astro";
 import LandingLayout from "../../layouts/LandingLayout.astro";
 
 const entries = (await getCollection("articles"))
@@ -14,7 +14,6 @@ const description =
 <LandingLayout
     title="Aktuality z ordinace"
     {description}
-    canonical="https://www.fajndoktorka.com/blog/"
     currentPath="/blog/"
 >
     {

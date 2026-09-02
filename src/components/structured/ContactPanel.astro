@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { phoneHref } from "../../lib/site";
 import Link from "../navigation/Link.astro";
 
 export interface Props {
@@ -8,7 +9,7 @@ export interface Props {
 }
 
 const { clinic, compact = false } = Astro.props;
-const phoneHref = clinic ? `tel:${clinic.phone.replace(/\s/g, "")}` : "";
+const clinicPhoneHref = clinic ? phoneHref(clinic.phone) : "";
 const address = clinic
     ? `${clinic.address.street}, ${clinic.address.postalCode} ${clinic.address.locality}`
     : "";
@@ -23,7 +24,7 @@ const mapQuery = encodeURIComponent(address);
                 <p class="contact-line">
                     <>
                         <span>Telefon</span>
-                        <a href={phoneHref}>{clinic.phone}</a>
+                        <a href={clinicPhoneHref}>{clinic.phone}</a>
                     </>
                 </p>
                 <p class="contact-line">
@@ -49,7 +50,7 @@ const mapQuery = encodeURIComponent(address);
                     </div>
 
                     <div class="contact-methods">
-                        <a class="contact-method" href={phoneHref}>
+                        <a class="contact-method" href={clinicPhoneHref}>
                             <span>Telefon</span>
                             <strong>{clinic.phone}</strong>
                             <small>Objednání a konzultace</small>
@@ -68,7 +69,7 @@ const mapQuery = encodeURIComponent(address);
 
                     <div class="contact-actions">
                         <a class="button" href={`https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`} target="_blank" rel="noopener">Naplánovat trasu</a>
-                        <a class="button secondary" href={phoneHref}>Zavolat do ordinace</a>
+                        <a class="button secondary" href={clinicPhoneHref}>Zavolat do ordinace</a>
                     </div>
                     <p class="contact-legal">IČO {clinic.ico}</p>
                 </div>

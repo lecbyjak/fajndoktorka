@@ -1,12 +1,11 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import PageHero from "../components/content/PageHero.astro";
-import type { BreadcrumbItem } from "../components/content/Breadcrumbs.astro";
+import PageHero from "../components/page-content/PageHero.astro";
+import type { BreadcrumbItem } from "../components/page-content/Breadcrumbs.astro";
 
 export interface Props {
     title: string;
     description: string;
-    canonical?: string | URL;
     currentPath?: string;
     eyebrow?: string;
     lead?: string;
@@ -18,7 +17,6 @@ export interface Props {
 const {
     title,
     description,
-    canonical,
     currentPath,
     eyebrow,
     lead,
@@ -31,7 +29,6 @@ const {
 <BaseLayout
     {title}
     {description}
-    {canonical}
     {currentPath}
     {bodyClass}
     {noindex}

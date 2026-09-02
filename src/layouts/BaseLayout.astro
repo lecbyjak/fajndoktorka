@@ -1,16 +1,15 @@
 ---
-import { getCollection } from "astro:content";
 import { Font } from "astro:assets";
 import Header from "../components/navigation/Header.astro";
 import Link from "../components/navigation/Link.astro";
 import Footer from "../components/footer/Footer.astro";
+import { getSite, siteUrl } from "../lib/site";
 import "../styles/global.css";
 import "../styles/print.css";
 
 export interface Props {
     title: string;
     description: string;
-    canonical?: string | URL;
     currentPath?: string;
     image?: string | URL;
     noindex?: boolean;
@@ -20,22 +19,17 @@ export interface Props {
 const {
     title,
     description,
-    canonical,
     currentPath = Astro.url.pathname,
     image,
     noindex = false,
     bodyClass,
 } = Astro.props;
-const siteName = "Fajn doktorka";
+const site = await getSite();
+const siteName = site?.name ?? "Fajn doktorka";
 const documentTitle = `${title} | ${siteName}`;
-const canonicalUrl = canonical
-    ? new URL(canonical, Astro.site ?? Astro.url.origin)
-    : new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
-const imageUrl = image
-    ? new URL(image, Astro.site ?? Astro.url.origin)
-    : undefined;
-const footerEntry = (await getCollection("site"))[0];
-const footerSite = footerEntry?.data;
+const siteOrigin = site?.baseUrl ?? Astro.site ?? Astro.url.origin;
+const canonicalUrl = siteUrl(currentPath, siteOrigin);
+const imageUrl = image ? new URL(image, siteOrigin) : undefined;
 ---
 
 <!doctype html>
@@ -63,7 +57,7 @@ const footerSite = footerEntry?.data;
         <Link class="skip-link" href="#obsah">Přeskočit na obsah</Link>
         <Header currentPath={currentPath} />
         <slot />
-        <Footer site={footerSite} />
+        <Footer {site} />
         <script src="../scripts/site.ts"></script>
     </body>
 </html>

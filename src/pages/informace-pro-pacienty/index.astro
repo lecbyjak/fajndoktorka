@@ -1,9 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import ArticleCard from "../../components/content/ArticleCard.astro";
+import ArticleCard from "../../components/page-content/ArticleCard.astro";
+import { getSite, phoneHref } from "../../lib/site";
 import LandingLayout from "../../layouts/LandingLayout.astro";
 
-const articles = (await getCollection("articles"))
+const [allArticles, site] = await Promise.all([getCollection("articles"), getSite()]);
+const articles = allArticles
     .filter((entry) => entry.data.category !== "news")
     .sort((a, b) => a.data.navigationOrder - b.data.navigationOrder);
 
@@ -31,7 +33,6 @@ const sections = [
 <LandingLayout
     title="Info pro pacienty"
     description="Srozumitelné informace k častým nemocem, léčbě a domácí péči."
-    canonical="https://www.fajndoktorka.com/informace-pro-pacienty/"
     currentPath="/informace-pro-pacienty/"
     eyebrow="Pro pacienty"
 >
@@ -52,7 +53,7 @@ const sections = [
                         <h2>{section.heading}</h2>
                     </div>
                     {entries.length > 0 ? (
-                        <div class="feature-grid landing-grid">
+                        <div class="landing-grid">
                             {entries.map((entry, index) => (
                                 <ArticleCard
                                     href={entry.data.path}
@@ -80,11 +81,15 @@ const sections = [
                 nasměrujeme.
             </p>
         </div>
-        <div class="actions">
-            <a class="button" href="tel:+420725537123">Zavolat 725 537 123</a>
-            <a class="button secondary" href="mailto:ordinace@fajndoktorka.com"
-                >Napsat e-mail</a
-            >
-        </div>
+        {site && (
+            <div class="actions">
+                <a class="button" href={phoneHref(site.phone)}>
+                    Zavolat {site.phone}
+                </a>
+                <a class="button secondary" href={`mailto:${site.email}`}>
+                    Napsat e-mail
+                </a>
+            </div>
+        )}
     </aside>
 </LandingLayout>
