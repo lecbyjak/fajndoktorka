@@ -25,7 +25,7 @@ const {
     bodyClass,
 } = Astro.props;
 const site = await getSite();
-const siteName = site?.name ?? "Fajn doktorka";
+const siteName = site?.name ?? "FajnDoktorka";
 const documentTitle = `${title} | ${siteName}`;
 const siteOrigin = site?.baseUrl ?? Astro.site ?? Astro.url.origin;
 const canonicalUrl = siteUrl(currentPath, siteOrigin);
@@ -37,7 +37,7 @@ const imageUrl = image ? new URL(image, siteOrigin) : undefined;
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#39735e" />
+        <meta name="theme-color" content="#98ec32" />
         <meta name="description" content={description} />
         {noindex && <meta name="robots" content="noindex, follow" />}
         <title>{documentTitle}</title>

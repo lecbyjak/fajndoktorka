@@ -1,8 +1,8 @@
 [
   {
     "id": "clinic",
-    "name": "Fajn doktorka",
-    "legalName": "Fajn doktorka",
+    "name": "FajnDoktorka",
+    "legalName": "FajnDoktorka",
     "language": "cs",
     "baseUrl": "https://www.fajndoktorka.com",
     "path": "/",
@@ -15,6 +15,6 @@
       "locality": "Praha 8 – Bohnice",
       "country": "CZ"
     },
-    "description": "Ordinace praktického lékaře Fajn doktorka, Praha 8 – Bohnice."
+    "description": "Ordinace praktického lékaře FajnDoktorka, Praha 8 – Bohnice."
   }
 ]

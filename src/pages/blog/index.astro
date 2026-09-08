@@ -8,7 +8,7 @@ const entries = (await getCollection("articles"))
     .sort((a, b) => a.data.navigationOrder - b.data.navigationOrder);
 const description =
     entries[0]?.data.description ??
-    "Aktuality a provozní informace z ordinace Fajn doktorka.";
+    "Aktuality a provozní informace z ordinace FajnDoktorka.";
 ---
 
 <LandingLayout

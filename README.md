@@ -1,4 +1,4 @@
-# Fajn doktorka
+# FajnDoktorka
 
 Minimal static Astro website.
 

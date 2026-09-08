@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Fajn doktorka">
-  <rect width="64" height="64" rx="18" fill="#39735e" />
-  <path d="M18 16h29v9H28v8h16v9H28v16H18z" fill="#fff" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FajnDoktorka">
+  <rect width="64" height="64" rx="18" fill="#98ec32" />
+  <path d="M18 16h29v9H28v8h16v9H28v16H18z" fill="#26351a" />
 </svg>

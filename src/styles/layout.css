@@ -1,15 +1,20 @@
 main { min-height: 60vh; overflow: clip; }
-.hero, .page-hero { position: relative; isolation: isolate; background: linear-gradient(125deg, #edf5ee 0%, #f7faf4 58%, #f0f6ef 100%); }
-.hero::after, .page-hero::after { position: absolute; z-index: -1; right: -12rem; bottom: -16rem; width: 32rem; height: 32rem; border-radius: 50%; background: radial-gradient(circle, rgb(122 164 142 / 16%), transparent 68%); content: ""; }
+.hero, .page-hero { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(115deg, var(--surface-sage) 0%, #f7fcf3 42%, var(--surface-blue) 100%); }
+.hero::before, .page-hero::before { position: absolute; z-index: -1; top: -13rem; right: -5rem; width: 32rem; height: 32rem; border: 1px solid rgb(40 77 104 / 8%); border-radius: 50%; background: rgb(255 255 255 / 25%); pointer-events: none; content: ""; }
+.hero::after, .page-hero::after { position: absolute; z-index: -1; right: -8rem; bottom: -20rem; width: 34rem; height: 34rem; border: 1px solid rgb(121 186 50 / 12%); border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgb(186 244 119 / 45%), rgb(186 244 119 / 10%) 70%); pointer-events: none; content: ""; }
 .hero { padding: clamp(4.5rem, 8vw, 7rem) 0 clamp(5rem, 9vw, 7.5rem); }
-.hero-grid { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(18rem, .72fr); gap: clamp(3rem, 7vw, 6rem); align-items: center; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(18rem, .72fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+.hero-grid > * { min-width: 0; }
+.hero-grid > div { container-type: inline-size; }
 .hero h1, .page-hero h1 { margin: 0; font-weight: 500; letter-spacing: -.055em; }
-.hero h1 { max-width: 9ch; font-size: clamp(4.25rem, 8vw, 7rem); line-height: .88; text-wrap: balance; }
-.page-hero { padding: clamp(2.7rem, 5vw, 4.5rem) 0; border-bottom: 1px solid rgb(55 115 94 / 8%); }
+.hero h1 { max-width: none; font-size: min(12cqi, 6.75rem); line-height: 1; white-space: nowrap; }
+.page-hero { padding: clamp(2.7rem, 5vw, 4.5rem) 0; border-bottom: 1px solid rgb(104 154 43 / 12%); }
 .page-hero h1 { max-width: 18ch; font-size: clamp(3rem, 6vw, 5.35rem); line-height: .94; text-wrap: balance; }
 .page-hero .lead { margin-top: 1.25rem; }
+/* Reserve the lime heading accent for the main page title. */
+.hero h1::after, .page-hero h1::after { display: block; width: 5rem; height: .35rem; margin-top: .8rem; border-radius: 99px; background: var(--leaf); content: ""; }
 .lead { max-width: 39rem; color: var(--muted); font-size: clamp(1.05rem, 1.8vw, 1.24rem); line-height: 1.6; }
-.eyebrow { margin: 0 0 .85rem; color: var(--leaf); font-size: .8rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow { margin: 0 0 .85rem; color: var(--leaf-dark); font-size: .8rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
 .section { padding: clamp(4rem, 7vw, 6.5rem) 0; }
 .page-hero + .section { padding-top: clamp(2.5rem, 4vw, 3.75rem); }
 .section + .section { border-top: 1px solid var(--line); }
@@ -21,15 +26,16 @@ main { min-height: 60vh; overflow: clip; }
 .content-layout--single { grid-template-columns: minmax(0, var(--measure)); justify-content: center; }
 .breadcrumbs { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.15rem; color: var(--muted); font-size: .85rem; }
 
+@media (max-width: 1180px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .hero-panel { width: min(100%, 36rem); }
+}
 @media (max-width: 980px) {
-  .hero-grid, .content-layout, .section-heading, .price-intro { grid-template-columns: 1fr; }
-  .hero-grid { gap: 2.5rem; }
-  .hero-panel { max-width: 34rem; }
+  .content-layout, .section-heading, .price-intro { grid-template-columns: 1fr; }
   .home-card-grid, .landing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 680px) {
   .hero { padding: 3.6rem 0 4.8rem; }
-  .hero h1 { font-size: clamp(3.35rem, 17vw, 4.5rem); }
   .page-hero { padding-block: 2.4rem 2.8rem; }
   .page-hero h1 { font-size: clamp(2.75rem, 13vw, 4rem); overflow-wrap: anywhere; }
   .section { padding-block: 3.7rem; }

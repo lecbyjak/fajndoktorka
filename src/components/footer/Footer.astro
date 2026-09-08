@@ -18,11 +18,16 @@ const mapQuery = addressLabel ? encodeURIComponent(addressLabel) : undefined;
     <div class="shell">
         <div class="footer-grid">
             <div class="footer-brand">
-                <h2>Fajn doktorka</h2>
+                <h2>FajnDoktorka</h2>
                 <p>
                     Praktická medicína postavená na srozumitelnosti, důvěře a
                     dlouhodobé péči.
                 </p>
+                {site && (
+                    <a class="button footer-call" href={`tel:${site.phone.replaceAll(" ", "")}`}>
+                        Zavolat do ordinace
+                    </a>
+                )}
             </div>
             <div>
                 <h3>Ordinace</h3>
@@ -52,7 +57,7 @@ const mapQuery = addressLabel ? encodeURIComponent(addressLabel) : undefined;
             }
         </div>
         <div class="footer-bottom">
-            <span>© {year} Fajn doktorka</span>
+            <span>© {year} FajnDoktorka</span>
             {
                 site && (
                     <span>

@@ -14,16 +14,12 @@ const {
     href,
     title,
     description,
-    index,
     cta = "Přečíst →",
     class: className = "",
 } = Astro.props;
-const displayIndex =
-    typeof index === "number" ? String(index).padStart(2, "0") : index;
 ---
 
 <Link class:list={["feature-card", className]} href={href}>
-    {displayIndex && <span class="card-index">{displayIndex}</span>}
     <h3>{title}</h3>
     <p>{description}</p>
     <span class="card-arrow" aria-hidden="true">{cta}</span>
