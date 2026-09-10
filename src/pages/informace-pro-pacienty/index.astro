@@ -54,12 +54,11 @@ const sections = [
                     </div>
                     {entries.length > 0 ? (
                         <div class="landing-grid">
-                            {entries.map((entry, index) => (
+                            {entries.map((entry) => (
                                 <ArticleCard
                                     href={entry.data.path}
                                     title={entry.data.title}
                                     description={entry.data.description}
-                                    index={index + 1}
                                     cta="Přečíst →"
                                 />
                             ))}

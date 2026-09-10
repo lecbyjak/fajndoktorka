@@ -127,10 +127,9 @@ const topics = [
                 </div>
                 <div class="home-card-grid">
                     {
-                        features.map((feature, index) => (
+                        features.map((feature) => (
                             <ArticleCard
                                 {...feature}
-                                index={index + 1}
                                 cta="Zjistit více →"
                             />
                         ))
@@ -150,10 +149,9 @@ const topics = [
                 </div>
                 <div class="home-card-grid">
                     {
-                        topics.map((topic, index) => (
+                        topics.map((topic) => (
                             <ArticleCard
                                 {...topic}
-                                index={index + 1}
                                 cta="Prohlédnout →"
                             />
                         ))
