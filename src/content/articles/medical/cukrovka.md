@@ -2,7 +2,6 @@
 title: "Cukrovka"
 description: "Diabetes mellitus je chronické metabolické onemocnění, jehož hlavním znakem je hyperglykémie (zvýšená hladina cukru v krvi)."
 path: "/informace-pro-pacienty/lecba-a-domaci-pece/cukrovka/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/lecba-a-domaci-pece/cukrovka/"
 category: "medical"
 navigationOrder: 70
 ---

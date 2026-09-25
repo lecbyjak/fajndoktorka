@@ -2,7 +2,6 @@
 title: "Tetanus"
 description: "Je nebezpečné onemocnění. Vstupní branou infekce je otevřená rána. Projevuje se křečemi a ztrátou koordinace svalových pohybů. Nebezpečné je ochabnutí dýchacích"
 path: "/informace-pro-pacienty/prevence-a-ockovani/tetanus/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prevence-a-ockovani/tetanus/"
 category: "prevention"
 navigationOrder: 10
 ---

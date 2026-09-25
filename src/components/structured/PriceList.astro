@@ -1,42 +1,32 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { byOrder } from "../../lib/site";
+
 export interface Props {
     entries: CollectionEntry<"pricing">[];
 }
-const { entries } = Astro.props;
-const categories = [
-    ...new Set(
-        entries
-            .sort((a, b) => a.data.order - b.data.order)
-            .map(({ data }) => data.category),
-    ),
-];
+
+// Categories render in the order of their first item.
+const sections = Map.groupBy(
+    Astro.props.entries.toSorted(byOrder),
+    ({ data }) => data.category,
+);
 ---
 
-{
-    entries.length ? (
-        <div class="price-list">
-            {categories.map((category) => (
-                <section class="price-section">
-                    <header>
-                        <h2>{category}</h2>
-                    </header>
-                    <div class="price-rows">
-                        {entries
-                            .filter(({ data }) => data.category === category)
-                            .map(({ data }) => (
-                                <div class="price-row">
-                                    <span>{data.service}</span>
-                                    <strong>{data.price}</strong>
-                                </div>
-                            ))}
+<div class="price-list">
+    {
+        [...sections].map(([category, items]) => (
+            <section class="price-section">
+                <header>
+                    <h2>{category}</h2>
+                </header>
+                {items.map(({ data }) => (
+                    <div class="price-row">
+                        <span>{data.service}</span>
+                        <strong>{data.price}</strong>
                     </div>
-                </section>
-            ))}
-        </div>
-    ) : (
-        <p class="article-note" role="status">
-            Ceník čeká na ověření ordinací.
-        </p>
-    )
-}
+                ))}
+            </section>
+        ))
+    }
+</div>

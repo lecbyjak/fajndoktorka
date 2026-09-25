@@ -3,17 +3,14 @@ import { getCollection } from "astro:content";
 import ArticleCard from "../components/page-content/ArticleCard.astro";
 import Link from "../components/navigation/Link.astro";
 import ContactPanel from "../components/structured/ContactPanel.astro";
-import { getSite, phoneHref } from "../lib/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { categoryAnchor, patientCategories, type PatientCategory } from "../lib/articles";
+import { getSite, phoneHref } from "../lib/site";
 
-const [clinic, articles] = await Promise.all([
+const [clinic, pinnedNews] = await Promise.all([
     getSite(),
-    getCollection("articles"),
+    getCollection("articles", ({ data }) => data.category === "news" && data.pinned),
 ]);
-const respiratoryNotice = articles.find(
-    ({ data }) => data.path === "/post/roušky/",
-);
-const clinicPhoneHref = clinic ? phoneHref(clinic.phone) : undefined;
 
 const features = [
     {
@@ -25,51 +22,35 @@ const features = [
         href: "/o-ordinaci/",
         title: "Jak to vidíme",
         description:
-            "Koukněte se jaký je náš pohled na poskytování zdravotní péče",
+            "Koukněte se, jaký je náš pohled na poskytování zdravotní péče.",
     },
     {
         href: "/mapa/",
         title: "Kde nás najdete",
-        description: "Naše ordinace je na Poliklinice Mazurská",
+        description: "Naše ordinace je na Poliklinice Mazurská.",
     },
     {
         href: "/ordinacni-hodiny/",
         title: "Kdy tu budeme",
-        description: "I my musíme odpočívat. Zkoukněte ordinační hodiny",
+        description: "I my musíme odpočívat. Zkoukněte ordinační hodiny.",
     },
 ];
 
 const topics = [
-    {
-        href: "/informace-pro-pacienty/#prakticke-informace",
-        title: "Praktické informace",
-        description:
-            "Odpovědi na administrativní a praktické otázky, které řešíme nejčastěji.",
-    },
-    {
-        href: "/informace-pro-pacienty/#lecba-a-domaci-pece",
-        title: "Léčba a domácí péče",
-        description:
-            "Srozumitelné informace k častým nemocem, léčbě a domácí péči.",
-    },
-    {
-        href: "/informace-pro-pacienty/#prevence-a-ockovani",
-        title: "Prevence a očkování",
-        description: "Přehled preventivní péče a očkování pro děti i dospělé.",
-    },
+    ...(["practical", "medical", "prevention"] as const satisfies PatientCategory[]).map((category) => ({
+        href: categoryAnchor(category),
+        title: patientCategories[category].title,
+        description: patientCategories[category].summary,
+    })),
     {
         href: "/cenik/",
         title: "Ceník",
-        description: "Aktuální ceník za administrativní a lečebné úkony",
+        description: "Aktuální ceník administrativních a léčebných úkonů.",
     },
 ];
 ---
 
-<BaseLayout
-    title="FajnDoktorka"
-    description="Ordinace praktického lékaře FajnDoktorka, Praha 8 – Bohnice."
-    currentPath="/"
->
+<BaseLayout title={clinic.name} description={clinic.description}>
     <main id="obsah">
         <section class="hero">
             <div class="shell hero-grid">
@@ -80,13 +61,9 @@ const topics = [
                         Praktická péče srozumitelně, lidsky a v souvislostech.
                     </p>
                     <div class="actions">
-                        {
-                            clinicPhoneHref && (
-                                <a class="button" href={clinicPhoneHref}>
-                                    Zavolat do ordinace
-                                </a>
-                            )
-                        }
+                        <a class="button" href={phoneHref(clinic.phone)}>
+                            Zavolat do ordinace
+                        </a>
                         <Link
                             class="button secondary"
                             href="/ordinacni-hodiny/"
@@ -99,22 +76,19 @@ const topics = [
             </div>
         </section>
         {
-            respiratoryNotice && (
+            pinnedNews.map(({ data }) => (
                 <div class="notice shell">
                     <div class="notice-inner">
                         <div>
-                            <strong>{respiratoryNotice.data.title}</strong>
-                            <p>{respiratoryNotice.data.description}</p>
+                            <strong>{data.title}</strong>
+                            <p>{data.description}</p>
                         </div>
-                        <Link
-                            class="button secondary"
-                            href={respiratoryNotice.data.path}
-                        >
+                        <Link class="button secondary" href={data.path}>
                             Více informací
                         </Link>
                     </div>
                 </div>
-            )
+            ))
         }
         <section class="section">
             <div class="shell">
@@ -126,14 +100,7 @@ const topics = [
                     </p>
                 </div>
                 <div class="home-card-grid">
-                    {
-                        features.map((feature) => (
-                            <ArticleCard
-                                {...feature}
-                                cta="Zjistit více →"
-                            />
-                        ))
-                    }
+                    {features.map((feature) => <ArticleCard {...feature} cta="Zjistit více →" />)}
                 </div>
             </div>
         </section>
@@ -148,14 +115,7 @@ const topics = [
                     </p>
                 </div>
                 <div class="home-card-grid">
-                    {
-                        topics.map((topic) => (
-                            <ArticleCard
-                                {...topic}
-                                cta="Prohlédnout →"
-                            />
-                        ))
-                    }
+                    {topics.map((topic) => <ArticleCard {...topic} cta="Prohlédnout →" />)}
                 </div>
             </div>
         </section>

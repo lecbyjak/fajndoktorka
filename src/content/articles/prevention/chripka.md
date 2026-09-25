@@ -2,7 +2,6 @@
 title: "Chřipka"
 description: "Chřipka je vysoce nakažlivé virové onemocnění s maximem výskytu od ledna do března. Chřipka se projevuje horečkou, zimnicí, bolestí hlavy, kloubů a svalů, pozdě"
 path: "/informace-pro-pacienty/prevence-a-ockovani/chripka/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prevence-a-ockovani/chripka/"
 category: "prevention"
 navigationOrder: 50
 sources:

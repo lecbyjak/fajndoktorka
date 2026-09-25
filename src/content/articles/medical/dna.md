@@ -2,7 +2,6 @@
 title: "Dna"
 description: "Proč je nebezpečná? k. močová je přirozenou součástí lidského těla, problém nastane, když se její hladin dostane nad určitou mez, protože pak se může ukládat v"
 path: "/informace-pro-pacienty/lecba-a-domaci-pece/dna/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/lecba-a-domaci-pece/dna/"
 category: "medical"
 navigationOrder: 60
 ---

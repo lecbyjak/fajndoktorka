@@ -2,10 +2,7 @@
   {
     "id": "clinic",
     "name": "FajnDoktorka",
-    "legalName": "FajnDoktorka",
-    "language": "cs",
     "baseUrl": "https://www.fajndoktorka.com",
-    "path": "/",
     "phone": "+420 725 537 123",
     "email": "ordinace@fajndoktorka.com",
     "ico": "08082111",

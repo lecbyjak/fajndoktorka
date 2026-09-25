@@ -2,7 +2,6 @@
 title: "Cholesterol"
 description: "cholesterol? Tělu vlastní a nepostradatelný tuk, který je nedílnou součástí prakticky každé buňky v těle, dále je nezbytný pro výrobu vitamínu D, steroidních ho"
 path: "/informace-pro-pacienty/lecba-a-domaci-pece/cholesterol/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/lecba-a-domaci-pece/cholesterol/"
 category: "medical"
 navigationOrder: 50
 ---

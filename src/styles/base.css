@@ -29,17 +29,22 @@
   --radius: 1.5rem;
   --content: 74rem;
   --measure: 48rem;
+  /* Sticky header height; anchors and sticky elements offset from it. */
+  --header-height: 4.75rem;
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
-body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-inter); text-rendering: optimizeLegibility; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 1.25rem); }
+/* Column layout: `main` absorbs spare height so the footer sits at the bottom of short pages. */
+body { display: flex; min-height: 100dvh; flex-direction: column; margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-inter); text-rendering: optimizeLegibility; }
 a { color: var(--leaf-dark); text-decoration-thickness: .08em; text-underline-offset: .2em; }
 a:hover { color: var(--ink); }
 ::selection { color: var(--ink); background: var(--leaf-light); }
 img { display: block; max-width: 100%; height: auto; }
 button { font: inherit; }
 p { margin-block: .7rem 1.15rem; }
+/* Break a word only when it cannot fit (long device names, URLs); normal wrapping is unchanged. */
+h1, h2, h3 { overflow-wrap: break-word; }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
 
 .shell { width: min(calc(100% - 3rem), var(--content)); margin-inline: auto; }
@@ -47,6 +52,7 @@ p { margin-block: .7rem 1.15rem; }
 .skip-link:focus { transform: none; }
 
 @media (max-width: 680px) {
+  :root { --header-height: 4.25rem; }
   .shell { width: min(calc(100% - 2rem), var(--content)); }
 }
 

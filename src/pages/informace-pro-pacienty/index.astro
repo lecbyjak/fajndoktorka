@@ -1,74 +1,46 @@
 ---
 import { getCollection } from "astro:content";
 import ArticleCard from "../../components/page-content/ArticleCard.astro";
-import { getSite, phoneHref } from "../../lib/site";
 import LandingLayout from "../../layouts/LandingLayout.astro";
+import { patientCategories, type PatientCategory } from "../../lib/articles";
+import { getSite, phoneHref } from "../../lib/site";
 
-const [allArticles, site] = await Promise.all([getCollection("articles"), getSite()]);
-const articles = allArticles
-    .filter((entry) => entry.data.category !== "news")
-    .sort((a, b) => a.data.navigationOrder - b.data.navigationOrder);
-
-const sections = [
-    {
-        id: "lecba-a-domaci-pece",
-        category: "medical",
-        heading:
-            "Srozumitelné informace k častým nemocem, léčbě a domácí péči.",
-    },
-    {
-        id: "prevence-a-ockovani",
-        category: "prevention",
-        heading: "Přehled preventivní péče a očkování pro děti i dospělé.",
-    },
-    {
-        id: "prakticke-informace",
-        category: "practical",
-        heading:
-            "Odpovědi na administrativní a praktické otázky, které řešíme nejčastěji.",
-    },
-] as const;
+const [articles, site] = await Promise.all([getCollection("articles"), getSite()]);
+const sections = Object.entries(patientCategories).map(([category, meta]) => ({
+    ...meta,
+    entries: articles
+        .filter((entry) => entry.data.category === (category as PatientCategory))
+        .sort((a, b) => a.data.navigationOrder - b.data.navigationOrder),
+}));
 ---
 
 <LandingLayout
     title="Info pro pacienty"
-    description="Srozumitelné informace k častým nemocem, léčbě a domácí péči."
-    currentPath="/informace-pro-pacienty/"
-    eyebrow="Pro pacienty"
+    description="Srozumitelné informace k častým nemocem, léčbě, prevenci, očkování a praktickým záležitostem."
 >
     {
-        sections.map((section, sectionIndex) => {
-            const entries = articles.filter(
-                (entry) => entry.data.category === section.category,
-            );
-            return (
-                <section
-                    class:list={[
-                        "landing-subsection",
-                        { "landing-subsection--first": sectionIndex === 0 },
-                    ]}
-                    id={section.id}
-                >
-                    <div class="landing-intro">
-                        <h2>{section.heading}</h2>
-                    </div>
-                    {entries.length > 0 ? (
-                        <div class="landing-grid">
-                            {entries.map((entry) => (
-                                <ArticleCard
-                                    href={entry.data.path}
-                                    title={entry.data.title}
-                                    description={entry.data.description}
-                                    cta="Přečíst →"
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <p>Informace se připravují.</p>
-                    )}
-                </section>
-            );
-        })
+        sections.map((section, sectionIndex) => (
+            <section
+                class:list={[
+                    "landing-subsection",
+                    { "landing-subsection--first": sectionIndex === 0 },
+                ]}
+                id={section.slug}
+            >
+                <div class="landing-intro">
+                    <h2>{section.summary}</h2>
+                </div>
+                <div class="landing-grid">
+                    {section.entries.map((entry) => (
+                        <ArticleCard
+                            href={entry.data.path}
+                            title={entry.data.title}
+                            description={entry.data.description}
+                        />
+                    ))}
+                </div>
+            </section>
+        ))
     }
 
     <aside class="landing-support">
@@ -80,15 +52,13 @@ const sections = [
                 nasměrujeme.
             </p>
         </div>
-        {site && (
-            <div class="actions">
-                <a class="button" href={phoneHref(site.phone)}>
-                    Zavolat {site.phone}
-                </a>
-                <a class="button secondary" href={`mailto:${site.email}`}>
-                    Napsat e-mail
-                </a>
-            </div>
-        )}
+        <div class="actions">
+            <a class="button" href={phoneHref(site.phone)}>
+                Zavolat {site.phone}
+            </a>
+            <a class="button secondary" href={`mailto:${site.email}`}>
+                Napsat e-mail
+            </a>
+        </div>
     </aside>
 </LandingLayout>

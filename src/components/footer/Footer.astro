@@ -1,33 +1,28 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import Link from "../navigation/Link.astro";
+import { mapsSearchUrl, phoneHref, type SiteData } from "../../lib/site";
 
 export interface Props {
-    site?: CollectionEntry<"site">["data"];
+    site: SiteData;
 }
 
 const { site } = Astro.props;
 const year = new Date().getFullYear();
-const addressLabel = site
-    ? `${site.address.street}, ${site.address.locality.split(" – ")[0]}`
-    : undefined;
-const mapQuery = addressLabel ? encodeURIComponent(addressLabel) : undefined;
+const district = site.address.locality.split(" – ")[0];
 ---
 
 <footer class="site-footer">
     <div class="shell">
         <div class="footer-grid">
-            <div class="footer-brand">
-                <h2>FajnDoktorka</h2>
+            <div>
+                <h2>{site.name}</h2>
                 <p>
                     Praktická medicína postavená na srozumitelnosti, důvěře a
                     dlouhodobé péči.
                 </p>
-                {site && (
-                    <a class="button footer-call" href={`tel:${site.phone.replaceAll(" ", "")}`}>
-                        Zavolat do ordinace
-                    </a>
-                )}
+                <a class="button footer-call" href={phoneHref(site.phone)}>
+                    Zavolat do ordinace
+                </a>
             </div>
             <div>
                 <h3>Ordinace</h3>
@@ -35,36 +30,20 @@ const mapQuery = addressLabel ? encodeURIComponent(addressLabel) : undefined;
                 <Link href="/o-nas/">Náš tým</Link>
                 <Link href="/cenik/">Ceník</Link>
                 <Link href="/pristroje/">Vybavení ordinace</Link>
-                <Link href="/blog/"> Aktuality z ordinace </Link>
+                <Link href="/blog/">Aktuality z ordinace</Link>
             </div>
-            {
-                site && (
-                    <div>
-                        <h3>Kontakt</h3>
-                        <a href={`tel:${site.phone.replaceAll(" ", "")}`}>
-                            {site.phone}
-                        </a>
-                        <a href={`mailto:${site.email}`}>{site.email}</a>
-                        <a
-                            href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
-                            target="_blank"
-                            rel="noopener"
-                        >
-                            {addressLabel}
-                        </a>
-                    </div>
-                )
-            }
+            <div>
+                <h3>Kontakt</h3>
+                <a href={phoneHref(site.phone)}>{site.phone}</a>
+                <a href={`mailto:${site.email}`}>{site.email}</a>
+                <a href={mapsSearchUrl(site)} target="_blank" rel="noopener">
+                    {site.address.street}, {district}
+                </a>
+            </div>
         </div>
         <div class="footer-bottom">
-            <span>© {year} FajnDoktorka</span>
-            {
-                site && (
-                    <span>
-                        IČO {site.ico} · V akutním ohrožení volejte 155.
-                    </span>
-                )
-            }
+            <span>© {year} {site.name}</span>
+            <span>IČO {site.ico} · V akutním ohrožení volejte 155.</span>
         </div>
     </div>
 </footer>

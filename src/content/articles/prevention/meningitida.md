@@ -2,7 +2,6 @@
 title: "Meningitida"
 description: "Meningokoky způsobují závažné infekce jako je meningitida a sepse. Pokud pronikne meningokok do krevního oběhu způsobí horečnaté onemocnění s těžkou schvácenost"
 path: "/informace-pro-pacienty/prevence-a-ockovani/meningitida/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prevence-a-ockovani/meningitida/"
 category: "prevention"
 navigationOrder: 80
 ---

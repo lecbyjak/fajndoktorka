@@ -2,7 +2,6 @@
 title: "Lékárna na dovolenou"
 description: "Kinetóza neboli cestovní nevolnost: Kinedryl (ne pro řidiče a děti do 2let), Travel Gum"
 path: "/informace-pro-pacienty/prakticke-informace/lekarna-na-dovolenou/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prakticke-informace/lekarna-na-dovolenou/"
 category: "practical"
 navigationOrder: 10
 ---

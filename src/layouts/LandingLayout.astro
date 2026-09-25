@@ -1,42 +1,21 @@
 ---
+// Page hero followed by one full-width content section.
 import BaseLayout from "./BaseLayout.astro";
 import PageHero from "../components/page-content/PageHero.astro";
-import type { BreadcrumbItem } from "../components/page-content/Breadcrumbs.astro";
 
 export interface Props {
     title: string;
     description: string;
-    currentPath?: string;
-    eyebrow?: string;
-    lead?: string;
-    breadcrumbs?: BreadcrumbItem[];
-    bodyClass?: string;
-    noindex?: boolean;
 }
 
-const {
-    title,
-    description,
-    currentPath,
-    eyebrow,
-    lead,
-    breadcrumbs,
-    bodyClass,
-    noindex,
-} = Astro.props;
+const { title, description } = Astro.props;
 ---
 
-<BaseLayout
-    {title}
-    {description}
-    {currentPath}
-    {bodyClass}
-    {noindex}
->
+<BaseLayout {title} {description}>
     <main id="obsah">
-        <PageHero {title} {eyebrow} {lead} {breadcrumbs} />
+        <PageHero {title} />
         <section class="section">
-            <div class="shell landing-layout"><slot /></div>
+            <div class="shell"><slot /></div>
         </section>
     </main>
 </BaseLayout>

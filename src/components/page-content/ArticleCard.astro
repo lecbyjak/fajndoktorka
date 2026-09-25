@@ -6,19 +6,12 @@ export interface Props {
     title: string;
     description: string;
     cta?: string;
-    class?: string;
 }
 
-const {
-    href,
-    title,
-    description,
-    cta = "Přečíst →",
-    class: className = "",
-} = Astro.props;
+const { href, title, description, cta = "Přečíst →" } = Astro.props;
 ---
 
-<Link class:list={["feature-card", className]} href={href}>
+<Link class="feature-card" href={href}>
     <h3>{title}</h3>
     <p>{description}</p>
     <span class="card-arrow" aria-hidden="true">{cta}</span>

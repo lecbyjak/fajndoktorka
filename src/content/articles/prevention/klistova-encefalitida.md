@@ -2,7 +2,6 @@
 title: "Klíšťová encefalitida"
 description: "Klíšťová encefalitida je infekční virové onemocnění, které je přenášeno ze zvířat na člověka infikovaným klíštětem a způsobí zánět mozku nebo zánět mozkových bl"
 path: "/informace-pro-pacienty/prevence-a-ockovani/klistova-encefalitida/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prevence-a-ockovani/klistova-encefalitida/"
 category: "prevention"
 navigationOrder: 20
 ---

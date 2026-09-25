@@ -1,4 +1,7 @@
-main { min-height: 60vh; overflow: clip; }
+main { flex: 1 0 auto; overflow: clip; }
+/* Hero-only pages (404): the hero fills the spare height instead of leaving a blank band. */
+main:has(> .page-hero:only-child) { display: flex; flex-direction: column; }
+main > .page-hero:only-child { flex: 1 0 auto; }
 .hero, .page-hero { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(115deg, var(--surface-sage) 0%, #f7fcf3 42%, var(--surface-blue) 100%); }
 .hero::before, .page-hero::before { position: absolute; z-index: -1; top: -13rem; right: -5rem; width: 32rem; height: 32rem; border: 1px solid rgb(40 77 104 / 8%); border-radius: 50%; background: rgb(255 255 255 / 25%); pointer-events: none; content: ""; }
 .hero::after, .page-hero::after { position: absolute; z-index: -1; right: -8rem; bottom: -20rem; width: 34rem; height: 34rem; border: 1px solid rgb(121 186 50 / 12%); border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgb(186 244 119 / 45%), rgb(186 244 119 / 10%) 70%); pointer-events: none; content: ""; }
@@ -19,8 +22,8 @@ main { min-height: 60vh; overflow: clip; }
 .page-hero + .section { padding-top: clamp(2.5rem, 4vw, 3.75rem); }
 .section + .section { border-top: 1px solid var(--line); }
 .section-heading, .price-intro { display: grid; grid-template-columns: minmax(15rem, .82fr) minmax(0, 1.18fr); gap: clamp(2rem, 6vw, 5rem); align-items: end; margin-bottom: 2.4rem; }
-.section-heading h2, .landing-intro h2, .equipment-intro h2 { margin: 0; font: 500 clamp(2.3rem, 4.7vw, 4.1rem)/.98 var(--font-inter), sans-serif; letter-spacing: -.04em; text-wrap: balance; }
-.section-heading p, .landing-intro p, .equipment-intro p, .price-intro > p { margin: 0; color: var(--muted); }
+.section-heading h2, .landing-intro h2, .equipment-intro h2 { margin: 0; font: 500 clamp(2.3rem, 4.7vw, 4.1rem)/.98 var(--font-inter); letter-spacing: -.04em; text-wrap: balance; }
+.section-heading p, .equipment-intro p, .price-intro > p { margin: 0; color: var(--muted); }
 .home-card-grid, .landing-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.1rem; }
 .content-layout { display: grid; grid-template-columns: minmax(0, 1fr) 17rem; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
 .content-layout--single { grid-template-columns: minmax(0, var(--measure)); justify-content: center; }

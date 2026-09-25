@@ -1,42 +1,34 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { byOrder } from "../../lib/site";
+
 export interface Props {
     entries: CollectionEntry<"equipment">[];
 }
-const { entries } = Astro.props;
+
+const entries = Astro.props.entries.toSorted(byOrder);
 ---
 
-{
-    entries.length ? (
-        <div class="equipment-grid">
-            {entries
-                .sort((a, b) => a.data.order - b.data.order)
-                .map(({ data }, index) => (
-                    <article class="equipment-card">
-                        <header>
-                            <span>{String(index + 1).padStart(2, "0")}</span>
-                            <h2>{data.name}</h2>
-                        </header>
-                        <dl>
-                            <div>
-                                <dt>Co to je?</dt>
-                                <dd>{data.description}</dd>
-                            </div>
-                            <div>
-                                <dt>Na co to je?</dt>
-                                <dd>{data.purpose}</dd>
-                            </div>
-                            <div>
-                                <dt>Jak vyšetření probíhá?</dt>
-                                <dd>{data.procedure}</dd>
-                            </div>
-                        </dl>
-                    </article>
-                ))}
-        </div>
-    ) : (
-        <p class="article-note" role="status">
-            Přehled přístrojů čeká na ověření ordinací.
-        </p>
-    )
-}
+<div class="equipment-grid">
+    {
+        entries.map(({ data }) => (
+            <article class="equipment-card">
+                <h2>{data.name}</h2>
+                <dl>
+                    <div>
+                        <dt>Co to je?</dt>
+                        <dd>{data.description}</dd>
+                    </div>
+                    <div>
+                        <dt>Na co to je?</dt>
+                        <dd>{data.purpose}</dd>
+                    </div>
+                    <div>
+                        <dt>Jak vyšetření probíhá?</dt>
+                        <dd>{data.procedure}</dd>
+                    </div>
+                </dl>
+            </article>
+        ))
+    }
+</div>

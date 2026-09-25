@@ -1,13 +1,12 @@
 ---
-import MobileMenu from "./MobileMenu.astro";
 import Link from "./Link.astro";
 
 export interface Props {
-    currentPath?: string;
+    /** Page path without the deployment base, e.g. "/cenik/". */
+    currentPath: string;
 }
 
-const { currentPath = "/" } = Astro.props;
-const path = decodeURI(currentPath).replace(/\/+$/, "") || "/";
+const path = decodeURI(Astro.props.currentPath).replace(/\/+$/, "") || "/";
 const navItems = [
     { href: "/", label: "Domů" },
     { href: "/o-ordinaci/", label: "O ordinaci" },
@@ -51,6 +50,15 @@ const isActive = (href: string) => {
                 ))
             }
         </nav>
-        <MobileMenu />
+        {/* Toggled by src/scripts/site.ts; visible below 980px. */}
+        <button
+            class="menu-toggle"
+            type="button"
+            aria-controls="site-navigation"
+            aria-expanded="false"
+            aria-label="Otevřít menu"
+        >
+            <span></span><span></span><span></span>
+        </button>
     </div>
 </header>

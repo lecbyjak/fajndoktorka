@@ -2,7 +2,6 @@
 title: "Neschopenka"
 description: "Pokud jste v pracovním poměru a onemocníte nebo se poraníte je nutné kontaktovat co nejdříve lékaře k ošetření a vystavení tzv. dočasné pracovní neschopnosti (P"
 path: "/informace-pro-pacienty/prakticke-informace/neschopenka/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prakticke-informace/neschopenka/"
 category: "practical"
 navigationOrder: 40
 sources:

@@ -1,4 +1,5 @@
 ---
+// Readable-width article with optional external sources and a sticky side navigation.
 import BaseLayout from "./BaseLayout.astro";
 import PageHero from "../components/page-content/PageHero.astro";
 import SideNavigation, {
@@ -9,32 +10,26 @@ import type { BreadcrumbItem } from "../components/page-content/Breadcrumbs.astr
 export interface Props {
     title: string;
     description: string;
-    currentPath?: string;
-    eyebrow?: string;
     breadcrumbs?: BreadcrumbItem[];
     sources?: { label: string; url: string }[];
     sideNavigation?: SideNavigationItem[];
     sideNavigationLabel?: string;
-    noindex?: boolean;
 }
 
 const {
     title,
     description,
-    currentPath,
-    eyebrow,
     breadcrumbs,
     sources = [],
     sideNavigation = [],
     sideNavigationLabel,
-    noindex,
 } = Astro.props;
 const hasSidebar = sideNavigation.length > 0;
 ---
 
-<BaseLayout {title} {description} {currentPath} {noindex}>
+<BaseLayout {title} {description}>
     <main id="obsah">
-        <PageHero {title} {eyebrow} {breadcrumbs} />
+        <PageHero {title} {breadcrumbs} />
         <section class="section">
             <div class="shell">
                 <div

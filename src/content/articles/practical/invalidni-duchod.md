@@ -2,7 +2,6 @@
 title: "Invalidní důchod"
 description: "Invalidní důchod je jedním z důchodů poskytovaných státem z důchodového pojištění vyplácených českou správou sociálního zabezpečení."
 path: "/informace-pro-pacienty/prakticke-informace/invalidni-duchod/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prakticke-informace/invalidni-duchod/"
 category: "practical"
 navigationOrder: 50
 sources:

@@ -2,7 +2,6 @@
 title: "Hepatitida B"
 description: "Je závažné onemocnění způsobené virem hepatitidy A. Přenos onemocnění je nejčastěji nepřímo kontaminovanou vodou a potravinami – zejména špatně umytýma rukama."
 path: "/informace-pro-pacienty/prevence-a-ockovani/hepatitida-b/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prevence-a-ockovani/hepatitida-b/"
 category: "prevention"
 navigationOrder: 40
 ---

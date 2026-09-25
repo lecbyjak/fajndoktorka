@@ -1,25 +1,23 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/page-content/PageHero.astro";
 import Link from "../components/navigation/Link.astro";
 ---
 
 <BaseLayout
     title="Stránka nebyla nalezena"
     description="Požadovaná stránka nebyla nalezena."
-    currentPath="/404.html"
+    noindex
 >
     <main id="obsah">
-        <section class="page-hero">
-            <div class="shell">
-                <p class="eyebrow">Chyba 404</p><h1>
-                    Stránka nebyla nalezena
-                </h1><p class="lead">
-                    Odkaz už možná není aktuální. Všechny důležité informace
-                    najdete na úvodní stránce.
-                </p><div class="actions">
-                    <Link class="button" href="/">Zpět na hlavní stránku</Link>
-                </div>
+        <PageHero
+            title="Stránka nebyla nalezena"
+            lead="Odkaz už možná není aktuální. Všechny důležité informace najdete na úvodní stránce."
+            breadcrumbs={[]}
+        >
+            <div class="actions">
+                <Link class="button" href="/">Zpět na hlavní stránku</Link>
             </div>
-        </section>
+        </PageHero>
     </main>
 </BaseLayout>

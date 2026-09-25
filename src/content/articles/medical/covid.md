@@ -2,7 +2,6 @@
 title: "COVID"
 description: "Přehled domácí péče při onemocnění COVID-19, varovných příznaků a situací, kdy kontaktovat lékaře nebo záchrannou službu."
 path: "/informace-pro-pacienty/lecba-a-domaci-pece/covid/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/lecba-a-domaci-pece/covid/"
 category: "medical"
 navigationOrder: 20
 sources:

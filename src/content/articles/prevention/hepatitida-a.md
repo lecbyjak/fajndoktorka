@@ -2,7 +2,6 @@
 title: "Hepatitida A"
 description: "Je závažné onemocnění způsobené virem hepatitidy A. Přenos onemocnění je nejčastěji nepřímo kontaminovanou vodou a potravinami – zejména špatně umytýma rukama."
 path: "/informace-pro-pacienty/prevence-a-ockovani/hepatitida-a/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prevence-a-ockovani/hepatitida-a/"
 category: "prevention"
 navigationOrder: 30
 ---

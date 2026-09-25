@@ -1,20 +1,26 @@
 import { defineCollection } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-
-const path = z.string().regex(/^\/(?:[^?#]*\/)?$/);
+import { articleCategories, categoryPathPrefix } from './lib/articles';
 
 const articles = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/articles' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    path,
-    canonicalUrl: z.url(),
-    category: z.enum(['medical', 'practical', 'prevention', 'news']),
-    navigationOrder: z.number().int(),
-    sources: z.array(z.object({ label: z.string(), url: z.url() })).optional(),
-  }),
+  schema: z
+    .object({
+      title: z.string(),
+      description: z.string(),
+      // Public URL (kept from the previous site); must sit under the category prefix.
+      path: z.string().regex(/^\/(?:[^?#]*\/)?$/),
+      category: z.enum(articleCategories),
+      navigationOrder: z.number().int(),
+      // News only: show the article as a notice on the homepage.
+      pinned: z.boolean().default(false),
+      sources: z.array(z.object({ label: z.string(), url: z.url() })).optional(),
+    })
+    .refine(({ path, category }) => path.startsWith(categoryPathPrefix(category)), {
+      message: 'path must start with the category prefix (see src/lib/articles.ts)',
+      path: ['path'],
+    }),
 });
 
 const officeHours = defineCollection({
@@ -24,8 +30,9 @@ const officeHours = defineCollection({
     clinician: z.string(),
     order: z.number().int(),
     slots: z.array(z.object({
-      from: z.string(),
-      to: z.string(),
+      // HH:MM, also used as the machine-readable <time datetime> value.
+      from: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/),
+      to: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/),
       purpose: z.enum(['acute', 'appointment', 'prebooked', 'vaccination-and-sampling']),
     })),
   }),
@@ -38,14 +45,15 @@ const pricing = defineCollection({
 
 const staff = defineCollection({
   loader: file('src/data/staff.json'),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     name: z.string(),
     role: z.string(),
     order: z.number().int(),
+    // Path relative to src/data/staff.json.
+    portrait: image(),
     education: z.array(z.string()),
     memberships: z.array(z.string()),
     experience: z.array(z.string()),
-    portraitAlt: z.string(),
   }),
 });
 
@@ -64,10 +72,8 @@ const site = defineCollection({
   loader: file('src/data/site.json'),
   schema: z.object({
     name: z.string(),
-    legalName: z.string(),
-    language: z.literal('cs'),
+    // Production origin used for canonical and Open Graph URLs.
     baseUrl: z.url(),
-    path,
     phone: z.string(),
     email: z.email(),
     ico: z.string(),

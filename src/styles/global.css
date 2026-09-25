@@ -1,4 +1,6 @@
+/* Single stylesheet entry, imported by BaseLayout. Order matters: tokens → layout → components → page sections → print. */
 @import "./base.css";
 @import "./layout.css";
 @import "./components.css";
 @import "./pages.css";
+@import "./print.css";

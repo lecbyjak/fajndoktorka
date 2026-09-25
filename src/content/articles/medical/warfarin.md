@@ -2,7 +2,6 @@
 title: "Warfarin"
 description: "Warfarin snižuje množství aktivního vitamínu K potřebného pro tvorbu řady srážecích faktorů a tím zpomaluje srážení krve a snižuje riziko vzniku krevní sraženin"
 path: "/informace-pro-pacienty/lecba-a-domaci-pece/warfarin/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/lecba-a-domaci-pece/warfarin/"
 category: "medical"
 navigationOrder: 80
 ---

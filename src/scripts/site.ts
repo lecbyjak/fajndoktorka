@@ -1,3 +1,5 @@
+// Site-wide client behaviour: mobile navigation toggle and the back-to-top button.
+// `export {}` makes this a module so its top-level constants stay file-scoped.
 export {};
 
 const menuButton = document.querySelector<HTMLButtonElement>('.menu-toggle');

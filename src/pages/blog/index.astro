@@ -6,15 +6,11 @@ import LandingLayout from "../../layouts/LandingLayout.astro";
 const entries = (await getCollection("articles"))
     .filter((entry) => entry.data.category === "news")
     .sort((a, b) => a.data.navigationOrder - b.data.navigationOrder);
-const description =
-    entries[0]?.data.description ??
-    "Aktuality a provozní informace z ordinace FajnDoktorka.";
 ---
 
 <LandingLayout
     title="Aktuality z ordinace"
-    {description}
-    currentPath="/blog/"
+    description="Aktuality a provozní informace z ordinace FajnDoktorka."
 >
     {
         entries.length > 0 ? (
@@ -28,17 +24,14 @@ const description =
                             href={entry.data.path}
                             title={entry.data.title}
                             description={entry.data.description}
-                            cta="Přečíst →"
                         />
                     ))}
                 </div>
             </section>
         ) : (
             <section class="article">
-                <>
-                    <h2>Aktuality se připravují</h2>
-                    <p>Nové příspěvky zde zveřejníme.</p>
-                </>
+                <h2>Aktuality se připravují</h2>
+                <p>Nové příspěvky zde zveřejníme.</p>
             </section>
         )
     }

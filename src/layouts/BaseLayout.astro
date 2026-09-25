@@ -3,33 +3,21 @@ import { Font } from "astro:assets";
 import Header from "../components/navigation/Header.astro";
 import Link from "../components/navigation/Link.astro";
 import Footer from "../components/footer/Footer.astro";
-import { getSite, siteUrl } from "../lib/site";
+import { getSite, withBase } from "../lib/site";
 import "../styles/global.css";
-import "../styles/print.css";
 
 export interface Props {
     title: string;
     description: string;
-    currentPath?: string;
-    image?: string | URL;
     noindex?: boolean;
-    bodyClass?: string;
 }
 
-const {
-    title,
-    description,
-    currentPath = Astro.url.pathname,
-    image,
-    noindex = false,
-    bodyClass,
-} = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 const site = await getSite();
-const siteName = site?.name ?? "FajnDoktorka";
-const documentTitle = `${title} | ${siteName}`;
-const siteOrigin = site?.baseUrl ?? Astro.site ?? Astro.url.origin;
-const canonicalUrl = siteUrl(currentPath, siteOrigin);
-const imageUrl = image ? new URL(image, siteOrigin) : undefined;
+// Page path without the deployment base, e.g. "/cenik/".
+const currentPath = Astro.url.pathname.slice(import.meta.env.BASE_URL.replace(/\/$/, "").length) || "/";
+const documentTitle = title === site.name ? title : `${title} | ${site.name}`;
+const canonicalUrl = new URL(currentPath, site.baseUrl);
 ---
 
 <!doctype html>
@@ -41,21 +29,26 @@ const imageUrl = image ? new URL(image, siteOrigin) : undefined;
         <meta name="description" content={description} />
         {noindex && <meta name="robots" content="noindex, follow" />}
         <title>{documentTitle}</title>
-        <link rel="canonical" href={canonicalUrl} />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        {!noindex && <link rel="canonical" href={canonicalUrl} />}
+        <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
         <meta property="og:locale" content="cs_CZ" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content={siteName} />
+        <meta property="og:site_name" content={site.name} />
         <meta property="og:title" content={documentTitle} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonicalUrl} />
-        {imageUrl && <meta property="og:image" content={imageUrl} />}
-        <Font cssVariable="--font-inter" preload />
-        <slot name="head" />
+        {/* Preload only the regular and heading weights; the rest load on demand. */}
+        <Font
+            cssVariable="--font-inter"
+            preload={[
+                { weight: 400, style: "normal" },
+                { weight: 500, style: "normal" },
+            ]}
+        />
     </head>
-    <body class={bodyClass}>
+    <body>
         <Link class="skip-link" href="#obsah">Přeskočit na obsah</Link>
-        <Header currentPath={currentPath} />
+        <Header {currentPath} />
         <slot />
         <Footer {site} />
         <script src="../scripts/site.ts"></script>

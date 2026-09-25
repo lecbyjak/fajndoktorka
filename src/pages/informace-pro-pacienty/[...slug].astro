@@ -1,76 +1,55 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import ArticleLayout from "../../layouts/ArticleLayout.astro";
-
-const PATIENT_PREFIX = "/informace-pro-pacienty/";
-
-const categoryDetails = {
-    medical: {
-        title: "Léčba a domácí péče",
-        path: `${PATIENT_PREFIX}#lecba-a-domaci-pece`,
-    },
-    prevention: {
-        title: "Prevence a očkování",
-        path: `${PATIENT_PREFIX}#prevence-a-ockovani`,
-    },
-    practical: {
-        title: "Praktické informace",
-        path: `${PATIENT_PREFIX}#prakticke-informace`,
-    },
-} as const;
+import {
+    PATIENT_INFO_PATH,
+    categoryAnchor,
+    patientCategories,
+    type PatientCategory,
+} from "../../lib/articles";
 
 export async function getStaticPaths() {
-    const patientPrefix = "/informace-pro-pacienty/";
-    const articles = await getCollection("articles");
-    const visible = articles.filter(
-        (entry) =>
-            entry.data.path.startsWith(patientPrefix) &&
-            entry.data.category !== "news",
-    );
+    const articles = (await getCollection("articles"))
+        .filter((entry) => entry.data.category !== "news")
+        .sort((a, b) => a.data.navigationOrder - b.data.navigationOrder);
 
-    return visible.map((entry) => ({
-        params: {
-            slug: entry.data.path
-                .slice(patientPrefix.length)
-                .replace(/\/$/, ""),
+    return articles.map((entry) => ({
+        // The content schema guarantees `path` starts with PATIENT_INFO_PATH.
+        params: { slug: entry.data.path.slice(PATIENT_INFO_PATH.length, -1) },
+        props: {
+            entry,
+            peers: articles.filter((peer) => peer.data.category === entry.data.category),
         },
-        props: { entry, visible },
     }));
 }
 
 interface Props {
     entry: CollectionEntry<"articles">;
-    visible: CollectionEntry<"articles">[];
+    peers: CollectionEntry<"articles">[];
 }
 
-const { entry, visible } = Astro.props as Props;
+const { entry, peers } = Astro.props;
 const { Content } = await render(entry);
-const category =
-    categoryDetails[entry.data.category as keyof typeof categoryDetails];
-const peers = visible
-    .filter((candidate) => candidate.data.category === entry.data.category)
-    .sort((a, b) => a.data.navigationOrder - b.data.navigationOrder);
-const sideNavigation = peers.map((candidate) => ({
-    href: candidate.data.path,
-    label: candidate.data.title,
-    current: candidate.id === entry.id,
-}));
+const category = entry.data.category as PatientCategory;
+const categoryTitle = patientCategories[category].title;
 ---
 
 <ArticleLayout
     title={entry.data.title}
     description={entry.data.description}
-    currentPath={entry.data.path}
-    eyebrow={category.title}
     sources={entry.data.sources}
     breadcrumbs={[
         { label: "Domů", href: "/" },
-        { label: "Info pro pacienty", href: PATIENT_PREFIX },
-        { label: category.title, href: category.path },
+        { label: "Info pro pacienty", href: PATIENT_INFO_PATH },
+        { label: categoryTitle, href: categoryAnchor(category) },
         { label: entry.data.title },
     ]}
-    {sideNavigation}
-    sideNavigationLabel={category.title}
+    sideNavigation={peers.map((peer) => ({
+        href: peer.data.path,
+        label: peer.data.title,
+        current: peer.id === entry.id,
+    }))}
+    sideNavigationLabel={categoryTitle}
 >
     <Content />
 </ArticleLayout>

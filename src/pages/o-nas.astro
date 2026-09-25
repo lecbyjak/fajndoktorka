@@ -2,13 +2,13 @@
 import { getCollection } from "astro:content";
 import LandingLayout from "../layouts/LandingLayout.astro";
 import TeamProfile from "../components/structured/TeamProfile.astro";
+
 const entries = await getCollection("staff");
 ---
 
 <LandingLayout
     title="Náš tým"
-    description="Ordinace praktického lékaře FajnDoktorka, Praha 8 – Bohnice."
-    currentPath="/o-nas/"
+    description="Vzdělání, odborná členství a praxe lékařů ordinace FajnDoktorka."
 >
     <TeamProfile {entries} />
 </LandingLayout>

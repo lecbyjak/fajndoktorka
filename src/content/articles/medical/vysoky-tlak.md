@@ -2,7 +2,6 @@
 title: "Vysoký tlak"
 description: "Krevní tlak je síla, kterou působí krev na cévní stěnu. Je složitě regulována vnitřními a vnějšími mechanismy. Za hypertenzi označujeme stav, kdy je krevní tlak"
 path: "/informace-pro-pacienty/lecba-a-domaci-pece/vysoky-tlak/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/lecba-a-domaci-pece/vysoky-tlak/"
 category: "medical"
 navigationOrder: 40
 ---

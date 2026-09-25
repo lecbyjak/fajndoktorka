@@ -2,7 +2,6 @@
 title: "Nachlazení"
 description: "Je onemocnění horních cest dýchacích – nos, dutiny, krk, která je vyvolána více než 200 druhy virů. Objeví se zpravidla 1-4 dny po kontaktu s virem. Symptomy sv"
 path: "/informace-pro-pacienty/lecba-a-domaci-pece/nachlazeni/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/lecba-a-domaci-pece/nachlazeni/"
 category: "medical"
 navigationOrder: 10
 ---

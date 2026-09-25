@@ -2,7 +2,6 @@
 title: "Příspěvek na péči"
 description: "Příspěvek na péči o osobu blízkou je pravidelná opakující se dávka sociální služby určená lidem, kteří potřebují v běžném životě pomoc jiné osoby. Je určen na ú"
 path: "/informace-pro-pacienty/prakticke-informace/prispevek-na-peci/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prakticke-informace/prispevek-na-peci/"
 category: "practical"
 navigationOrder: 30
 sources:

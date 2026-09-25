@@ -2,7 +2,6 @@
 title: "Pneumokoky"
 description: "K pneumokokovým nákazám jsou náchylnější lidé nad 50 let. U nich navíc onemocnění probíhá závažněji a často nemívá typické projevy, proto mnohdy dlouho trvá, ne"
 path: "/informace-pro-pacienty/prevence-a-ockovani/pneumokoky/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prevence-a-ockovani/pneumokoky/"
 category: "prevention"
 navigationOrder: 70
 ---

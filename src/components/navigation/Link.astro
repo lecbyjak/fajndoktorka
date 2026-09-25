@@ -1,11 +1,11 @@
 ---
-// src/components/Link.astro
+// Anchor for same-site links: root-relative hrefs get the configured base path.
+import type { HTMLAttributes } from "astro/types";
+import { withBase } from "../../lib/site";
+
+type Props = HTMLAttributes<"a"> & { href: string };
+
 const { href, ...props } = Astro.props;
-const base = import.meta.env.BASE_URL ?? "";
-// Ensure no double slashes if href already starts with '/'
-const resolvedHref = href.startsWith("/")
-    ? `${base.replace(/\/$/, "")}${href}`
-    : href;
 ---
 
-<a href={resolvedHref} {...props}><slot /></a>
+<a href={withBase(href)} {...props}><slot /></a>

@@ -2,7 +2,6 @@
 title: "Lázeňská péče"
 description: "Lázeňská léčba je součást potřebné zdravotní péče dle novely zákona z 2015 č. 48/1997 o veřejném zdravotním pojištění. Kdo má nárok na lázeňskou péči a za jakýc"
 path: "/informace-pro-pacienty/prakticke-informace/lazenska-pece/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/prakticke-informace/lazenska-pece/"
 category: "practical"
 navigationOrder: 20
 sources:

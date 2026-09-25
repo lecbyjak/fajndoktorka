@@ -2,7 +2,6 @@
 title: "Průjem"
 description: "Průjem je časté (více než 3× denně) se opakující vyprazdňování řídké stolice, potíže jsou často spojeny s pocitem na zvracení, zvracením a bolestmi břicha."
 path: "/informace-pro-pacienty/lecba-a-domaci-pece/prujem/"
-canonicalUrl: "https://www.fajndoktorka.com/informace-pro-pacienty/lecba-a-domaci-pece/prujem/"
 category: "medical"
 navigationOrder: 30
 ---

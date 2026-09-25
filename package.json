@@ -10,9 +10,15 @@
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
-    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "check": "astro check",
+    "test": "npm run build && node --test tests/*.test.mjs"
   },
   "dependencies": {
     "astro": "^7.2.10"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }

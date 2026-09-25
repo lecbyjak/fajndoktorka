@@ -31,5 +31,5 @@
   a[href^='mailto:']::after { content: none; }
 
   h1, h2, h3 { break-after: avoid; }
-  img, table, blockquote, .article-alert, .article-note { break-inside: avoid; }
+  img, table, blockquote { break-inside: avoid; }
 }
