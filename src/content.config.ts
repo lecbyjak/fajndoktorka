@@ -15,6 +15,8 @@ const articles = defineCollection({
       navigationOrder: z.number().int(),
       // News only: show the article as a notice on the homepage.
       pinned: z.boolean().default(false),
+      // false hides the article everywhere: listings, side navigation, homepage notices, and no page is built for it.
+      visible: z.boolean().default(true),
       sources: z.array(z.object({ label: z.string(), url: z.url() })).optional(),
     })
     .refine(({ path, category }) => path.startsWith(categoryPathPrefix(category)), {
@@ -27,8 +29,9 @@ const officeHours = defineCollection({
   loader: file('src/data/office-hours.json'),
   schema: z.object({
     day: z.string(),
+    // ISO weekday, 1 = Monday … 7 = Sunday; also the sort key.
+    weekday: z.number().int().min(1).max(7),
     clinician: z.string(),
-    order: z.number().int(),
     slots: z.array(z.object({
       // HH:MM, also used as the machine-readable <time datetime> value.
       from: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/),
@@ -78,6 +81,8 @@ const site = defineCollection({
     email: z.email(),
     ico: z.string(),
     address: z.object({ street: z.string(), postalCode: z.string(), locality: z.string(), country: z.literal('CZ') }),
+    // WGS84, used in the LocalBusiness structured data.
+    geo: z.object({ latitude: z.number(), longitude: z.number() }),
     description: z.string(),
   }),
 });

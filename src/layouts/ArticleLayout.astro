@@ -10,6 +10,8 @@ import type { BreadcrumbItem } from "../components/page-content/Breadcrumbs.astr
 export interface Props {
     title: string;
     description: string;
+    /** Intro under the title. Not defaulted: article descriptions are truncated excerpts. */
+    lead?: string;
     breadcrumbs?: BreadcrumbItem[];
     sources?: { label: string; url: string }[];
     sideNavigation?: SideNavigationItem[];
@@ -19,6 +21,7 @@ export interface Props {
 const {
     title,
     description,
+    lead,
     breadcrumbs,
     sources = [],
     sideNavigation = [],
@@ -29,7 +32,7 @@ const hasSidebar = sideNavigation.length > 0;
 
 <BaseLayout {title} {description}>
     <main id="obsah">
-        <PageHero {title} {breadcrumbs} />
+        <PageHero {title} {lead} {breadcrumbs} />
         <section class="section">
             <div class="shell">
                 <div

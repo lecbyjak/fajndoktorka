@@ -1,0 +1,21 @@
+---
+// One card of a `<ul class="card-grid">`; surfaces alternate lime/violet via CSS.
+import Link from "../navigation/Link.astro";
+
+export interface Props {
+    href: string;
+    title: string;
+    description: string;
+    cta?: string;
+}
+
+const { href, title, description, cta = "Zjistit více" } = Astro.props;
+---
+
+<li>
+    <Link class="topic-card" href={href}>
+        <h3>{title}</h3>
+        <p>{description}</p>
+        <span class="topic-card-cta">{cta} <span aria-hidden="true">→</span></span>
+    </Link>
+</li>

@@ -3,6 +3,7 @@ import { Font } from "astro:assets";
 import Header from "../components/navigation/Header.astro";
 import Link from "../components/navigation/Link.astro";
 import Footer from "../components/footer/Footer.astro";
+import { getWeek } from "../lib/collections";
 import { getSite, withBase } from "../lib/site";
 import "../styles/global.css";
 
@@ -13,11 +14,45 @@ export interface Props {
 }
 
 const { title, description, noindex = false } = Astro.props;
-const site = await getSite();
+const [site, week] = await Promise.all([getSite(), getWeek()]);
 // Page path without the deployment base, e.g. "/cenik/".
 const currentPath = Astro.url.pathname.slice(import.meta.env.BASE_URL.replace(/\/$/, "").length) || "/";
 const documentTitle = title === site.name ? title : `${title} | ${site.name}`;
 const canonicalUrl = new URL(currentPath, site.baseUrl);
+// Served from this deployment (Astro.site), unlike the canonical origin.
+const ogImage = new URL(withBase("/og.png"), Astro.site);
+
+// LocalBusiness data for search engines and AI assistants: contact, location, hours.
+const dayOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Physician",
+    "@id": `${site.baseUrl}/#ordinace`,
+    name: site.name,
+    description: site.description,
+    url: site.baseUrl,
+    telephone: site.phone.replaceAll(" ", ""),
+    email: site.email,
+    image: ogImage,
+    medicalSpecialty: "PrimaryCare",
+    identifier: { "@type": "PropertyValue", propertyID: "IČO", value: site.ico },
+    address: {
+        "@type": "PostalAddress",
+        streetAddress: site.address.street,
+        postalCode: site.address.postalCode,
+        addressLocality: site.address.locality,
+        addressCountry: site.address.country,
+    },
+    geo: { "@type": "GeoCoordinates", ...site.geo },
+    openingHoursSpecification: week
+        .filter((day) => day.slots.length > 0)
+        .map((day) => ({
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: dayOfWeek[day.weekday - 1],
+            opens: day.slots[0].from,
+            closes: day.slots.at(-1)!.to,
+        })),
+};
 ---
 
 <!doctype html>
@@ -25,7 +60,7 @@ const canonicalUrl = new URL(currentPath, site.baseUrl);
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#98ec32" />
+        <meta name="theme-color" content="#1b1e3c" />
         <meta name="description" content={description} />
         {noindex && <meta name="robots" content="noindex, follow" />}
         <title>{documentTitle}</title>
@@ -37,20 +72,21 @@ const canonicalUrl = new URL(currentPath, site.baseUrl);
         <meta property="og:title" content={documentTitle} />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonicalUrl} />
-        {/* Preload only the regular and heading weights; the rest load on demand. */}
-        <Font
-            cssVariable="--font-inter"
-            preload={[
-                { weight: 400, style: "normal" },
-                { weight: 500, style: "normal" },
-            ]}
-        />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <Font cssVariable="--font-display" preload={[{ weight: 400, style: "normal" }]} />
+        <Font cssVariable="--font-sans" preload={[{ weight: 400, style: "normal" }, { weight: 500, style: "normal" }]} />
+        <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     </head>
     <body>
         <Link class="skip-link" href="#obsah">Přeskočit na obsah</Link>
-        <Header {currentPath} />
+        <Header {currentPath} {site} />
         <slot />
         <Footer {site} />
+        {/* Schedule for the live open/closed status (src/scripts/office-status.ts). */}
+        <script type="application/json" id="office-hours-json" set:html={JSON.stringify(week)} />
         <script src="../scripts/site.ts"></script>
     </body>
 </html>

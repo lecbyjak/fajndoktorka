@@ -1,14 +1,18 @@
 ---
 import Link from "./Link.astro";
+import Logo from "./Logo.astro";
+import OfficeStatus from "../structured/OfficeStatus.astro";
+import { phoneHref, type SiteData } from "../../lib/site";
 
 export interface Props {
     /** Page path without the deployment base, e.g. "/cenik/". */
     currentPath: string;
+    site: SiteData;
 }
 
+const { site } = Astro.props;
 const path = decodeURI(Astro.props.currentPath).replace(/\/+$/, "") || "/";
 const navItems = [
-    { href: "/", label: "Domů" },
     { href: "/o-ordinaci/", label: "O ordinaci" },
     { href: "/o-nas/", label: "Náš tým" },
     { href: "/ordinacni-hodiny/", label: "Ordinační hodiny" },
@@ -17,48 +21,37 @@ const navItems = [
     { href: "/mapa/", label: "Kontakt" },
 ];
 const isActive = (href: string) => {
-    const target = href.replace(/\/+$/, "") || "/";
-    return target === "/"
-        ? path === "/"
-        : path === target || path.startsWith(`${target}/`);
+    const target = href.replace(/\/+$/, "");
+    return path === target || path.startsWith(`${target}/`);
 };
 ---
 
 <header class="site-header">
     <div class="header-inner">
-        <Link class="brand" href="/" aria-label="FajnDoktorka – domů">
-            <span class="brand-mark" aria-hidden="true">FD</span>
-            <span class="brand-copy">
-                <strong>FajnDoktorka</strong>
-                <small>Ordinace praktického lékaře</small>
-            </span>
-        </Link>
-        <nav
-            class="site-nav"
-            id="site-navigation"
-            data-open="false"
-            aria-label="Hlavní navigace"
-        >
+        <Logo />
+        <nav class="site-nav" id="site-navigation" data-open="false" aria-label="Hlavní navigace">
             {
                 navItems.map(({ href, label }) => (
-                    <Link
-                        href={href}
-                        aria-current={isActive(href) ? "page" : undefined}
-                    >
+                    <Link href={href} aria-current={isActive(href) ? "page" : undefined}>
                         {label}
                     </Link>
                 ))
             }
+            <div class="site-nav-footer">
+                <OfficeStatus />
+                <a class="button" href={phoneHref(site.phone)}>Zavolat {site.phone}</a>
+            </div>
         </nav>
+        <div class="header-actions">
+            <OfficeStatus />
+            <a class="button button--small" href={phoneHref(site.phone)}>
+                <span class="header-phone">{site.phone}</span>
+                <span class="header-call">Zavolat</span>
+            </a>
+        </div>
         {/* Toggled by src/scripts/site.ts; visible below 980px. */}
-        <button
-            class="menu-toggle"
-            type="button"
-            aria-controls="site-navigation"
-            aria-expanded="false"
-            aria-label="Otevřít menu"
-        >
-            <span></span><span></span><span></span>
+        <button class="menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false" aria-label="Otevřít menu">
+            <span></span><span></span>
         </button>
     </div>
 </header>

@@ -2,27 +2,18 @@
 import { getCollection } from "astro:content";
 import LandingLayout from "../layouts/LandingLayout.astro";
 import PriceList from "../components/structured/PriceList.astro";
+import { getSite, phoneHref } from "../lib/site";
 
-const entries = await getCollection("pricing");
+const [entries, site] = await Promise.all([getCollection("pricing"), getSite()]);
 ---
 
 <LandingLayout
     title="Ceník"
     description="Ceník výkonů nehrazených z veřejného zdravotního pojištění."
+    lead="Ceny výkonů nehrazených z veřejného zdravotního pojištění. U očkování se výsledná cena může lišit podle zvolené vakcíny."
 >
-    <div class="price-intro">
-        <div>
-            <p class="eyebrow">Samoplátecké služby</p>
-            <h2>Přehled cen</h2>
-        </div>
-        <p>
-            Ceny se vztahují na výkony nehrazené z veřejného zdravotního
-            pojištění. U očkování se výsledná cena může lišit podle zvolené
-            vakcíny.
-        </p>
-    </div>
     <PriceList {entries} />
-    <p class="price-note">
-        Potřebujete upřesnit cenu konkrétního výkonu? Kontaktujte ordinaci.
-    </p>
+    <div class="price-note">
+        <p>Potřebujete upřesnit cenu konkrétního výkonu? Zavolejte nám na <a href={phoneHref(site.phone)}>{site.phone}</a>.</p>
+    </div>
 </LandingLayout>

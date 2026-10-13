@@ -12,6 +12,10 @@
       "locality": "Praha 8 – Bohnice",
       "country": "CZ"
     },
-    "description": "Ordinace praktického lékaře FajnDoktorka, Praha 8 – Bohnice."
+    "description": "Ordinace praktického lékaře MUDr. Alexandry Krýšové na Poliklinice Mazurská, Praha 8 – Bohnice. Ordinační hodiny, objednání, ceník a srozumitelné informace pro pacienty.",
+    "geo": {
+      "latitude": 50.1266,
+      "longitude": 14.4158
+    }
   }
 ]

@@ -2,8 +2,8 @@
   {
     "id": "monday",
     "day": "Pondělí",
+    "weekday": 1,
     "clinician": "MUDr. Navrátilová",
-    "order": 0,
     "slots": [
       {
         "from": "13:00",
@@ -25,8 +25,8 @@
   {
     "id": "tuesday",
     "day": "Úterý",
+    "weekday": 2,
     "clinician": "MUDr. Krýšová",
-    "order": 1,
     "slots": [
       {
         "from": "07:30",
@@ -48,8 +48,8 @@
   {
     "id": "wednesday",
     "day": "Středa",
+    "weekday": 3,
     "clinician": "MUDr. Krýšová",
-    "order": 2,
     "slots": [
       {
         "from": "13:00",
@@ -71,8 +71,8 @@
   {
     "id": "thursday",
     "day": "Čtvrtek",
+    "weekday": 4,
     "clinician": "MUDr. Krýšová",
-    "order": 3,
     "slots": [
       {
         "from": "07:30",
@@ -94,8 +94,8 @@
   {
     "id": "friday",
     "day": "Pátek",
+    "weekday": 5,
     "clinician": "MUDr. Krýšová",
-    "order": 4,
     "slots": [
       {
         "from": "07:30",

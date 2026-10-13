@@ -1,40 +1,24 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import ArticleCard from "../components/page-content/ArticleCard.astro";
+import TopicCard from "../components/page-content/TopicCard.astro";
 import Link from "../components/navigation/Link.astro";
-import ContactPanel from "../components/structured/ContactPanel.astro";
+import OfficeHours from "../components/structured/OfficeHours.astro";
+import WeekCard from "../components/structured/WeekCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { categoryAnchor, patientCategories, type PatientCategory } from "../lib/articles";
-import { getSite, phoneHref } from "../lib/site";
+import { getArticles, getWeek } from "../lib/collections";
+import { byOrder, getSite, mapsSearchUrl, phoneHref } from "../lib/site";
 
-const [clinic, pinnedNews] = await Promise.all([
+const [clinic, week, news, staff, equipment] = await Promise.all([
     getSite(),
-    getCollection("articles", ({ data }) => data.category === "news" && data.pinned),
+    getWeek(),
+    getArticles("news"),
+    getCollection("staff"),
+    getCollection("equipment"),
 ]);
-
-const features = [
-    {
-        href: "/o-nas/",
-        title: "Kdo jsme",
-        description: "Jsme zdravotníci a chceme se o vás starat.",
-    },
-    {
-        href: "/o-ordinaci/",
-        title: "Jak to vidíme",
-        description:
-            "Koukněte se, jaký je náš pohled na poskytování zdravotní péče.",
-    },
-    {
-        href: "/mapa/",
-        title: "Kde nás najdete",
-        description: "Naše ordinace je na Poliklinice Mazurská.",
-    },
-    {
-        href: "/ordinacni-hodiny/",
-        title: "Kdy tu budeme",
-        description: "I my musíme odpočívat. Zkoukněte ordinační hodiny.",
-    },
-];
+const pinnedNews = news.filter(({ data }) => data.pinned);
+const doctor = staff.toSorted(byOrder)[0]?.data;
 
 const topics = [
     ...(["practical", "medical", "prevention"] as const satisfies PatientCategory[]).map((category) => ({
@@ -42,81 +26,159 @@ const topics = [
         title: patientCategories[category].title,
         description: patientCategories[category].summary,
     })),
-    {
-        href: "/cenik/",
-        title: "Ceník",
-        description: "Aktuální ceník administrativních a léčebných úkonů.",
-    },
+    { href: "/cenik/", title: "Ceník", description: "Aktuální ceník administrativních a léčebných úkonů nehrazených pojišťovnou." },
+    { href: "/o-ordinaci/", title: "Jak pracujeme", description: "Náš pohled na léčebnou péči, dispenzarizaci a návštěvní službu lékaře i sestry." },
+    { href: "/mapa/", title: "Kde nás najdete", description: "Poliklinika Mazurská v Praze 8 – Bohnicích. Adresa, mapa a kontakty." },
 ];
 ---
 
-<BaseLayout title={clinic.name} description={clinic.description}>
+<BaseLayout title={`Praktický lékař ${clinic.address.locality}`} description={clinic.description}>
     <main id="obsah">
         <section class="hero">
             <div class="shell hero-grid">
                 <div>
-                    <p class="eyebrow">Ordinace praktického lékaře</p>
-                    <h1>FAJNDOKTORKA</h1>
+                    <p class="eyebrow">Ordinace praktického lékaře · {clinic.address.locality}</p>
+                    <h1>Praktická péče srozumitelně, <span class="marker">lidsky</span> a v souvislostech.</h1>
                     <p class="lead">
-                        Praktická péče srozumitelně, lidsky a v souvislostech.
+                        Od prvního kontaktu po dlouhodobé sledování. Vysvětlíme, co se děje, a společně vybereme postup, kterému rozumíte.
                     </p>
                     <div class="actions">
-                        <a class="button" href={phoneHref(clinic.phone)}>
-                            Zavolat do ordinace
-                        </a>
-                        <Link
-                            class="button secondary"
-                            href="/ordinacni-hodiny/"
-                        >
-                            Kdy ordinujeme
-                        </Link>
+                        <a class="button" href={phoneHref(clinic.phone)}>Zavolat do ordinace</a>
+                        <Link class="button secondary" href="/informace-pro-pacienty/">Informace pro pacienty</Link>
                     </div>
+                    <ul class="hero-facts">
+                        <li><a href={mapsSearchUrl(clinic)} target="_blank" rel="noopener">Poliklinika Mazurská, {clinic.address.street}</a></li>
+                        <li><a href={`mailto:${clinic.email}`}>{clinic.email}</a></li>
+                    </ul>
                 </div>
-                <ContactPanel {clinic} compact />
+                <WeekCard {week} />
             </div>
         </section>
+
         {
-            pinnedNews.map(({ data }) => (
-                <div class="notice shell">
-                    <div class="notice-inner">
-                        <div>
-                            <strong>{data.title}</strong>
-                            <p>{data.description}</p>
-                        </div>
-                        <Link class="button secondary" href={data.path}>
-                            Více informací
-                        </Link>
+            pinnedNews.length > 0 && (
+                <section class="shell news-panel" aria-labelledby="news-title">
+                    <div class="news-panel-head">
+                        <h2 id="news-title" class="eyebrow">Aktuálně z ordinace</h2>
+                        <Link href="/blog/">Všechny aktuality →</Link>
                     </div>
-                </div>
-            ))
+                    <ul class="news-list">
+                        {pinnedNews.map(({ data }) => (
+                            <li>
+                                <Link class="news-item" href={data.path}>
+                                    <span>
+                                        <strong>{data.title}</strong>
+                                        <p>{data.description}</p>
+                                    </span>
+                                    <span aria-hidden="true">→</span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+            )
         }
+
         <section class="section">
             <div class="shell">
                 <div class="section-heading">
-                    <h2>Péče, která dává smysl</h2>
+                    <div>
+                        <p class="eyebrow">Rozcestník</p>
+                        <h2>Co potřebujete vyřešit?</h2>
+                    </div>
+                    <p>Vyberte oblast a dostaňte se rovnou k praktickým informacím, doporučením k léčbě, prevenci nebo ceníku.</p>
+                </div>
+                <ul class="card-grid card-grid--3">
+                    {topics.map((topic) => <TopicCard {...topic} />)}
+                </ul>
+            </div>
+        </section>
+
+        <section class="section section--violet">
+            <div class="shell">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Pondělí až pátek</p>
+                        <h2>Kdy nás zastihnete</h2>
+                    </div>
                     <p>
-                        Od prvního kontaktu po dlouhodobé sledování. Všechny
-                        důležité informace najdete přehledně na jednom místě.
+                        Časy se liší podle typu návštěvy. Akutní stavy mají vždy přednost, objednaní pacienti chodí podle sjednaného času.
+                        <Link class="section-link" href="/ordinacni-hodiny/">Vše o ordinačních hodinách →</Link>
                     </p>
                 </div>
-                <div class="home-card-grid">
-                    {features.map((feature) => <ArticleCard {...feature} cta="Zjistit více →" />)}
+                <OfficeHours {week} />
+            </div>
+        </section>
+
+        {
+            doctor && (
+                <section class="section">
+                    <div class="shell doctor-intro">
+                        <figure>
+                            <Image src={doctor.portrait} alt={doctor.name} width={560} loading="lazy" />
+                        </figure>
+                        <div>
+                            <p class="eyebrow">Kdo se o vás stará</p>
+                            <blockquote cite="/o-ordinaci/">
+                                <p>
+                                    Zastáváme názor, že velmi dobrá informovanost a znalost zdravotního stavu jsou nedílnou součástí
+                                    léčebně preventivního procesu.
+                                </p>
+                            </blockquote>
+                            <p class="doctor-name">
+                                <strong>{doctor.name}</strong>
+                                <span>{doctor.role}</span>
+                            </p>
+                            <div class="actions">
+                                <Link class="button secondary" href="/o-nas/">Poznejte náš tým</Link>
+                                <Link class="button secondary" href="/o-ordinaci/">Jak pracujeme</Link>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            )
+        }
+
+        <section class="section">
+            <div class="shell equipment-teaser">
+                <div>
+                    <p class="eyebrow">Vybavení ordinace</p>
+                    <h2>Vyšetření přímo u nás</h2>
+                    <p class="lead">Výsledky řady vyšetření máte v rukou během jedné návštěvy, bez odesílání na další pracoviště.</p>
+                </div>
+                <div>
+                    <ul class="chips">
+                        {equipment.toSorted(byOrder).map(({ data }) => <li>{data.name}</li>)}
+                    </ul>
+                    <div class="actions">
+                        <Link class="button secondary" href="/pristroje/">Přehled přístrojů →</Link>
+                    </div>
                 </div>
             </div>
         </section>
-        <section class="section">
-            <div class="shell">
-                <div class="section-heading">
-                    <h2>Co potřebujete vyřešit?</h2>
-                    <p>
-                        Vyberte oblast a rychle se dostaňte k praktickým
-                        informacím, doporučením pro pacienty, vybavení ordinace
-                        nebo prevenci.
-                    </p>
+
+        <section class="section section--ink">
+            <div class="shell contact-band">
+                <div>
+                    <h2>Objednejte se telefonicky</h2>
+                    <a class="contact-phone" href={phoneHref(clinic.phone)}>{clinic.phone}</a>
+                    <div class="actions">
+                        <a class="button" href={phoneHref(clinic.phone)}>Zavolat</a>
+                        <Link class="button secondary" href="/mapa/">Jak se k nám dostanete</Link>
+                    </div>
                 </div>
-                <div class="home-card-grid">
-                    {topics.map((topic) => <ArticleCard {...topic} cta="Prohlédnout →" />)}
-                </div>
+                <dl>
+                    <dt>Adresa</dt>
+                    <dd>
+                        <a href={mapsSearchUrl(clinic)} target="_blank" rel="noopener">
+                            {clinic.address.street}, {clinic.address.postalCode} {clinic.address.locality}
+                        </a>
+                    </dd>
+                    <dt>E-mail</dt>
+                    <dd><a href={`mailto:${clinic.email}`}>{clinic.email}</a></dd>
+                    <dt>Při objednání</dt>
+                    <dd>Sdělte sestřičce stručně důvod návštěvy – pomůže nám to vybrat vhodný čas a omezit čekání.</dd>
+                </dl>
             </div>
         </section>
     </main>

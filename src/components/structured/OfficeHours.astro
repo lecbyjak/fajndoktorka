@@ -1,54 +1,57 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { byOrder } from "../../lib/site";
+// Week schedule as a timeline: one row per day, slots positioned on a 07–20 h
+// axis via CSS custom properties. Collapses to a list below 980px. The client
+// script marks the current day with `.is-today`.
+import { purposeLabels, toHours, type Purpose, type WeekDay } from "../../lib/office-status";
 
 export interface Props {
-    entries: CollectionEntry<"officeHours">[];
+    week: WeekDay[];
 }
 
-const entries = Astro.props.entries.toSorted(byOrder);
-const purposeLabels = {
-    acute: "Akutní pacienti",
-    appointment: "Objednaní pacienti",
-    prebooked: "Pouze předem objednaní",
-    "vaccination-and-sampling": "Očkování a odběry",
-} satisfies Record<CollectionEntry<"officeHours">["data"]["slots"][number]["purpose"], string>;
+const { week } = Astro.props;
+const start = 7;
+const end = 20;
+const ticks = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+const usedPurposes = [...new Set(week.flatMap((day) => day.slots.map((slot) => slot.purpose)))] as Purpose[];
 ---
 
-<section class="schedule-board" aria-labelledby="weekly-schedule-title">
-    <div class="schedule-board-heading">
-        <div>
-            <p class="eyebrow">Pondělí až pátek</p>
-            <h2 id="weekly-schedule-title">Týdenní přehled</h2>
-        </div>
-        <p>
-            Časy se liší podle typu návštěvy. Vyberte den a zkontrolujte
-            správný časový blok.
-        </p>
+<div class="timeline" style={`--start: ${start}; --end: ${end}`}>
+    <div class="timeline-axis" aria-hidden="true">
+        <div></div>
+        <div>{ticks.map((h) => <span style={`--h: ${h}`}>{h}</span>)}</div>
     </div>
-    <div class="schedule-days">
-        {
-            entries.map(({ data }) => (
-                <article class="schedule-day">
-                    <header>
-                        <h3>{data.day}</h3>
-                        <p>
-                            <span>Ordinuje</span>
-                            {data.clinician}
-                        </p>
-                    </header>
-                    <ol class="schedule-slots">
-                        {data.slots.map((slot) => (
-                            <li data-purpose={slot.purpose}>
+    {
+        week.map((day) => (
+            <article class="timeline-row" data-weekday={day.weekday}>
+                <div class="timeline-day">
+                    <h3>
+                        {day.day}
+                        <small>Dnes</small>
+                    </h3>
+                    <p>{day.clinician}</p>
+                </div>
+                <ol class="timeline-track">
+                    {day.slots.map((slot) => {
+                        const hours = toHours(slot.to) - toHours(slot.from);
+                        return (
+                            <li
+                                class:list={["timeline-slot", { "timeline-slot--short": hours < 1.5 }]}
+                                data-purpose={slot.purpose}
+                                style={`--from: ${toHours(slot.from)}; --to: ${toHours(slot.to)}`}
+                                title={purposeLabels[slot.purpose]}
+                            >
                                 <strong>
-                                    <time datetime={slot.from}>{slot.from}</time> – <time datetime={slot.to}>{slot.to}</time>
+                                    <time datetime={slot.from}>{slot.from}</time>–<time datetime={slot.to}>{slot.to}</time>
                                 </strong>
                                 <span>{purposeLabels[slot.purpose]}</span>
                             </li>
-                        ))}
-                    </ol>
-                </article>
-            ))
-        }
-    </div>
-</section>
+                        );
+                    })}
+                </ol>
+            </article>
+        ))
+    }
+    <ul class="timeline-legend">
+        {usedPurposes.map((purpose) => <li data-purpose={purpose}>{purposeLabels[purpose]}</li>)}
+    </ul>
+</div>

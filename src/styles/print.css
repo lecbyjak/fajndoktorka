@@ -1,35 +1,20 @@
 @media print {
   @page { margin: 1.5cm; }
 
-  body {
-    color: #000;
-    background: #fff;
-    font-size: 11pt;
-  }
+  body { color: #000; background: #fff; font-size: 11pt; }
 
-  .site-header,
-  .site-footer,
-  .back-to-top,
-  .side-nav,
-  .actions,
-  .skip-link {
-    display: none !important;
-  }
+  .site-header, .site-footer, .back-to-top, .side-nav, .actions, .skip-link, .office-status, .news-panel, .location-map { display: none !important; }
 
-  .section,
-  .page-hero {
-    padding: 1rem 0;
-    background: none;
-  }
-
+  .section, .hero, .page-hero { padding: 1rem 0; background: none; }
+  .hero::before { display: none; }
+  .section--ink { color: #000; }
   .content-layout { display: block; }
-  .article { max-width: none; }
+  .timeline-slot { background: none; }
 
   a { color: inherit; }
   a[href^='http']::after { content: ' (' attr(href) ')'; font-size: 9pt; }
-  a[href^='tel:']::after,
-  a[href^='mailto:']::after { content: none; }
+  a[href^='tel:']::after, a[href^='mailto:']::after { content: none; }
 
   h1, h2, h3 { break-after: avoid; }
-  img, table, blockquote { break-inside: avoid; }
+  img, table, blockquote, .timeline-row { break-inside: avoid; }
 }

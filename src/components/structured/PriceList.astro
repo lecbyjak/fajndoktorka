@@ -17,9 +17,7 @@ const sections = Map.groupBy(
     {
         [...sections].map(([category, items]) => (
             <section class="price-section">
-                <header>
-                    <h2>{category}</h2>
-                </header>
+                <h2>{category}</h2>
                 {items.map(({ data }) => (
                     <div class="price-row">
                         <span>{data.service}</span>

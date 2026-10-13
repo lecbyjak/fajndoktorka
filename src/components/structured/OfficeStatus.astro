@@ -1,0 +1,19 @@
+---
+// Live open/closed pill, filled in by src/scripts/office-status.ts; hidden without JavaScript.
+import Link from "../navigation/Link.astro";
+
+export interface Props {
+    /** Larger variant for the homepage hero card. */
+    size?: "default" | "large";
+}
+
+const { size = "default" } = Astro.props;
+---
+
+<Link class:list={["office-status", `office-status--${size}`]} href="/ordinacni-hodiny/" data-office-status hidden>
+    <span class="office-status-dot" aria-hidden="true"></span>
+    <span class="office-status-text">
+        <strong data-office-label></strong>
+        <span data-office-detail></span>
+    </span>
+</Link>

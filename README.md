@@ -1,6 +1,6 @@
 # FajnDoktorka
 
-Static [Astro](https://astro.build) website of the FajnDoktorka general practice (Praha 8 – Bohnice). No client framework; the only client script is the mobile menu and back-to-top button.
+Static [Astro](https://astro.build) website of the FajnDoktorka general practice (Praha 8 – Bohnice). No client framework; the only client script handles the mobile menu, the back-to-top button and the live "open now" status.
 
 ## Commands
 
@@ -21,8 +21,8 @@ Almost everything a clinic would change lives in data files validated by schemas
 
 | What | Where |
 | --- | --- |
-| Phone, e-mail, address, IČO, canonical origin | `src/data/site.json` |
-| Office hours (the evening-hours note is derived from `prebooked` slots) | `src/data/office-hours.json` |
+| Phone, e-mail, address, GPS, IČO, canonical origin, meta description | `src/data/site.json` |
+| Office hours (`weekday` 1–7 = Mon–Sun; the evening-hours note is derived from `prebooked` slots) | `src/data/office-hours.json` |
 | Price list (grouped by `category`, sorted by `order`) | `src/data/pricing.json` |
 | Team profiles and portraits (`portrait` is relative to the JSON file) | `src/data/staff.json`, `src/assets/` |
 | Equipment | `src/data/equipment.json` |
@@ -39,7 +39,8 @@ description: "Shown on cards and as the meta description."
 path: "/informace-pro-pacienty/prevence-a-ockovani/chripka/"  # public URL
 category: "prevention"        # medical | prevention | practical | news
 navigationOrder: 50           # order in listings and side navigation
-pinned: true                  # news only: show as a notice on the homepage
+pinned: true                  # news only: show in the "Aktuálně" panel on the homepage
+visible: false                # optional; hides the article everywhere and skips building its page
 sources:                      # optional external links rendered under the article
   - label: "SVL: Chřipka"
     url: "https://…"
@@ -47,17 +48,24 @@ sources:                      # optional external links rendered under the artic
 
 `path` must start with the category prefix defined in `src/lib/articles.ts` (`/post/` for news, `/informace-pro-pacienty/<category-slug>/` otherwise); the schema enforces it. Category titles, slugs, and summaries shown on the homepage and the patient index also live in `src/lib/articles.ts`.
 
+## Design
+
+Type: Instrument Serif for headings, Instrument Sans for everything else (fontsource via Astro's fonts API, static weights, latin + latin-ext for Czech). Palette: pastel lime for emphasis and actions, blue-violet for ink and surfaces; all tokens live at the top of `src/styles/base.css`. Visit types on the schedule are coloured through `[data-purpose]` → `--slot`.
+
+The schedule is rendered three ways from the same data: a week-at-a-glance card in the homepage hero (`WeekCard.astro`), a timeline (`OfficeHours.astro`; one row per day, bars positioned with CSS custom properties, list layout below 980px), and the live status pill in the header (`OfficeStatus.astro`). `BaseLayout` embeds the week as JSON; `src/scripts/office-status.ts` evaluates it in Europe/Prague time (`src/lib/office-status.ts`), fills the pill and marks today's row. Without JavaScript the pill stays hidden and the static schedule remains.
+
 ## Structure
 
 ```
 src/
-  components/      navigation, footer, page building blocks, data-driven sections
+  components/      navigation (header, logo), footer, page building blocks (PageHero, TopicCard, …), data-driven sections
   content/         Markdown articles
   data/            JSON collections (see table above)
   layouts/         BaseLayout (head, header, footer) → LandingLayout | ArticleLayout
-  lib/             site.ts (site data, base-path and contact helpers), articles.ts (categories)
+  lib/             site.ts (site data, base-path and contact helpers), articles.ts (categories),
+                   collections.ts (visible articles, office hours), office-status.ts (open/closed logic)
   pages/           routes; article routes are generated from `path`
-  scripts/site.ts  client behaviour
+  scripts/         client behaviour (site.ts imports office-status.ts)
   styles/          global.css imports base → layout → components → pages → print
 tests/             node:test checks run against dist/
 ```
@@ -67,3 +75,8 @@ Internal links must go through `components/navigation/Link.astro` (or `withBase(
 ## Deployment
 
 Pushing to `main` runs `.github/workflows/astro.yml`: type-check, build, link test, then deploy to GitHub Pages at <https://lecbyjak.github.io/fajndoktorka/>. Switching to the production domain is described at the top of `astro.config.mjs`.
+
+## SEO
+
+- Every page: title `Page | FajnDoktorka`, meta description, canonical on `baseUrl`, Open Graph + `public/og.png` (1200×630), and a `Physician` JSON-LD block with address, `geo`, phone, e-mail, IČO and `openingHoursSpecification` derived from `office-hours.json`.
+- `sitemap-index.xml` (`@astrojs/sitemap`) and `robots.txt` (generated by `src/pages/robots.txt.ts`) follow `site`/`base` from `astro.config.mjs`; both only matter once the site is served from the production domain root.

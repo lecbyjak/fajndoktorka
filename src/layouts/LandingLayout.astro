@@ -6,14 +6,16 @@ import PageHero from "../components/page-content/PageHero.astro";
 export interface Props {
     title: string;
     description: string;
+    /** Intro under the title; defaults to the description. */
+    lead?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, lead = description } = Astro.props;
 ---
 
 <BaseLayout {title} {description}>
     <main id="obsah">
-        <PageHero {title} />
+        <PageHero {title} {lead} />
         <section class="section">
             <div class="shell"><slot /></div>
         </section>

@@ -5,6 +5,7 @@ path: "/post/roušky/"
 category: "news"
 navigationOrder: 10
 pinned: true
+visible: true
 ---
 
 ## Informace pro návštěvu ordinace

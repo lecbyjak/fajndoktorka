@@ -1,0 +1,46 @@
+---
+// Week-at-a-glance card for the homepage hero: live status pill, one line per
+// day with the overall range and a colour strip per visit type.
+import Link from "../navigation/Link.astro";
+import OfficeStatus from "./OfficeStatus.astro";
+import { toHours, type WeekDay } from "../../lib/office-status";
+
+export interface Props {
+    week: WeekDay[];
+}
+
+const { week } = Astro.props;
+---
+
+<aside class="week-card" aria-labelledby="week-card-title">
+    <div class="week-card-head">
+        <h2 id="week-card-title">Ordinační hodiny</h2>
+        <OfficeStatus />
+    </div>
+    <ol class="week-list">
+        {
+            week.map((day) => {
+                const first = day.slots[0];
+                const last = day.slots.at(-1);
+                return (
+                    <li data-weekday={day.weekday}>
+                        <abbr title={day.day}>{day.day.slice(0, 2)}</abbr>
+                        <span class="week-slots" aria-hidden="true">
+                            {day.slots.map((slot) => (
+                                <span class="week-slot" data-purpose={slot.purpose} style={`flex: ${toHours(slot.to) - toHours(slot.from)}`} />
+                            ))}
+                        </span>
+                        <span>
+                            <strong>{first && last ? `${first.from}–${last.to}` : "Zavřeno"}</strong>
+                            <small>{day.clinician}</small>
+                        </span>
+                    </li>
+                );
+            })
+        }
+    </ol>
+    <div class="week-card-foot">
+        <span>Objednejte se prosím předem.</span>
+        <Link href="/ordinacni-hodiny/">Podrobný rozpis →</Link>
+    </div>
+</aside>

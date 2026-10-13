@@ -1,42 +1,42 @@
-// Site-wide client behaviour: mobile navigation toggle and the back-to-top button.
-// `export {}` makes this a module so its top-level constants stay file-scoped.
-export {};
+// Site-wide client behaviour: mobile navigation, back-to-top, live office status.
+import "./office-status";
 
-const menuButton = document.querySelector<HTMLButtonElement>('.menu-toggle');
-const navigation = document.querySelector<HTMLElement>('#site-navigation');
+const menuButton = document.querySelector<HTMLButtonElement>(".menu-toggle");
+const navigation = document.querySelector<HTMLElement>("#site-navigation");
 
-function closeMenu({ restoreFocus = false } = {}) {
-  if (!menuButton || !navigation) return;
-  menuButton.setAttribute('aria-expanded', 'false');
-  menuButton.setAttribute('aria-label', 'Otevřít menu');
-  navigation.dataset.open = 'false';
-  if (restoreFocus) menuButton.focus();
+function setMenu(open: boolean) {
+    if (!menuButton || !navigation) return;
+    menuButton.setAttribute("aria-expanded", String(open));
+    menuButton.setAttribute("aria-label", open ? "Zavřít menu" : "Otevřít menu");
+    navigation.dataset.open = String(open);
+    document.documentElement.classList.toggle("menu-open", open);
 }
 
-menuButton?.addEventListener('click', () => {
-  if (!navigation) return;
-  const willOpen = menuButton.getAttribute('aria-expanded') !== 'true';
-  menuButton.setAttribute('aria-expanded', String(willOpen));
-  menuButton.setAttribute('aria-label', willOpen ? 'Zavřít menu' : 'Otevřít menu');
-  navigation.dataset.open = String(willOpen);
+menuButton?.addEventListener("click", () => {
+    setMenu(menuButton.getAttribute("aria-expanded") !== "true");
 });
 
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') {
-    closeMenu({ restoreFocus: true });
-  }
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menuButton?.getAttribute("aria-expanded") === "true") {
+        setMenu(false);
+        menuButton.focus();
+    }
 });
 
-navigation?.addEventListener('click', (event) => {
-  if (event.target instanceof Element && event.target.closest('a')) closeMenu();
+navigation?.addEventListener("click", (event) => {
+    if (event.target instanceof Element && event.target.closest("a")) setMenu(false);
 });
 
-const backToTop = document.querySelector<HTMLButtonElement>('.back-to-top');
-window.addEventListener('scroll', () => {
-  backToTop?.classList.toggle('is-visible', window.scrollY > 700);
-}, { passive: true });
+const backToTop = document.querySelector<HTMLButtonElement>(".back-to-top");
+window.addEventListener(
+    "scroll",
+    () => {
+        backToTop?.classList.toggle("is-visible", window.scrollY > 700);
+    },
+    { passive: true },
+);
 
-backToTop?.addEventListener('click', () => {
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+backToTop?.addEventListener("click", () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
 });

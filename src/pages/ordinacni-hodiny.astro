@@ -1,17 +1,17 @@
 ---
-import { getCollection } from "astro:content";
 import LandingLayout from "../layouts/LandingLayout.astro";
 import OfficeHours from "../components/structured/OfficeHours.astro";
-import { byOrder, getSite, phoneHref } from "../lib/site";
+import { getWeek } from "../lib/collections";
+import { getSite, phoneHref } from "../lib/site";
 
-const [entries, site] = await Promise.all([getCollection("officeHours"), getSite()]);
+const [week, site] = await Promise.all([getWeek(), getSite()]);
 
 // The evening note is derived from the "prebooked" slots so it cannot drift from the schedule.
 const listFormat = new Intl.ListFormat("cs", { type: "conjunction" });
-const eveningSlots = entries.toSorted(byOrder).flatMap(({ data }) =>
-    data.slots
+const eveningSlots = week.flatMap((day) =>
+    day.slots
         .filter((slot) => slot.purpose === "prebooked")
-        .map((slot) => ({ day: data.day.toLocaleLowerCase("cs"), time: `${slot.from}–${slot.to}` })),
+        .map((slot) => ({ day: day.day.toLocaleLowerCase("cs"), time: `${slot.from}–${slot.to}` })),
 );
 const eveningDays = listFormat.format([...new Set(eveningSlots.map(({ day }) => day))]);
 const eveningTimes = listFormat.format(eveningSlots.map(({ day, time }) => `${day} ${time}`));
@@ -25,10 +25,7 @@ const eveningTimes = listFormat.format(eveningSlots.map(({ day, time }) => `${da
         <div>
             <p class="eyebrow">Před návštěvou</p>
             <h2 id="schedule-intro-title">Objednejte se prosím předem</h2>
-            <p>
-                Při telefonickém objednání sdělte sestřičce stručně důvod
-                návštěvy. Pomůže nám to vybrat vhodný čas a omezit čekání.
-            </p>
+            <p>Při telefonickém objednání sdělte sestřičce stručně důvod návštěvy. Pomůže nám to vybrat vhodný čas a omezit čekání.</p>
         </div>
         <div class="schedule-contact">
             <span>Telefonické objednání</span>
@@ -36,24 +33,24 @@ const eveningTimes = listFormat.format(eveningSlots.map(({ day, time }) => `${da
             <small>V ordinační době</small>
         </div>
     </section>
-    <OfficeHours {entries} />
+    <section aria-labelledby="weekly-schedule-title">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Pondělí až pátek</p>
+                <h2 id="weekly-schedule-title">Týdenní přehled</h2>
+            </div>
+            <p>Časy se liší podle typu návštěvy. Najděte svůj den a správný časový blok.</p>
+        </div>
+        <OfficeHours {week} />
+    </section>
     <section class="schedule-meta" aria-label="Důležité informace k návštěvě">
-        <div class="patient-order-compact">
+        <div class="patient-order">
             <p class="eyebrow">Při příchodu</p>
             <h2>Pořadí ošetření</h2>
             <ol>
-                <li>
-                    <span>Velmi akutní stavy</span>
-                    <small>Mají vždy přednost.</small>
-                </li>
-                <li>
-                    <span>Objednaní pacienti</span>
-                    <small>Podle sjednaného času.</small>
-                </li>
-                <li>
-                    <span>Neobjednaní pacienti</span>
-                    <small>Podle aktuální kapacity ordinace.</small>
-                </li>
+                <li><span>Velmi akutní stavy</span><small>Mají vždy přednost.</small></li>
+                <li><span>Objednaní pacienti</span><small>Podle sjednaného času.</small></li>
+                <li><span>Neobjednaní pacienti</span><small>Podle aktuální kapacity ordinace.</small></li>
             </ol>
         </div>
         {
@@ -62,16 +59,9 @@ const eveningTimes = listFormat.format(eveningSlots.map(({ day, time }) => `${da
                     <p class="eyebrow">{eveningDays}</p>
                     <h2>Večerní ordinace</h2>
                     <p>
-                        <strong>
-                            Vyhrazeno pro preventivní prohlídky a kontroly
-                            pracujících a studujících klientů: {eveningTimes}.
-                        </strong>
+                        <strong>Vyhrazeno pro preventivní prohlídky a kontroly pracujících a studujících klientů: {eveningTimes}.</strong>
                     </p>
-                    <p>
-                        Lékař je přítomen pouze podle objednání a bez sestry.
-                        Tyto hodiny nejsou určené pro telefonické konzultace ani
-                        předpisy léků.
-                    </p>
+                    <p>Lékař je přítomen pouze podle objednání a bez sestry. Tyto hodiny nejsou určené pro telefonické konzultace ani předpisy léků.</p>
                 </div>
             )
         }
