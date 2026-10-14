@@ -1,10 +1,10 @@
-<!-- Concept 6: Final — combination of 03 hero+sheet, 01 logo/contact/footer, 02 today card/lists/tab bar -->
+<!-- Concept 6: Final — combination of 03 hero+sheet, 01 logo/contact/footer, 02 today card/lists/tab bar; light theme matching the live site (lavender hero with lime/violet glows, white sheet, ink "Dnes" card and ink contact card as the two dark focal surfaces) -->
 <!doctype html>
 <html lang="cs">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2c2a7d">
+<meta name="theme-color" content="#f1effd">
 <title>FajnDoktorka – koncept 6: Finální kombinace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,100 +38,115 @@ ul{list-style:none;margin:0;padding:0}
 img{max-width:100%;display:block}
 a{color:inherit;touch-action:manipulation}
 :focus-visible{outline:3px solid var(--violet);outline-offset:2px}
-.hero :focus-visible,.contact :focus-visible{outline-color:#fff}
+.contact :focus-visible{outline-color:#fff}
 .i,.ic{width:1.5rem;height:1.5rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 .chev{width:1.25rem;height:1.25rem;color:var(--line-strong)}
 .sprite{position:absolute;width:0;height:0;overflow:hidden}
 
-/* ---------- Hero (03) with the logo from 01 ---------- */
+/* ---------- Hero (03) with the logo from 01; lavender with the live site's lime/violet glows ---------- */
 .hero{
-  position:relative;display:flex;flex-direction:column;gap:1.75rem;
-  padding:calc(env(safe-area-inset-top) + .875rem) var(--gutter) 4rem;color:#fff;
-  background:
-    radial-gradient(80% 50% at 100% 0%,rgb(255 255 255/14%),transparent 65%),
-    linear-gradient(165deg,var(--violet-ink) 0%,var(--violet) 100%);
+  position:relative;isolation:isolate;display:flex;flex-direction:column;gap:1.75rem;
+  padding:0 var(--gutter) 5.5rem;color:var(--ink);background:var(--violet-pastel);
 }
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.hero::before{
+  content:"";position:absolute;z-index:-1;inset:0;
+  background:
+    radial-gradient(42rem 28rem at 88% 12%,var(--lime-pastel),transparent 70%),
+    radial-gradient(36rem 26rem at 8% 100%,var(--violet-soft),transparent 70%);
+}
+.topbar{
+  position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  margin:0 calc(-1 * var(--gutter));padding:calc(env(safe-area-inset-top) + .875rem) var(--gutter) .625rem;
+  border-bottom:1px solid var(--line);background:rgb(248 248 253/88%);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+}
 .brand{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;font:400 1.4rem/1 var(--serif);letter-spacing:-.012em;color:var(--ink);text-decoration:none}
-.hero .brand{color:#fff}
 .brand-mark{width:1.5rem;height:1.5rem;border-radius:.5rem;background:var(--lime);display:grid;place-items:center;color:var(--ink)}
 .brand-mark .i{width:14px;height:14px;stroke-width:2.75}
 .hero-body{display:flex;flex-direction:column;align-items:flex-start;gap:1rem}
-.hero .eyebrow{font-size:.875rem;font-weight:600;color:var(--lime-soft)}
-.hero h1{font-size:2.6rem;color:#fff;max-width:11em}
-.hero h1 em{font-style:italic;color:var(--lime)}
-.lead{font-size:1.0625rem;color:rgb(255 255 255/85%);max-width:34ch}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:.55rem;margin:0;color:var(--violet-ink);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.hero .eyebrow::before{content:"";width:1.5rem;height:2px;flex:none;border-radius:2px;background:var(--lime)}
+.hero h1{font-size:2.6rem;color:var(--ink);max-width:11em}
+.hero h1 em{padding-inline:.06em;background:linear-gradient(transparent 58%,var(--lime-soft) 58%);font-style:italic}
+.lead{font-size:1.0625rem;color:var(--ink-2);max-width:34ch}
 .status{flex:none;margin:0;
   display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .9rem .4rem .65rem;border-radius:999px;
-  background:rgb(255 255 255/15%);font-size:.875rem;font-weight:600;
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  background:var(--lime-pastel);color:var(--lime-ink);font-size:.875rem;font-weight:600;
 }
-.status .dot{position:relative;width:.5625rem;height:.5625rem;border-radius:50%;background:var(--lime);flex:none}
-.status .dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--lime);opacity:0;animation:pulse 2.4s ease-out infinite}
+.status .dot{position:relative;width:.5625rem;height:.5625rem;border-radius:50%;background:var(--slot-appointment);flex:none}
+.status .dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--slot-appointment);opacity:0;animation:pulse 2.4s ease-out infinite}
 @keyframes pulse{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.6);opacity:0}}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:.625rem;min-height:3.25rem;padding:0 1.5rem;
-  border:0;border-radius:999px;font:inherit;font-weight:600;text-decoration:none;cursor:pointer;
+  border:1px solid transparent;border-radius:999px;font:inherit;font-weight:600;text-decoration:none;cursor:pointer;
 }
-.btn-primary{background:var(--lime);color:var(--ink);box-shadow:0 10px 30px rgb(0 0 0/18%)}
+.btn-primary{background:var(--lime);color:var(--ink)}
 .btn-primary:hover{background:var(--lime-hover)}
 
-/* ---------- Sheet (03) ---------- */
+/* ---------- Sheet (03): white panel rising over the lavender hero ---------- */
 .sheet{
   position:relative;z-index:1;margin-top:-2rem;padding:.75rem 1rem 2rem;border-radius:2rem 2rem 0 0;
-  background:var(--paper);box-shadow:0 -16px 40px rgb(27 30 60/25%);
+  border-top:1px solid var(--line);background:var(--surface);box-shadow:0 -12px 40px rgb(27 30 60/10%);
 }
 .grabber{width:2.5rem;height:.3125rem;margin:0 auto 1.5rem;border-radius:999px;background:var(--line-strong)}
 
-/* ---------- Today (02) ---------- */
+/* ---------- Today (02): the ink focal card; title/date stay ink-on-white above it ---------- */
 .today{font-size:2.5rem;margin:0 0 .125rem}
 .date{margin:0 0 1rem;color:var(--muted);font-size:.9375rem}
 .today-card{
-  display:grid;gap:1rem;padding:1.125rem;border-radius:var(--radius);color:#fff;
-  background:radial-gradient(120% 90% at 100% 0%,#2e2b7e 0%,var(--ink) 60%);
+  display:grid;gap:1rem;padding:1.125rem;border:0;border-radius:var(--radius);color:var(--paper);
+  background:
+    radial-gradient(60% 50% at 100% 0%,rgb(91 79 217/35%),transparent 70%),
+    var(--ink);
   box-shadow:var(--shadow);
 }
+.today-card :focus-visible{outline-color:#fff}
 .card-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
-.live{display:inline-flex;align-items:center;gap:.5rem;margin:0;padding:.375rem .75rem .375rem .5625rem;border-radius:999px;background:rgb(255 255 255/10%);border:1px solid rgb(255 255 255/14%);font-size:.875rem;font-weight:600;white-space:nowrap}
+.live{display:inline-flex;align-items:center;gap:.5rem;margin:0;padding:.375rem .75rem .375rem .5625rem;border-radius:999px;background:rgb(255 255 255/12%);border:1px solid transparent;color:#fff;font-size:.875rem;font-weight:600;white-space:nowrap}
 .live-dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--slot-appointment);box-shadow:0 0 0 0 rgb(121 201 39/55%);animation:live-pulse 2.2s ease-out infinite}
 @keyframes live-pulse{to{box-shadow:0 0 0 .5rem rgb(121 201 39/0%)}}
-.week-link{display:inline-flex;align-items:center;gap:.125rem;font-size:.8125rem;font-weight:500;color:rgb(255 255 255/82%);text-decoration:none;white-space:nowrap;min-height:2.75rem}
+.week-link{display:inline-flex;align-items:center;gap:.125rem;font-size:.8125rem;font-weight:500;color:rgb(248 248 253/80%);text-decoration:none;white-space:nowrap;min-height:2.75rem}
+.week-link:hover{color:#fff}
 .week-link .i{width:1.125rem;height:1.125rem}
-.week-link:focus-visible{outline-color:var(--lime)}
 
-.tl-bar{position:relative;display:grid;grid-template-columns:5fr 6fr 2fr;gap:2px;height:.75rem;border-radius:999px;overflow:hidden}
+.tl-bar{position:relative;display:grid;grid-template-columns:5fr 6fr 2fr;gap:2px;height:.75rem;border-radius:999px;background:rgb(255 255 255/14%);overflow:hidden}
 .seg-acute{background:var(--slot-acute)}
 .seg-appointment{background:var(--slot-appointment)}
 .seg-vaccination{background:var(--slot-vaccination)}
-.tl-now{position:absolute;top:-.125rem;bottom:-.125rem;width:2px;background:#fff;box-shadow:0 0 0 1px rgb(27 30 60/40%)}
-.tl-ticks{position:relative;height:1rem;margin-top:.375rem;font-size:.6875rem;font-weight:500;color:rgb(255 255 255/72%);font-variant-numeric:tabular-nums}
+.tl-now{position:absolute;top:-.125rem;bottom:-.125rem;width:2px;background:#fff;box-shadow:0 0 0 1px var(--ink)}
+.tl-ticks{position:relative;height:1rem;margin-top:.375rem;font-size:.6875rem;font-weight:500;color:rgb(248 248 253/60%);font-variant-numeric:tabular-nums}
 .tl-ticks span{position:absolute;top:0;transform:translateX(-50%)}
 .tl-ticks span:first-child{transform:none}
 .tl-ticks span:last-child{left:auto;right:0;transform:none}
-.tl-legend{display:flex;flex-wrap:wrap;gap:.375rem .875rem;margin-top:.375rem;font-size:.75rem;color:rgb(255 255 255/82%)}
+.tl-legend{display:flex;flex-wrap:wrap;gap:.375rem .875rem;margin-top:.375rem;font-size:.75rem;color:rgb(248 248 253/85%)}
 .tl-legend li{display:inline-flex;align-items:center;gap:.375rem}
 .tl-legend i{width:.5rem;height:.5rem;border-radius:50%}
 
-.clinician{display:flex;align-items:center;gap:.5rem;margin:0;font-size:.9375rem;color:rgb(255 255 255/82%)}
-.clinician strong{color:#fff;font-weight:600}
+.clinician{display:flex;align-items:center;gap:.5rem;margin:0;font-size:.9375rem;color:var(--paper)}
+.clinician strong{color:var(--paper);font-weight:600}
 .clinician .i{color:var(--lime)}
 
 .today-card .btn{display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:3.25rem;padding:.75rem 1.25rem;border-radius:999px;background:var(--lime);color:var(--ink);font-weight:600;font-size:1rem;text-decoration:none;font-variant-numeric:tabular-nums}
 .today-card .btn:hover{background:var(--lime-hover)}
-.today-card .btn:focus-visible{outline-color:#fff}
 
 /* ---------- Inset grouped lists (02) ---------- */
 .sec{margin-top:1.75rem}
+.sec + .sec{margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--line)}
+.sec.contact{margin-top:1.75rem;padding-top:1.4rem;border-top:0}
 .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:.75rem;padding:0 .25rem .625rem}
 .sec-h h2{font-size:1.5rem}
 .sec-h a{font-size:.875rem;font-weight:600;color:var(--violet);text-decoration:none;min-height:2.75rem;display:inline-flex;align-items:center}
-.group{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow-small);overflow:hidden}
+.group{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-small);overflow:hidden}
 .group + .group{margin-top:.75rem}
 .row{position:relative;display:flex;align-items:center;gap:.75rem;min-height:3.5rem;padding:.75rem 1rem;color:inherit;text-decoration:none}
 .row + .row::before{content:"";position:absolute;top:0;right:0;left:1rem;border-top:1px solid var(--line)}
 .group-icons .row + .row::before{left:4rem}
 .row:focus-visible{outline-offset:-3px}
 @media (hover:hover){.row:hover{background:var(--violet-pastel)}}
+/* Aktuálně: the live news panel (violet-pastel, violet-soft hairlines). */
+[aria-labelledby="news-h"] .group{background:var(--violet-pastel);border-color:var(--violet-soft);box-shadow:none}
+[aria-labelledby="news-h"] .row + .row::before{border-top-color:var(--violet-soft)}
+@media (hover:hover){[aria-labelledby="news-h"] .row:hover{background:var(--violet-soft)}}
 .row-ico{width:2.25rem;height:2.25rem;flex:none;border-radius:.625rem;display:grid;place-items:center;background:var(--violet-pastel);color:var(--violet-ink)}
 .row-ico.is-lime{background:var(--lime-pastel);color:var(--lime-ink)}
 .row-ico.is-blue{background:var(--blue-soft);color:#1d4f9c}
@@ -146,19 +161,19 @@ a{color:inherit;touch-action:manipulation}
 .avatar{width:3.5rem;height:3.5rem;flex:none;border-radius:50%;object-fit:cover;object-position:50% 20%;background:var(--violet-soft)}
 .quote{margin:0;padding:.875rem 1rem 1rem;border-top:1px solid var(--line);font-family:var(--serif);font-style:italic;font-size:1.0625rem;line-height:1.35;letter-spacing:-.012em;color:var(--ink-2)}
 
-/* ---------- Contact (01) + quick actions (03) ---------- */
-.contact{background:var(--violet-ink);color:#fff;border-radius:var(--radius);padding:1.4rem 1.2rem;box-shadow:var(--shadow)}
-.contact .eyebrow{display:flex;align-items:center;gap:.6rem;margin:0 0 .75rem;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--violet-soft)}
-.contact .eyebrow::before{content:"";width:1.5rem;height:3px;border-radius:2px;background:var(--lime);flex:none}
+/* ---------- Contact (01) + quick actions (03): the one dark surface, like the live contact band ---------- */
+.contact{background:var(--ink);color:var(--paper);border-radius:var(--radius);padding:1.4rem 1.2rem;box-shadow:var(--shadow)}
+.contact .eyebrow{display:flex;align-items:center;gap:.6rem;margin:0 0 .75rem;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgb(248 248 253/60%)}
+.contact .eyebrow::before{content:"";width:1.5rem;height:2px;border-radius:2px;background:var(--lime);flex:none}
 .contact h2{margin:0 0 .5rem;font:400 1.75rem/1.1 var(--serif);letter-spacing:-.012em}
-.contact .note{margin:0 0 1rem;font-size:.92rem;line-height:1.45;color:var(--violet-soft)}
+.contact .note{margin:0 0 1rem;font-size:.92rem;line-height:1.45;color:rgb(248 248 253/75%)}
 .contact .btn{width:100%}
 .contact .btn .i{width:20px;height:20px;stroke-width:2}
-.contact .btn-primary{box-shadow:none}
 .contact-list{list-style:none;margin:1.1rem 0 0;padding:0;display:grid;gap:.35rem;font-size:.9rem;line-height:1.45}
 .contact-list li{display:grid;grid-template-columns:20px 1fr;gap:.6rem;align-items:start;padding:.4rem 0}
 .contact-list .i{width:20px;height:20px;margin-top:.15rem;color:var(--lime)}
-.contact-list a{color:#fff;font-weight:600;text-decoration:underline;text-decoration-color:rgb(255 255 255/.4);text-underline-offset:.2em;display:inline-block;padding:.25rem 0}
+.contact-list a{color:var(--paper);font-weight:600;text-decoration:underline;text-decoration-color:var(--lime-soft);text-underline-offset:.2em;display:inline-block;padding:.25rem 0}
+.contact-list a:hover{color:var(--lime)}
 .contact-list a:focus-visible{outline-color:var(--lime)}
 
 /* ---------- Footer (01) ---------- */
@@ -204,7 +219,7 @@ a{color:inherit;touch-action:manipulation}
       <p class="status"><span class="dot" aria-hidden="true"></span>Otevřeno · do 14:00</p>
     </div>
     <div class="hero-body">
-      <p class="eyebrow">Ordinace praktického lékaře · Praha 8 – Bohnice</p>
+      <p class="eyebrow">Praktický lékař · Praha 8 – Bohnice</p>
       <h1>Praktická péče srozumitelně, <em>lidsky</em> a v souvislostech.</h1>
       <p class="lead">Od prvního kontaktu po dlouhodobé sledování. Vysvětlíme, co se děje, a společně vybereme postup, kterému rozumíte.</p>
     </div>

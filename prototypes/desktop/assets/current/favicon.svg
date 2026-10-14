@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FajnDoktorka">
+  <rect width="64" height="64" rx="20" fill="#98ec32" />
+  <rect x="26" y="13" width="12" height="38" rx="6" fill="#1b1e3c" />
+  <rect x="13" y="26" width="38" height="12" rx="6" fill="#1b1e3c" />
+  <circle cx="32" cy="32" r="4.5" fill="#98ec32" />
+</svg>

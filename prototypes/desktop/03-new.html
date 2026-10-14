@@ -1,0 +1,484 @@
+<!-- Desktop 03: new design, desktop counterpart of mobile/06-final -->
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8f8fd">
+<title>FajnDoktorka – desktop 03: Nový návrh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b1e3c;--ink-2:#363a62;--muted:#61668a;--paper:#f8f8fd;--surface:#fff;
+  --lime:#98ec32;--lime-hover:#a8f24d;--lime-soft:#d6f7a4;--lime-pastel:#edfbd8;--lime-ink:#2f5a0c;
+  --violet:#5b4fd9;--violet-ink:#2c2a7d;--violet-soft:#e5e2fb;--violet-pastel:#f1effd;--blue-soft:#dfe9fc;
+  --line:#e1e1f1;--line-strong:#c4c4e1;
+  --slot-acute:#6c5ce7;--slot-appointment:#79c927;--slot-vaccination:#3c8cf0;--slot-prebooked:#ad6ad6;
+  --shadow:0 24px 60px rgb(27 30 60/10%);--shadow-small:0 6px 24px rgb(27 30 60/6%);
+  --radius:1.25rem;--radius-sm:.75rem;
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --content:76rem;--gutter:2.5rem;--header-h:4.75rem;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:var(--header-h)}
+body{
+  margin:0;font:400 1rem/1.5 var(--sans);color:var(--ink);background:var(--paper);
+  -webkit-font-smoothing:antialiased;overflow-x:clip;
+}
+h1,h2,h3{margin:0;font-family:var(--serif);font-weight:400;line-height:1.05;letter-spacing:-.012em}
+p{margin:0}
+ul{list-style:none;margin:0;padding:0}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.contact :focus-visible{outline-color:var(--lime)}
+.i,.ic{width:1.5rem;height:1.5rem;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.chev{width:1.25rem;height:1.25rem;color:var(--line-strong)}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.wrap{width:min(100% - 2 * var(--gutter),var(--content));margin-inline:auto}
+.eyebrow{display:inline-flex;align-items:center;gap:.55rem;margin:0;font-family:var(--sans);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--violet-ink)}
+.eyebrow::before{content:"";width:1.5rem;height:2px;border-radius:2px;background:var(--lime);flex:none}
+
+/* ---------- Sticky header: paper, blurred, hairline underneath (as live) ---------- */
+.topbar{
+  position:sticky;top:0;z-index:20;color:var(--ink);
+  border-bottom:1px solid var(--line);background:rgb(248 248 253 / 88%);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+}
+.topbar-inner{display:flex;align-items:center;gap:1.25rem;min-height:var(--header-h)}
+.brand{display:inline-flex;align-items:center;gap:.625rem;min-height:2.75rem;font:400 1.5rem/1 var(--serif);letter-spacing:-.012em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand-mark{width:1.75rem;height:1.75rem;border-radius:.5625rem;background:var(--lime);display:grid;place-items:center;color:var(--ink)}
+.brand-mark .i{width:16px;height:16px;stroke-width:2.75}
+.nav{display:flex;align-items:center;gap:.125rem;margin-inline:auto}
+.nav a{display:inline-flex;align-items:center;min-height:2.75rem;padding:0 .6875rem;border-radius:.625rem;color:var(--ink-2);font-size:.9375rem;font-weight:500;text-decoration:none;white-space:nowrap;transition:background-color .15s,color .15s}
+.nav a:hover{color:var(--ink);background:var(--violet-pastel)}
+.nav a[aria-current="page"]{color:var(--violet)}
+.topbar-actions{display:flex;align-items:center;gap:.75rem;flex:none}
+.status{flex:none;margin:0;
+  display:inline-flex;align-items:center;gap:.5rem;padding:.4rem .9rem .4rem .65rem;border-radius:999px;
+  background:var(--lime-pastel);color:var(--lime-ink);font-size:.875rem;font-weight:600;white-space:nowrap;
+}
+.status .dot{position:relative;width:.5625rem;height:.5625rem;border-radius:50%;background:var(--lime);flex:none}
+.status .dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--lime);opacity:0;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.6);opacity:.8}100%{transform:scale(1.6);opacity:0}}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:3rem;padding:.75rem 1.35rem;
+  border:1px solid transparent;border-radius:99px;background:var(--lime);color:var(--ink);
+  font:inherit;font-size:.95rem;font-weight:600;line-height:1.2;text-decoration:none;cursor:pointer;white-space:nowrap;
+  font-variant-numeric:tabular-nums;transition:background-color .15s,transform .15s,box-shadow .15s;
+}
+.btn:hover{color:var(--ink);background:var(--lime-hover);box-shadow:0 8px 20px rgb(121 201 39 / 25%);transform:translateY(-1px)}
+.btn .i{width:1.25rem;height:1.25rem;stroke-width:2}
+.topbar .btn{min-height:2.75rem;padding:.5rem 1.125rem;font-size:.9375rem}
+
+/* ---------- Hero: lavender with lime/violet glows (as live) ---------- */
+.hero{position:relative;color:var(--ink);padding:3rem 0 6rem}
+/* No isolation: the today card must keep floating over the sheet, so the glows sit at z -1 under the hero's flow content. */
+.hero::before{content:"";position:absolute;z-index:-1;inset:0;background:
+  radial-gradient(42rem 28rem at 88% 12%,var(--lime-pastel),transparent 70%),
+  radial-gradient(36rem 26rem at 8% 100%,var(--violet-soft),transparent 70%),
+  var(--violet-pastel)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:4rem;align-items:end}
+.hero-copy{display:flex;flex-direction:column;align-items:flex-start;gap:1.25rem;align-self:center;padding-bottom:1rem}
+.hero h1{font-size:clamp(3.6rem,2.4rem + 1.7vw,4.4rem);color:var(--ink);max-width:12em}
+.hero h1 em{padding-inline:.06em;background:linear-gradient(transparent 58%,var(--lime-soft) 58%);font-style:italic}
+.lead{font-size:1.125rem;color:var(--ink-2);max-width:44ch}
+
+/* ---------- Today card: ink focal object floating over the sheet edge ---------- */
+.today-card{
+  position:relative;z-index:2;margin-bottom:-3rem;
+  display:grid;gap:1.25rem;padding:1.75rem;border:0;border-radius:var(--radius);color:var(--paper);
+  background:radial-gradient(60% 50% at 100% 0%,rgb(91 79 217 / 35%),transparent 70%),var(--ink);box-shadow:var(--shadow);
+}
+.today-card :focus-visible{outline-color:#fff}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.today{font-size:2.125rem;margin:0 0 .25rem;color:#fff}
+.date{margin:0;color:rgb(248 248 253 / 70%);font-size:.9375rem}
+.week-link{display:inline-flex;align-items:center;gap:.125rem;font-size:.875rem;font-weight:500;color:rgb(248 248 253 / 80%);text-decoration:none;white-space:nowrap;min-height:2.75rem;border-radius:.5rem;transition:color .15s}
+.week-link .i{width:1.125rem;height:1.125rem}
+.week-link:hover{color:#fff;text-decoration:underline;text-underline-offset:.2em}
+
+.tl-bar{position:relative;display:grid;grid-template-columns:5fr 6fr 2fr;gap:2px;height:.75rem;border-radius:999px;background:rgb(255 255 255 / 14%);overflow:hidden}
+.seg-acute{background:var(--slot-acute)}
+.seg-appointment{background:var(--slot-appointment)}
+.seg-vaccination{background:var(--slot-vaccination)}
+.tl-now{position:absolute;top:-.125rem;bottom:-.125rem;width:2px;background:#fff;box-shadow:0 0 0 1px var(--ink)}
+.tl-ticks{position:relative;height:1rem;margin-top:.375rem;font-size:.6875rem;font-weight:500;color:rgb(248 248 253 / 60%);font-variant-numeric:tabular-nums}
+.tl-ticks span{position:absolute;top:0;transform:translateX(-50%)}
+.tl-ticks span:first-child{transform:none}
+.tl-ticks span:last-child{left:auto;right:0;transform:none}
+.tl-legend{display:flex;flex-wrap:wrap;gap:.375rem .875rem;margin-top:.375rem;font-size:.75rem;color:rgb(248 248 253 / 85%)}
+.tl-legend li{display:inline-flex;align-items:center;gap:.375rem}
+.tl-legend i{width:.5rem;height:.5rem;border-radius:50%}
+
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.clinician{display:flex;align-items:center;gap:.5rem;margin:0;font-size:.9375rem;color:var(--paper)}
+.clinician strong{color:#fff;font-weight:600}
+.clinician .i{color:var(--lime)}
+.today-card .btn{display:flex;min-height:3.25rem;font-size:1rem}
+
+/* ---------- Sheet: white panel rising over the lavender hero ---------- */
+.sheet{
+  position:relative;z-index:1;margin-top:-4rem;padding:5.5rem 0 0;border-top:1px solid var(--line);border-radius:2rem 2rem 0 0;
+  background:var(--surface);box-shadow:0 -12px 40px rgb(27 30 60 / 10%);
+}
+.sheet .wrap > * + *{margin-top:3.5rem}
+.sheet .sec + .sec:not(.contact){margin-top:1.75rem;padding-top:1.75rem;border-top:1px solid var(--line)}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:.75rem;padding:0 .25rem .875rem}
+.sec-h h2{font-size:1.75rem}
+.sec-h a{font-size:.9375rem;font-weight:600;color:var(--violet);text-decoration:none;min-height:2.75rem;display:inline-flex;align-items:center}
+.sec-h a:hover{text-decoration:underline;text-underline-offset:.2em}
+
+/* ---------- Aktuálně: full-width panel ---------- */
+.news-panel{padding:1.25rem 1.5rem;border:1px solid var(--violet-soft);border-radius:var(--radius);background:var(--violet-pastel)}
+.news-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1rem;padding-bottom:.5rem;border-bottom:1px solid var(--violet-soft)}
+.news-head a{display:inline-flex;align-items:center;min-height:2.75rem;font-size:.9375rem;font-weight:500;color:var(--violet);text-decoration:none}
+.news-head a:hover{color:var(--violet-ink);text-decoration:underline;text-underline-offset:.2em}
+.news-list{margin-top:.25rem}
+.news-list li + li{border-top:1px solid var(--violet-soft)}
+.news-item{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:1.5rem;margin:0 -.75rem;padding:.9rem .75rem;border-radius:var(--radius-sm);color:var(--ink);text-decoration:none;transition:background-color .15s}
+.news-item:focus-visible{outline-offset:-3px}
+.news-title{display:flex;align-items:center;gap:.5rem;font-weight:600;line-height:1.3}
+.news-desc{display:block;margin-top:.15rem;font-size:.95rem;color:var(--ink-2)}
+.news-arrow{font-size:1.2rem;color:var(--violet-ink);transition:transform .15s}
+.news-item:hover{background:var(--violet-soft)}
+.news-item:hover .news-title{text-decoration:underline;text-underline-offset:.18em}
+.news-item:hover .news-arrow{transform:translateX(3px)}
+.badge{display:inline-block;padding:.0625rem .4375rem;border-radius:999px;background:var(--lime-soft);color:var(--lime-ink);font-size:.6875rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;line-height:1.4}
+
+/* ---------- Rozcestník: 6 topic cards ---------- */
+.section-heading{display:grid;grid-template-columns:minmax(16rem,.9fr) minmax(0,1.1fr);align-items:end;gap:clamp(1.5rem,5vw,5rem);margin-bottom:2rem}
+.section-heading h2{margin-top:.75rem;font-size:2.5rem}
+.section-heading p{max-width:36rem;font-size:1.05rem;color:var(--muted)}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem}
+.topic-card{display:flex;flex-direction:column;height:100%;min-height:13rem;padding:1.6rem 1.6rem 1.4rem;border:1px solid var(--violet-soft);border-radius:var(--radius);background:var(--violet-pastel);color:inherit;text-decoration:none;transition:transform .18s,box-shadow .18s}
+.card-grid li:nth-child(even) .topic-card{border-color:var(--lime-soft);background:var(--lime-pastel)}
+.topic-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card-grid .topic-card .row-ico{width:2.75rem;height:2.75rem;margin-bottom:1rem;border-radius:.875rem;background:var(--surface)}
+.topic-card .row-ico .i{width:1.5rem;height:1.5rem}
+.topic-card h3{font-size:1.6rem}
+.topic-card p{flex:1;margin-top:.6rem;font-size:.98rem;line-height:1.5;color:var(--ink-2)}
+.topic-card-cta{margin-top:1.25rem;font-size:.9rem;font-weight:600;color:var(--violet-ink)}
+.topic-card:hover .topic-card-cta{text-decoration:underline;text-underline-offset:.2em}
+
+/* ---------- Inset grouped list (doctor row) ---------- */
+.group{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-small);overflow:hidden}
+.row{position:relative;display:flex;align-items:center;gap:.75rem;min-height:3.5rem;padding:.875rem 1.125rem;color:inherit;text-decoration:none;transition:background-color .15s}
+.row:focus-visible{outline-offset:-3px}
+.row-ico{width:2.25rem;height:2.25rem;flex:none;border-radius:.625rem;display:grid;place-items:center;background:var(--violet-pastel);color:var(--violet-ink)}
+.row-ico.is-lime{background:var(--lime-pastel);color:var(--lime-ink)}
+.row-ico.is-blue{background:var(--blue-soft);color:#1d4f9c}
+.row-ico .i{width:1.25rem;height:1.25rem}
+.row-body{flex:1;min-width:0}
+.row-t{display:flex;align-items:center;gap:.5rem;font-weight:500;font-size:1rem;line-height:1.3}
+.row-s{display:block;font-size:.8125rem;line-height:1.35;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- Clinic cards + doctor ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.card{display:flex;flex-direction:column;gap:.875rem;padding:1.25rem 1.25rem 1.375rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow-small);color:inherit;text-decoration:none;transition:background-color .15s}
+.card:focus-visible{outline-offset:-3px}
+.card-top{display:flex;align-items:center;justify-content:space-between}
+.card .row-ico{width:2.75rem;height:2.75rem;border-radius:.875rem}
+.card .row-ico .i{width:1.5rem;height:1.5rem}
+.card h3{margin-top:auto;font-family:var(--sans);font-weight:600;font-size:1.0625rem;line-height:1.3;letter-spacing:0}
+.card h3 + p{margin-top:-.5rem;font-size:.875rem;line-height:1.45;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:.375rem;margin-top:-.25rem}
+.chips li{padding:.25rem .625rem;border:1px solid var(--line-strong);border-radius:999px;font-size:.8125rem;font-weight:500;line-height:1.4}
+.doctor{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);margin-top:1rem}
+.doctor .row{padding:1.25rem 1.5rem;gap:1.25rem}
+.doctor .row-t{font-size:1.25rem;font-weight:600}
+.doctor .row-s{font-size:.9375rem}
+.avatar{width:6rem;height:6rem;flex:none;border-radius:50%;object-fit:cover;object-position:50% 20%;background:var(--violet-soft)}
+.quote{display:flex;align-items:center;margin:0;padding:1.25rem 2rem;border-left:1px solid var(--line);font-family:var(--serif);font-style:italic;font-size:1.3125rem;line-height:1.35;letter-spacing:-.012em;color:var(--ink-2)}
+@media (hover:hover){.row:hover,.card:hover{background:var(--violet-pastel)}}
+
+/* ---------- Contact: the single ink surface (as live .section--ink) ---------- */
+.contact{
+  display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:3rem;padding:2.75rem 3rem;border-radius:1.5rem;color:var(--paper);
+  background:var(--ink);box-shadow:var(--shadow);
+}
+.contact .eyebrow{margin:0 0 1rem;color:var(--lime-soft)}
+.contact h2{margin:0 0 .75rem;font:400 2.5rem/1.1 var(--serif);letter-spacing:-.012em;max-width:12em}
+.contact .note{margin:0 0 1.5rem;font-size:1rem;line-height:1.5;color:rgb(248 248 253 / 72%);max-width:46ch}
+.contact .btn{font-size:1.0625rem}
+.contact .btn .i{width:20px;height:20px;stroke-width:2}
+.contact-list{align-self:center;padding-left:3rem;border-left:1px solid rgb(248 248 253 / 18%);display:grid;gap:.5rem;font-size:1rem;line-height:1.5}
+.contact-list li{display:grid;grid-template-columns:20px 1fr;gap:.75rem;align-items:start;padding:.4rem 0}
+.contact-list .i{width:20px;height:20px;margin-top:.2rem;color:var(--lime)}
+.contact-list a{color:var(--paper);font-weight:600;text-decoration:underline;text-decoration-color:var(--lime-soft);text-underline-offset:.2em;display:inline-block;padding:.25rem 0;transition:color .15s,text-decoration-color .15s}
+.contact-list a:hover{color:var(--lime);text-decoration-color:var(--lime)}
+
+/* ---------- Footer ---------- */
+.foot{margin-top:3.5rem;font-size:.8125rem;color:var(--muted)}
+.foot .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1.5rem;padding:1rem 0 2.5rem;border-top:1px solid var(--line)}
+.foot nav{display:flex;flex-wrap:wrap;gap:0 1.5rem}
+.foot nav a{display:inline-flex;align-items:center;min-height:2.75rem;color:var(--ink-2);font-weight:600;text-decoration:none}
+.foot nav a:hover{color:var(--violet);text-decoration:underline;text-underline-offset:.2em}
+
+@media (max-width:1359px){
+  :root{--gutter:2rem}
+  .status .until{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .status .dot::after{animation:none}
+  *,*::before,*::after{transition:none !important}
+}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7.5 8.5 6 8.5-6"/></symbol>
+  <symbol id="i-phone-contact" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5.6 3.5h3.1l1.6 4-2 1.3a11.4 11.4 0 0 0 5 5l1.3-2 4 1.6v3.1a2 2 0 0 1-2.2 2A15.6 15.6 0 0 1 3.6 5.7a2 2 0 0 1 2-2.2Z"/></symbol>
+  <symbol id="i-pin-contact" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5.25 3.75h3.5l1.5 4-2.1 1.55a11 11 0 0 0 6.55 6.55l1.55-2.1 4 1.5v3.5a1.5 1.5 0 0 1-1.5 1.5A15.75 15.75 0 0 1 3.75 5.25a1.5 1.5 0 0 1 1.5-1.5z"/></symbol>
+  <symbol id="i-team" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 4.5v4.75a4.25 4.25 0 0 0 8.5 0V4.5"/><path d="M9.75 13.5v2.25a4.25 4.25 0 0 0 8.5 0V13"/><circle cx="18.25" cy="10.75" r="2.25"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.25"/><path d="m15.25 8.75-1.9 4.6-4.6 1.9 1.9-4.6z"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg></span>FajnDoktorka</a>
+    <nav class="nav" aria-label="Hlavní navigace">
+      <a href="/o-ordinaci/">O ordinaci</a>
+      <a href="/o-nas/">Náš tým</a>
+      <a href="/ordinacni-hodiny/">Ordinační hodiny</a>
+      <a href="/informace-pro-pacienty/">Pro pacienty</a>
+      <a href="/cenik/">Ceník</a>
+      <a href="/mapa/">Kontakt</a>
+    </nav>
+    <div class="topbar-actions">
+      <p class="status"><span class="dot" aria-hidden="true"></span>Otevřeno<span class="until"> · do 14:00</span></p>
+      <a class="btn btn-primary" href="tel:+420725537123"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg>Zavolat +420 725 537 123</a>
+    </div>
+  </div>
+</header>
+
+<main id="obsah">
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Ordinace praktického lékaře · Praha 8 – Bohnice</p>
+        <h1 id="hero-h">Praktická péče srozumitelně, <em>lidsky</em> a v souvislostech.</h1>
+        <p class="lead">Od prvního kontaktu po dlouhodobé sledování. Vysvětlíme, co se děje, a společně vybereme postup, kterému rozumíte.</p>
+      </div>
+
+      <section class="today-card" aria-labelledby="today-h">
+        <div class="card-head">
+          <div>
+            <h2 class="today" id="today-h">Dnes je úterý</h2>
+            <p class="date">13. října 2026 · Poliklinika Mazurská</p>
+          </div>
+          <a class="week-link" href="/ordinacni-hodiny/">Celý týden
+            <svg class="i" aria-hidden="true"><use href="#i-chev"/></svg>
+          </a>
+        </div>
+
+        <div class="timeline">
+          <div class="tl-bar" role="img" aria-label="Dnešní rozvrh: 07:30 až 10:00 akutní, 10:00 až 13:00 objednaní, 13:00 až 14:00 očkování">
+            <span class="seg-acute"></span>
+            <span class="seg-appointment"></span>
+            <span class="seg-vaccination"></span>
+            <span class="tl-now" style="left:33.3%" aria-hidden="true"></span>
+          </div>
+          <div class="tl-ticks" aria-hidden="true">
+            <span>07:30</span>
+            <span style="left:38.5%">10:00</span>
+            <span style="left:84.6%">13:00</span>
+            <span>14:00</span>
+          </div>
+          <ul class="tl-legend">
+            <li><i style="background:var(--slot-acute)" aria-hidden="true"></i>Akutní</li>
+            <li><i style="background:var(--slot-appointment)" aria-hidden="true"></i>Objednaní</li>
+            <li><i style="background:var(--slot-vaccination)" aria-hidden="true"></i>Očkování</li>
+          </ul>
+        </div>
+
+        <p class="clinician">
+          <svg class="i" aria-hidden="true"><use href="#i-team"/></svg>
+          Ordinuje <strong>MUDr. Krýšová</strong>
+        </p>
+
+        <a class="btn" href="tel:+420725537123">
+          <svg class="i" aria-hidden="true"><use href="#i-phone"/></svg>
+          Zavolat +420 725 537 123
+        </a>
+      </section>
+    </div>
+  </section>
+
+  <div class="sheet">
+    <div class="wrap">
+
+      <section class="news-panel" aria-labelledby="news-h">
+        <div class="news-head">
+          <h2 class="eyebrow" id="news-h">Aktuálně z ordinace</h2>
+          <a href="/blog/">Všechny aktuality →</a>
+        </div>
+        <ul class="news-list">
+          <li>
+            <a class="news-item" href="/blog/">
+              <span>
+                <span class="news-title">Očkování proti chřipce <span class="badge">Nové</span></span>
+                <span class="news-desc">Objednávejte se na očkování proti chřipce, vakcíny máme skladem.</span>
+              </span>
+              <span class="news-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+          <li>
+            <a class="news-item" href="/blog/">
+              <span>
+                <span class="news-title">Roušky v ordinaci</span>
+                <span class="news-desc">Při respiračních příznacích prosíme o roušku v čekárně.</span>
+              </span>
+              <span class="news-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="sec" aria-labelledby="topics-h">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Rozcestník</p>
+            <h2 id="topics-h">Co potřebujete vyřešit?</h2>
+          </div>
+          <p>Vyberte oblast a dostaňte se rovnou k praktickým informacím, doporučením k léčbě, prevenci nebo ceníku.</p>
+        </div>
+        <ul class="card-grid">
+          <li>
+            <a class="topic-card" href="/informace-pro-pacienty/">
+              <span class="row-ico"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.75 3.75h6.5l4.5 4.5v11.25a1.5 1.5 0 0 1-1.5 1.5h-9.5a1.5 1.5 0 0 1-1.5-1.5V5.25a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M13.25 3.75v4.5h4.5"/><path d="M8.75 12.75h6.5M8.75 16.25h4.5"/></svg></span>
+              <h3>Praktické informace</h3>
+              <p>Neschopenka, lázně, příspěvek na péči, lékárnička na dovolenou.</p>
+              <span class="topic-card-cta">Zjistit více <span aria-hidden="true">→</span></span>
+            </a>
+          </li>
+          <li>
+            <a class="topic-card" href="/informace-pro-pacienty/">
+              <span class="row-ico is-lime"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.25S4 15.5 4 9.5a4.25 4.25 0 0 1 8-2 4.25 4.25 0 0 1 8 2c0 6-8 10.75-8 10.75z"/><path d="M5.5 12h3l1.5-2.5 2.5 5 1.5-2.5h4.5"/></svg></span>
+              <h3>Léčba a nemoci</h3>
+              <p>Srozumitelně o častých diagnózách: tlak, cukrovka, cholesterol…</p>
+              <span class="topic-card-cta">Zjistit více <span aria-hidden="true">→</span></span>
+            </a>
+          </li>
+          <li>
+            <a class="topic-card" href="/informace-pro-pacienty/">
+              <span class="row-ico is-blue"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.75 5.25 6.25v5.5c0 4.4 2.85 7.6 6.75 9 3.9-1.4 6.75-4.6 6.75-9v-5.5z"/><path d="m9.25 12 2 2 3.75-4"/></svg></span>
+              <h3>Prevence a očkování</h3>
+              <p>Chřipka, klíšťová encefalitida, pneumokoky, tetanus…</p>
+              <span class="topic-card-cta">Zjistit více <span aria-hidden="true">→</span></span>
+            </a>
+          </li>
+          <li>
+            <a class="topic-card" href="/cenik/">
+              <span class="row-ico"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.75 11.9V5.25c0-.83.67-1.5 1.5-1.5h6.65c.4 0 .78.16 1.06.44l7.1 7.1a1.5 1.5 0 0 1 0 2.12l-6.65 6.65a1.5 1.5 0 0 1-2.12 0l-7.1-7.1a1.5 1.5 0 0 1-.44-1.06z"/><circle cx="8.25" cy="8.25" r="1.25"/></svg></span>
+              <h3>Ceník</h3>
+              <p>Aktuální ceník úkonů nehrazených pojišťovnou.</p>
+              <span class="topic-card-cta">Zjistit více <span aria-hidden="true">→</span></span>
+            </a>
+          </li>
+          <li>
+            <a class="topic-card" href="/o-ordinaci/">
+              <span class="row-ico is-lime"><svg class="i" aria-hidden="true"><use href="#i-compass"/></svg></span>
+              <h3>Jak pracujeme</h3>
+              <p>Náš pohled na léčebnou péči a návštěvní službu.</p>
+              <span class="topic-card-cta">Zjistit více <span aria-hidden="true">→</span></span>
+            </a>
+          </li>
+          <li>
+            <a class="topic-card" href="/mapa/">
+              <span class="row-ico is-blue"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.25s-6.75-6.2-6.75-11.25a6.75 6.75 0 0 1 13.5 0c0 5.05-6.75 11.25-6.75 11.25z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <h3>Kde nás najdete</h3>
+              <p>Poliklinika Mazurská, Praha 8 – Bohnice.</p>
+              <span class="topic-card-cta">Zjistit více <span aria-hidden="true">→</span></span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="sec" aria-labelledby="clinic-h">
+        <div class="sec-h"><h2 id="clinic-h">Ordinace</h2></div>
+        <div class="cards">
+          <a class="card" href="/o-nas/">
+            <div class="card-top">
+              <span class="row-ico"><svg class="i" aria-hidden="true"><use href="#i-team"/></svg></span>
+              <svg class="i chev" aria-hidden="true"><use href="#i-chev"/></svg>
+            </div>
+            <h3>Náš tým</h3>
+            <p>Kdo se o vás stará</p>
+          </a>
+          <a class="card" href="/o-ordinaci/">
+            <div class="card-top">
+              <span class="row-ico is-lime"><svg class="i" aria-hidden="true"><use href="#i-compass"/></svg></span>
+              <svg class="i chev" aria-hidden="true"><use href="#i-chev"/></svg>
+            </div>
+            <h3>Jak pracujeme</h3>
+            <p>Náš pohled na léčebnou péči a návštěvní službu.</p>
+          </a>
+          <a class="card" href="/pristroje/">
+            <div class="card-top">
+              <span class="row-ico is-blue"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.75" y="4.75" width="16.5" height="11.5" rx="2"/><path d="M7 10.5h2l1.5-2.5 2.5 5 1.5-2.5H17"/><path d="M9 19.75h6"/></svg></span>
+              <svg class="i chev" aria-hidden="true"><use href="#i-chev"/></svg>
+            </div>
+            <h3>Přístroje</h3>
+            <ul class="chips">
+              <li>EKG</li><li>CRP</li><li>INR</li><li>Glykemie</li><li>Spirometrie</li><li>Tlakový Holter</li><li>Streptest</li><li>Moč</li>
+            </ul>
+          </a>
+        </div>
+
+        <div class="group doctor">
+          <a class="row" href="/o-nas/">
+            <img class="avatar" src="../../src/assets/mudr-alexandra-krysova.jpg" loading="lazy" alt="MUDr. Alexandra Krýšová" width="96" height="96">
+            <span class="row-body">
+              <span class="row-t">MUDr. Alexandra Krýšová</span>
+              <span class="row-s">praktická lékařka</span>
+            </span>
+            <svg class="i chev" aria-hidden="true"><use href="#i-chev"/></svg>
+          </a>
+          <blockquote class="quote">„Zastáváme názor, že velmi dobrá informovanost a znalost zdravotního stavu jsou nedílnou součástí léčebně preventivního procesu.“</blockquote>
+        </div>
+      </section>
+
+      <section class="sec contact" aria-labelledby="contact-h">
+        <div>
+          <p class="eyebrow">Kontakt</p>
+          <h2 id="contact-h">Objednejte se telefonicky</h2>
+          <p class="note">Sdělte sestřičce stručně důvod návštěvy – pomůže nám to vybrat vhodný čas a omezit čekání.</p>
+          <a class="btn btn-primary" href="tel:+420725537123"><svg class="i" aria-hidden="true"><use href="#i-phone-contact"/></svg>+420 725 537 123</a>
+        </div>
+        <ul class="contact-list">
+          <li>
+            <svg class="i" aria-hidden="true"><use href="#i-mail"/></svg>
+            <a href="mailto:ordinace@fajndoktorka.com">ordinace@fajndoktorka.com</a>
+          </li>
+          <li>
+            <svg class="i" aria-hidden="true"><use href="#i-pin-contact"/></svg>
+            <span>Poliklinika Mazurská, Mazurská 484/2, 181 00 Praha 8 – Bohnice<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Mazursk%C3%A1%20484%2F2%2C%20Praha%208">Otevřít v mapách</a></span>
+          </li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <nav aria-label="Další stránky">
+      <a href="/o-ordinaci/">O ordinaci</a>
+      <a href="/o-nas/">Náš tým</a>
+      <a href="/pristroje/">Přístroje</a>
+      <a href="/blog/">Aktuality</a>
+    </nav>
+    <p>© 2026 FajnDoktorka · Poliklinika Mazurská, Praha 8 – Bohnice</p>
+  </div>
+</footer>
+
+</body>
+</html>
