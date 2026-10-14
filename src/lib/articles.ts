@@ -26,7 +26,7 @@ export const patientCategories = {
 export type PatientCategory = keyof typeof patientCategories;
 export type ArticleCategory = PatientCategory | "news";
 
-export const articleCategories = ["medical", "prevention", "practical", "news"] as const satisfies ArticleCategory[];
+export const patientCategoryKeys = Object.keys(patientCategories) as [PatientCategory, ...PatientCategory[]];
 
 /** URL prefix every article of the category must live under; enforced by the content schema. */
 export function categoryPathPrefix(category: ArticleCategory): string {

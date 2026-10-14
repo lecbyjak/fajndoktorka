@@ -1,0 +1,38 @@
+# Generated from the Wix sitemaps (2026-10-14). Cloudflare Pages / Netlify syntax.
+# Sources are percent-encoded because non-ASCII paths are matched in encoded form.
+
+# Wix article pages -> categorised article URLs
+/cholesterol /informace-pro-pacienty/lecba-a-domaci-pece/cholesterol/ 301
+/cukrovka /informace-pro-pacienty/lecba-a-domaci-pece/cukrovka/ 301
+/dna /informace-pro-pacienty/lecba-a-domaci-pece/dna/ 301
+/nachlazeni /informace-pro-pacienty/lecba-a-domaci-pece/nachlazeni/ 301
+/prujem /informace-pro-pacienty/lecba-a-domaci-pece/prujem/ 301
+/vysoky-tlak /informace-pro-pacienty/lecba-a-domaci-pece/vysoky-tlak/ 301
+/warfarin /informace-pro-pacienty/lecba-a-domaci-pece/warfarin/ 301
+/kopie-nachlazen%C3%AD /informace-pro-pacienty/lecba-a-domaci-pece/covid/ 301
+/invalidni-duchod /informace-pro-pacienty/prakticke-informace/invalidni-duchod/ 301
+/lazenska-pece /informace-pro-pacienty/prakticke-informace/lazenska-pece/ 301
+/lekarna-na-dovolenou /informace-pro-pacienty/prakticke-informace/lekarna-na-dovolenou/ 301
+/neschopenka /informace-pro-pacienty/prakticke-informace/neschopenka/ 301
+/prispevek-na-peci /informace-pro-pacienty/prakticke-informace/prispevek-na-peci/ 301
+/chripka /informace-pro-pacienty/prevence-a-ockovani/chripka/ 301
+/hepatitida-a /informace-pro-pacienty/prevence-a-ockovani/hepatitida-a/ 301
+/hepatitida-b /informace-pro-pacienty/prevence-a-ockovani/hepatitida-b/ 301
+/klistova-encefalitida /informace-pro-pacienty/prevence-a-ockovani/klistova-encefalitida/ 301
+/meningitida /informace-pro-pacienty/prevence-a-ockovani/meningitida/ 301
+/pasovy-opar /informace-pro-pacienty/prevence-a-ockovani/pasovy-opar/ 301
+/pneumokoky /informace-pro-pacienty/prevence-a-ockovani/pneumokoky/ 301
+/tetanus /informace-pro-pacienty/prevence-a-ockovani/tetanus/ 301
+
+# Wix pages without a 1:1 successor
+/kopie-l%C3%A9k%C3%A1rna-na-dovolenou /cenik/ 301
+/posadka /o-nas/ 301
+/prevence-ockovani /informace-pro-pacienty/#prevence-a-ockovani 301
+/faq /informace-pro-pacienty/#prakticke-informace 301
+
+# Blog
+/post/omezen%C3%AD-ordina%C4%8Dn%C3%ADch-hodin /post/o%C4%8Dkovani/ 301
+/blog/categories/zacit /blog/ 301
+/blog/categories/vase-komunita /blog/ 301
+/blog-feed.xml /blog/ 301
+

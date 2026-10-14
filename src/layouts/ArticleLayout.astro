@@ -4,6 +4,7 @@ import BaseLayout from "./BaseLayout.astro";
 import PageHero from "../components/page-content/PageHero.astro";
 import SideNavigation, { type SideNavigationItem } from "../components/page-content/SideNavigation.astro";
 import type { BreadcrumbItem } from "../components/page-content/Breadcrumbs.astro";
+import { czechDate, isoDate } from "../lib/dates";
 
 export interface Props {
     title: string;
@@ -11,12 +12,14 @@ export interface Props {
     /** Intro under the title. Not defaulted: article descriptions are truncated excerpts. */
     lead?: string;
     breadcrumbs?: BreadcrumbItem[];
+    /** News byline: author and dates come from front matter, not from the article body. */
+    byline?: { author?: string; published: Date };
     sources?: { label: string; url: string }[];
     sideNavigation?: SideNavigationItem[];
     sideNavigationLabel?: string;
 }
 
-const { title, description, lead, breadcrumbs, sources = [], sideNavigation = [], sideNavigationLabel } = Astro.props;
+const { title, description, lead, breadcrumbs, byline, sources = [], sideNavigation = [], sideNavigationLabel } = Astro.props;
 const hasSidebar = sideNavigation.length > 0;
 ---
 
@@ -27,6 +30,16 @@ const hasSidebar = sideNavigation.length > 0;
             <div class="shell">
                 <div class:list={["content-layout", { "content-layout--single": !hasSidebar }]}>
                     <article class="article">
+                        {
+                            byline && (
+                                <p class="article-meta">
+                                    {byline.author && <span>{byline.author}</span>}
+                                    <span>
+                                        Zveřejněno <time datetime={isoDate(byline.published)}>{czechDate(byline.published)}</time>
+                                    </span>
+                                </p>
+                            )
+                        }
                         <slot />
                         {
                             sources.length > 0 && (

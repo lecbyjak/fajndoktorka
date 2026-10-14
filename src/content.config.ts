@@ -1,30 +1,41 @@
 import { defineCollection } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { articleCategories, categoryPathPrefix } from './lib/articles';
+import { categoryPathPrefix, patientCategoryKeys } from './lib/articles';
+
+const articleBase = z.object({
+  title: z.string(),
+  description: z.string(),
+  // Public URL (kept from the previous site); must sit under the category prefix.
+  path: z.string().regex(/^\/(?:[^?#]*\/)?$/),
+  // false hides the article everywhere: listings, side navigation, homepage notices, and no page is built for it.
+  visible: z.boolean().default(true),
+  sources: z.array(z.object({ label: z.string(), url: z.url() })).optional(),
+});
+
+// Patient information: ordered by hand within its category.
+const patientArticle = articleBase.extend({
+  category: z.enum(patientCategoryKeys),
+  // Position in listings and side navigation.
+  navigationOrder: z.number().int(),
+});
+
+// News: ordered by `published`, newest first.
+const newsArticle = articleBase.extend({
+  category: z.literal('news'),
+  // Orders the news list, shown in the byline, and marks items younger than a month as "Nové".
+  published: z.coerce.date(),
+  author: z.string().optional(),
+  // Show the article as a notice on the homepage.
+  pinned: z.boolean().default(false),
+});
 
 const articles = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/articles' }),
-  schema: z
-    .object({
-      title: z.string(),
-      description: z.string(),
-      // Public URL (kept from the previous site); must sit under the category prefix.
-      path: z.string().regex(/^\/(?:[^?#]*\/)?$/),
-      category: z.enum(articleCategories),
-      navigationOrder: z.number().int(),
-      // News only: show the article as a notice on the homepage.
-      pinned: z.boolean().default(false),
-      // News only: publication date; the homepage marks news younger than a month as "Nové".
-      published: z.coerce.date().optional(),
-      // false hides the article everywhere: listings, side navigation, homepage notices, and no page is built for it.
-      visible: z.boolean().default(true),
-      sources: z.array(z.object({ label: z.string(), url: z.url() })).optional(),
-    })
-    .refine(({ path, category }) => path.startsWith(categoryPathPrefix(category)), {
-      message: 'path must start with the category prefix (see src/lib/articles.ts)',
-      path: ['path'],
-    }),
+  schema: z.discriminatedUnion('category', [patientArticle, newsArticle]).refine(({ path, category }) => path.startsWith(categoryPathPrefix(category)), {
+    message: 'path must start with the category prefix (see src/lib/articles.ts)',
+    path: ['path'],
+  }),
 });
 
 const officeHours = defineCollection({

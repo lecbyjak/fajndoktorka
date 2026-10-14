@@ -1,6 +1,8 @@
 /* Article prose ----------------------------------------------------------- */
 .article { min-width: 0; color: var(--ink-2); font-size: 1.06rem; line-height: 1.7; }
 .article > :first-child { margin-top: 0; }
+.article-meta { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin: 0 0 1.5rem; color: var(--muted); font-size: .95rem; }
+.article-meta > span + span::before { content: "·"; margin-right: 1rem; }
 .article h2 { margin: 2.75rem 0 .9rem; color: var(--ink); font-size: clamp(1.9rem, 3vw, 2.5rem); }
 .article h3 { margin: 2rem 0 .6rem; color: var(--ink); font-size: 1.5rem; }
 .article p, .article li, .article ul, .article ol, .article blockquote { max-width: 68ch; }

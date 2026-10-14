@@ -8,13 +8,13 @@ import ContactCard from "../components/structured/ContactCard.astro";
 import TodayCard from "../components/structured/TodayCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { categoryAnchor, patientCategories } from "../lib/articles";
-import { getArticles, getWeek } from "../lib/collections";
+import { getNews, getWeek } from "../lib/collections";
 import { byOrder, getSite } from "../lib/site";
 
 const [clinic, week, news, staff, equipment] = await Promise.all([
     getSite(),
     getWeek(),
-    getArticles("news"),
+    getNews(),
     getCollection("staff"),
     getCollection("equipment"),
 ]);
@@ -75,11 +75,9 @@ const clinicLinks = [
                                             <span class="news-body">
                                                 <span class="news-title">
                                                     {data.title}
-                                                    {data.published && (
-                                                        <span class="badge" data-new-until={new Date(data.published.getTime() + NEW_FOR_MS).toISOString()} hidden>
-                                                            Nové
-                                                        </span>
-                                                    )}
+                                                    <span class="badge" data-new-until={new Date(data.published.getTime() + NEW_FOR_MS).toISOString()} hidden>
+                                                        Nové
+                                                    </span>
                                                 </span>
                                                 <span class="news-desc">{data.description}</span>
                                             </span>

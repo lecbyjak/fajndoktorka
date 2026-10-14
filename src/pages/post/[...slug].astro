@@ -1,11 +1,11 @@
 ---
-import { render, type CollectionEntry } from "astro:content";
+import { render } from "astro:content";
 import ArticleLayout from "../../layouts/ArticleLayout.astro";
 import { NEWS_PATH } from "../../lib/articles";
-import { getArticles } from "../../lib/collections";
+import { getNews, type NewsEntry } from "../../lib/collections";
 
 export async function getStaticPaths() {
-    const posts = await getArticles("news");
+    const posts = await getNews();
 
     return posts.map((entry) => ({
         // The content schema guarantees `path` starts with NEWS_PATH.
@@ -15,8 +15,8 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-    entry: CollectionEntry<"articles">;
-    posts: CollectionEntry<"articles">[];
+    entry: NewsEntry;
+    posts: NewsEntry[];
 }
 
 const { entry, posts } = Astro.props;
@@ -27,6 +27,7 @@ const { Content } = await render(entry);
     title={entry.data.title}
     description={entry.data.description}
     sources={entry.data.sources}
+    byline={{ author: entry.data.author, published: entry.data.published }}
     breadcrumbs={[
         { label: "Domů", href: "/" },
         { label: "Aktuality z ordinace", href: "/blog/" },

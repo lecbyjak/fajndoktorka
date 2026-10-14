@@ -1,9 +1,9 @@
 ---
 import TopicCard from "../../components/page-content/TopicCard.astro";
 import LandingLayout from "../../layouts/LandingLayout.astro";
-import { getArticles } from "../../lib/collections";
+import { getNews } from "../../lib/collections";
 
-const entries = await getArticles("news");
+const entries = await getNews();
 ---
 
 <LandingLayout title="Aktuality z ordinace" description="Aktuality a provozní informace z ordinace FajnDoktorka.">

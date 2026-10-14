@@ -38,10 +38,11 @@ title: "Chřipka"
 description: "Shown on cards and as the meta description."
 path: "/informace-pro-pacienty/prevence-a-ockovani/chripka/"  # public URL
 category: "prevention"        # medical | prevention | practical | news
-navigationOrder: 50           # order in listings and side navigation
+navigationOrder: 50           # medical | prevention | practical only: order in listings and side navigation
 pinned: true                  # news only: show in the "Aktuálně" panel on the homepage
 visible: false                # optional; hides the article everywhere and skips building its page
-published: 2026-09-29         # news only, optional; the homepage shows a "Nové" badge for 30 days after this date
+published: 2026-09-29         # news only, required; orders news newest first, shown in the byline, "Nové" badge for 30 days
+author: "MUDr. Krýšová"       # news only, optional; byline
 sources:                      # optional external links rendered under the article
   - label: "SVL: Chřipka"
     url: "https://…"
