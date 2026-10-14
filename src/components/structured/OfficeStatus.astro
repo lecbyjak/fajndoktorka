@@ -1,19 +1,15 @@
 ---
-// Live open/closed pill, filled in by src/scripts/office-status.ts; hidden without JavaScript.
-import Link from "../navigation/Link.astro";
-
+// Live open/closed pill ("Otevřeno · do 14:30"), filled in by src/scripts/office-status.ts; hidden without JavaScript.
 export interface Props {
-    /** Larger variant for the homepage hero card. */
-    size?: "default" | "large";
+    /** "dark" sits on the ink today card. */
+    tone?: "light" | "dark";
+    class?: string;
 }
 
-const { size = "default" } = Astro.props;
+const { tone = "light", class: className } = Astro.props;
 ---
 
-<Link class:list={["office-status", `office-status--${size}`]} href="/ordinacni-hodiny/" data-office-status hidden>
+<p class:list={["office-status", `office-status--${tone}`, className]} data-office-status hidden>
     <span class="office-status-dot" aria-hidden="true"></span>
-    <span class="office-status-text">
-        <strong data-office-label></strong>
-        <span data-office-detail></span>
-    </span>
-</Link>
+    <span><span data-office-label></span><span class="office-status-detail"> · <span data-office-detail></span></span></span>
+</p>

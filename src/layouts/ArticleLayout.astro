@@ -1,10 +1,8 @@
 ---
-// Readable-width article with optional external sources and a sticky side navigation.
+// Readable-width article on the white sheet, with optional external sources and a sticky side navigation.
 import BaseLayout from "./BaseLayout.astro";
 import PageHero from "../components/page-content/PageHero.astro";
-import SideNavigation, {
-    type SideNavigationItem,
-} from "../components/page-content/SideNavigation.astro";
+import SideNavigation, { type SideNavigationItem } from "../components/page-content/SideNavigation.astro";
 import type { BreadcrumbItem } from "../components/page-content/Breadcrumbs.astro";
 
 export interface Props {
@@ -18,29 +16,16 @@ export interface Props {
     sideNavigationLabel?: string;
 }
 
-const {
-    title,
-    description,
-    lead,
-    breadcrumbs,
-    sources = [],
-    sideNavigation = [],
-    sideNavigationLabel,
-} = Astro.props;
+const { title, description, lead, breadcrumbs, sources = [], sideNavigation = [], sideNavigationLabel } = Astro.props;
 const hasSidebar = sideNavigation.length > 0;
 ---
 
 <BaseLayout {title} {description}>
     <main id="obsah">
         <PageHero {title} {lead} {breadcrumbs} />
-        <section class="section">
+        <div class="sheet">
             <div class="shell">
-                <div
-                    class:list={[
-                        "content-layout",
-                        { "content-layout--single": !hasSidebar },
-                    ]}
-                >
+                <div class:list={["content-layout", { "content-layout--single": !hasSidebar }]}>
                     <article class="article">
                         <slot />
                         {
@@ -50,11 +35,7 @@ const hasSidebar = sideNavigation.length > 0;
                                     <ul>
                                         {sources.map(({ label, url }) => (
                                             <li>
-                                                <a
-                                                    href={url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
+                                                <a href={url} target="_blank" rel="noopener noreferrer">
                                                     {label}
                                                 </a>
                                             </li>
@@ -64,16 +45,9 @@ const hasSidebar = sideNavigation.length > 0;
                             )
                         }
                     </article>
-                    {
-                        hasSidebar && (
-                            <SideNavigation
-                                items={sideNavigation}
-                                label={sideNavigationLabel}
-                            />
-                        )
-                    }
+                    {hasSidebar && <SideNavigation items={sideNavigation} label={sideNavigationLabel} />}
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 </BaseLayout>

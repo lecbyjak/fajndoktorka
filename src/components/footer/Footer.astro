@@ -1,7 +1,7 @@
 ---
 import Link from "../navigation/Link.astro";
-import Logo from "../navigation/Logo.astro";
-import { mapsSearchUrl, phoneHref, type SiteData } from "../../lib/site";
+import { footerNav } from "../../lib/nav";
+import type { SiteData } from "../../lib/site";
 
 export interface Props {
     site: SiteData;
@@ -12,39 +12,13 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-    <div class="shell">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <Logo size="large" />
-                <p>Praktická medicína postavená na srozumitelnosti, důvěře a dlouhodobé péči.</p>
-            </div>
-            <div>
-                <h3>Ordinace</h3>
-                <Link href="/o-ordinaci/">O ordinaci</Link>
-                <Link href="/o-nas/">Náš tým</Link>
-                <Link href="/ordinacni-hodiny/">Ordinační hodiny</Link>
-                <Link href="/pristroje/">Vybavení ordinace</Link>
-                <Link href="/blog/">Aktuality z ordinace</Link>
-            </div>
-            <div>
-                <h3>Pro pacienty</h3>
-                <Link href="/informace-pro-pacienty/#prakticke-informace">Praktické informace</Link>
-                <Link href="/informace-pro-pacienty/#lecba-a-domaci-pece">Léčba a domácí péče</Link>
-                <Link href="/informace-pro-pacienty/#prevence-a-ockovani">Prevence a očkování</Link>
-                <Link href="/cenik/">Ceník</Link>
-            </div>
-            <div>
-                <h3>Kontakt</h3>
-                <a href={phoneHref(site.phone)}>{site.phone}</a>
-                <a href={`mailto:${site.email}`}>{site.email}</a>
-                <a href={mapsSearchUrl(site)} target="_blank" rel="noopener">
-                    {site.address.street}<br />{site.address.postalCode} {site.address.locality}
-                </a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© {year} {site.name} · IČO {site.ico}</span>
-            <span>V akutním ohrožení života volejte <strong>155</strong>.</span>
+    <div class="shell footer-inner">
+        <nav aria-label="Další stránky">
+            {footerNav.map(({ href, label }) => <Link href={href}>{label}</Link>)}
+        </nav>
+        <div class="footer-meta">
+            <p>© {year} {site.name} · Poliklinika Mazurská, {site.address.locality} · IČO {site.ico}</p>
+            <p>V akutním ohrožení života volejte <strong>155</strong>.</p>
         </div>
     </div>
 </footer>

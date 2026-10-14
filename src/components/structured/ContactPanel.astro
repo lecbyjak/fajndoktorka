@@ -1,5 +1,6 @@
 ---
-import { fullAddress, mapsSearchUrl, phoneHref, type SiteData } from "../../lib/site";
+import Icon from "../Icon.astro";
+import { mapsDirectionsUrl, mapsEmbedUrl, mapsSearchUrl, phoneHref, type SiteData } from "../../lib/site";
 
 export interface Props {
     clinic: SiteData;
@@ -7,7 +8,6 @@ export interface Props {
 
 const { clinic } = Astro.props;
 const clinicPhoneHref = phoneHref(clinic.phone);
-const mapQuery = encodeURIComponent(fullAddress(clinic));
 ---
 
 <section class="contact-overview" aria-labelledby="contact-location-title">
@@ -16,35 +16,48 @@ const mapQuery = encodeURIComponent(fullAddress(clinic));
         <h2 id="contact-location-title">Jsme snadno dostupní v Praze 8</h2>
         <p class="lead">Objednejte se telefonicky před návštěvou. Pro neurgentní dotazy můžete využít e-mail.</p>
 
-        <div class="contact-methods">
-            <a class="contact-method" href={clinicPhoneHref}>
-                <span>Telefon</span>
-                <strong>{clinic.phone}</strong>
-                <small>Objednání a konzultace</small>
-            </a>
-            <a class="contact-method" href={`mailto:${clinic.email}`}>
-                <span>E-mail</span>
-                <strong>{clinic.email}</strong>
-                <small>Neurgentní dotazy</small>
-            </a>
-            <div class="contact-method">
-                <span>Adresa ordinace</span>
-                <strong>{clinic.address.street}</strong>
-                <small>{clinic.address.postalCode} {clinic.address.locality}</small>
-            </div>
-        </div>
-
-        <div class="actions">
-            <a class="button" href={`https://www.google.com/maps/dir/?api=1&destination=${mapQuery}`} target="_blank" rel="noopener">Naplánovat trasu</a>
-            <a class="button secondary" href={clinicPhoneHref}>Zavolat do ordinace</a>
-        </div>
+        <ul class="group contact-methods">
+            <li>
+                <a class="row" href={clinicPhoneHref}>
+                    <span class="tile tile--lime"><Icon name="phone" /></span>
+                    <span class="row-body">
+                        <span class="row-label">Telefon</span>
+                        <strong>{clinic.phone}</strong>
+                        <small>Objednání a konzultace</small>
+                    </span>
+                    <Icon name="chevron" class="chevron" />
+                </a>
+            </li>
+            <li>
+                <a class="row" href={`mailto:${clinic.email}`}>
+                    <span class="tile"><Icon name="mail" /></span>
+                    <span class="row-body">
+                        <span class="row-label">E-mail</span>
+                        <strong>{clinic.email}</strong>
+                        <small>Neurgentní dotazy</small>
+                    </span>
+                    <Icon name="chevron" class="chevron" />
+                </a>
+            </li>
+            <li>
+                <a class="row" href={mapsDirectionsUrl(clinic)} target="_blank" rel="noopener">
+                    <span class="tile tile--blue"><Icon name="pin" /></span>
+                    <span class="row-body">
+                        <span class="row-label">Adresa ordinace</span>
+                        <strong>{clinic.address.street}</strong>
+                        <small>{clinic.address.postalCode} {clinic.address.locality} · naplánovat trasu</small>
+                    </span>
+                    <Icon name="chevron" class="chevron" />
+                </a>
+            </li>
+        </ul>
         <p class="contact-legal">IČO {clinic.ico}</p>
     </div>
 
     <div class="location-map">
         <iframe
             title={`Mapa ordinace ${clinic.name}, ${clinic.address.street}`}
-            src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+            src={mapsEmbedUrl(clinic)}
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
             allowfullscreen

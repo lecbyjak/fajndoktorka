@@ -15,6 +15,7 @@
   --violet-soft: #e5e2fb;
   --violet-pastel: #f1effd;
   --blue-soft: #dfe9fc;
+  --blue-ink: #1d4f9c;
   --line: #e1e1f1;
   --line-strong: #c4c4e1;
   --focus: #5b4fd9;
@@ -25,47 +26,71 @@
   --slot-prebooked: #ad6ad6;
   --shadow: 0 24px 60px rgb(27 30 60 / 10%);
   --shadow-small: 0 6px 24px rgb(27 30 60 / 6%);
+  --shadow-sheet: 0 -12px 40px rgb(27 30 60 / 10%);
   --radius: 1.25rem;
   --radius-sm: .75rem;
   --content: 76rem;
   --measure: 46rem;
+  --gutter: 2.5rem;
   /* Sticky header height; anchors and sticky elements offset from it. */
-  --header-height: 4.5rem;
+  --header-height: 4.75rem;
+  /* Bottom tab bar below 1024px (see components.css). */
+  --tabbar-height: 3.75rem;
+  /* Lavender hero surface with the lime/violet glows, shared by the homepage and subpage heroes. */
+  --hero-surface:
+    radial-gradient(42rem 28rem at 88% 12%, var(--lime-pastel), transparent 70%),
+    radial-gradient(36rem 26rem at 8% 100%, var(--violet-soft), transparent 70%),
+    var(--violet-pastel);
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-height) + 1.25rem); -webkit-text-size-adjust: 100%; }
 /* Column layout: `main` absorbs spare height so the footer sits at the bottom of short pages. */
-body { display: flex; min-height: 100dvh; flex-direction: column; margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.55; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+body { display: flex; min-height: 100dvh; flex-direction: column; margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-sans); font-size: 1rem; line-height: 1.5; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
 a { color: var(--violet); text-decoration-thickness: .07em; text-underline-offset: .18em; }
 a:hover { color: var(--violet-ink); }
 ::selection { color: var(--ink); background: var(--lime-soft); }
 img { display: block; max-width: 100%; height: auto; }
 button { font: inherit; }
 p { margin-block: .6rem 1.1rem; }
-/* Display typography: serif headlines, tight leading, optical kerning. */
+/* Display typography: serif headlines, tight leading. */
 h1, h2, h3, h4 { margin: 0; overflow-wrap: break-word; font-family: var(--font-display); font-weight: 400; letter-spacing: -.012em; }
-h1 { font-size: clamp(2.6rem, 6.4vw, 5.6rem); line-height: .98; }
-h2 { font-size: clamp(2rem, 3.8vw, 3.2rem); line-height: 1.04; }
-h3 { font-size: clamp(1.45rem, 2.2vw, 1.85rem); line-height: 1.15; }
+h1 { font-size: clamp(2.6rem, 2rem + 2.4vw, 4.4rem); line-height: 1.05; }
+h2 { font-size: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem); line-height: 1.05; }
+h3 { font-size: clamp(1.4rem, 1.2rem + .6vw, 1.6rem); line-height: 1.15; }
 h4 { font-size: 1.2rem; line-height: 1.3; }
 h1, h2 { text-wrap: balance; }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 
-.shell { width: min(calc(100% - 3rem), var(--content)); margin-inline: auto; }
+.shell { width: min(100% - 2 * var(--gutter), var(--content)); margin-inline: auto; }
 .skip-link { position: fixed; z-index: 100; top: .75rem; left: .75rem; padding: .65rem 1rem; border-radius: .5rem; color: #fff; background: var(--ink); transform: translateY(-170%); }
 .skip-link:focus { transform: none; }
 
 /* Shared type utilities. */
-.eyebrow { display: inline-flex; align-items: center; gap: .55rem; margin: 0 0 1rem; color: var(--violet-ink); font-family: var(--font-sans); font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
-.eyebrow::before { width: 1.5rem; height: 2px; border-radius: 2px; background: var(--lime); content: ""; }
-.lead { max-width: 36rem; margin: 0; color: var(--ink-2); font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.55; }
+.eyebrow { display: inline-flex; align-items: center; gap: .55rem; margin: 0 0 1rem; color: var(--violet-ink); font-family: var(--font-sans); font-size: .78rem; font-weight: 600; letter-spacing: .12em; line-height: 1.4; text-transform: uppercase; }
+.eyebrow::before { width: 1.5rem; height: 2px; flex: none; border-radius: 2px; background: var(--lime); content: ""; }
+.lead { max-width: 44ch; margin: 0; color: var(--ink-2); font-size: 1.125rem; line-height: 1.5; }
 /* Highlighter stroke under a key word; used in the hero headline. */
 .marker { padding-inline: .06em; background: linear-gradient(transparent 58%, var(--lime-soft) 58%); font-style: italic; }
+.icon { width: 1.5rem; height: 1.5rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
-@media (max-width: 680px) {
+/* Copy that differs between the wide layout and the phone layout (≤720px). */
+@media (min-width: 721px) {
+  .only-narrow { display: none !important; }
+}
+
+@media (max-width: 1359px) {
+  :root { --gutter: 2rem; }
+}
+@media (max-width: 1023px) {
   :root { --header-height: 4rem; }
-  .shell { width: min(calc(100% - 2rem), var(--content)); }
+}
+@media (max-width: 720px) {
+  :root { --gutter: 1rem; }
+  .only-wide { display: none !important; }
+  .eyebrow { font-size: .72rem; letter-spacing: .1em; }
+  .lead { font-size: 1.0625rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

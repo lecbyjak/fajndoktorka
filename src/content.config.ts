@@ -15,6 +15,8 @@ const articles = defineCollection({
       navigationOrder: z.number().int(),
       // News only: show the article as a notice on the homepage.
       pinned: z.boolean().default(false),
+      // News only: publication date; the homepage marks news younger than a month as "Nové".
+      published: z.coerce.date().optional(),
       // false hides the article everywhere: listings, side navigation, homepage notices, and no page is built for it.
       visible: z.boolean().default(true),
       sources: z.array(z.object({ label: z.string(), url: z.url() })).optional(),

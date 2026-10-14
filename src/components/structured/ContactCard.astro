@@ -1,0 +1,33 @@
+---
+// Ink "Objednejte se telefonicky" card that closes the homepage.
+import Icon from "../Icon.astro";
+import { fullAddress, mapsSearchUrl, phoneHref, type SiteData } from "../../lib/site";
+
+export interface Props {
+    site: SiteData;
+}
+
+const { site } = Astro.props;
+---
+
+<section class="contact-card" aria-labelledby="contact-card-title">
+    <div>
+        <p class="eyebrow">Kontakt</p>
+        <h2 id="contact-card-title">Objednejte se telefonicky</h2>
+        <p class="contact-card-note">Sdělte sestřičce stručně důvod návštěvy – pomůže nám to vybrat vhodný čas a omezit čekání.</p>
+        <a class="button" href={phoneHref(site.phone)}><Icon name="phone" />{site.phone}</a>
+    </div>
+    <ul class="contact-card-list">
+        <li>
+            <Icon name="mail" />
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+        </li>
+        <li>
+            <Icon name="pin" />
+            <span>
+                Poliklinika Mazurská, {fullAddress(site)}<br />
+                <a href={mapsSearchUrl(site)} target="_blank" rel="noopener">Otevřít v mapách</a>
+            </span>
+        </li>
+    </ul>
+</section>

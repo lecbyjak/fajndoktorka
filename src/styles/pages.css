@@ -21,36 +21,13 @@
 .article .cta-card h2 { max-width: 20ch; margin: 0; font-size: 1.7rem; }
 .cta-card p:not(.eyebrow) { margin: .5rem 0 0; color: var(--muted); font-size: .95rem; }
 .cta-card .button { flex: none; }
-.doctor-intro { display: grid; grid-template-columns: minmax(16rem, .55fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
-.doctor-intro figure { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
-.doctor-intro figure img { width: 100%; }
-.doctor-intro blockquote { margin: 0; font-family: var(--font-display); font-size: clamp(1.6rem, 2.8vw, 2.4rem); line-height: 1.22; letter-spacing: -.01em; }
-.doctor-intro blockquote p { margin: 0; }
-.doctor-intro .doctor-name { display: grid; gap: .15rem; margin: 1.75rem 0 0; }
-.doctor-intro .doctor-name strong { font-size: 1.05rem; font-weight: 600; }
-.doctor-intro .doctor-name span { color: var(--muted); font-size: .9rem; }
 
-/* Homepage: equipment teaser --------------------------------------------- */
-.equipment-teaser { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(1.5rem, 5vw, 5rem); align-items: center; }
-
-/* Contact band (homepage) and contact page ------------------------------- */
-.contact-band { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
-.contact-band h2 { max-width: 14ch; }
-.contact-band .contact-phone { display: block; margin-top: 1.5rem; color: var(--lime); font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; text-decoration: none; }
-.contact-band .contact-phone:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; }
-.contact-band dl { display: grid; grid-template-columns: auto 1fr; gap: .6rem 1.5rem; margin: 0; font-size: 1rem; }
-.contact-band dt { color: rgb(248 248 253 / 60%); }
-.contact-band dd { margin: 0; }
-.contact-band dd a { color: var(--paper); }
-.contact-band dd a:hover { color: var(--lime); }
-.contact-band .actions { margin-top: 1.75rem; }
+/* Contact page ------------------------------------------------------------ */
 .contact-overview { display: grid; grid-template-columns: minmax(19rem, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
-.contact-methods { display: grid; gap: .5rem; margin-top: 2rem; }
-.contact-method { display: grid; padding: 1rem 1.15rem; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--ink); background: var(--surface); text-decoration: none; transition: border-color .15s, background-color .15s; }
-a.contact-method:hover { border-color: var(--line-strong); color: var(--ink); background: var(--violet-pastel); }
-.contact-method span { color: var(--muted); font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
-.contact-method strong { margin-top: .15rem; font-size: 1.15rem; font-weight: 500; overflow-wrap: anywhere; }
-.contact-method small { color: var(--muted); font-size: .82rem; }
+.contact-methods { margin-top: 2rem; }
+.contact-methods .row-label { color: var(--muted); font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.contact-methods strong { margin-top: .1rem; font-size: 1.1rem; font-weight: 500; overflow-wrap: anywhere; }
+.contact-methods small { color: var(--muted); font-size: .82rem; }
 .contact-legal { margin: 1.5rem 0 0; color: var(--muted); font-size: .8rem; }
 .location-map { position: relative; min-height: 32rem; overflow: hidden; border-radius: var(--radius); background: var(--violet-pastel); box-shadow: var(--shadow); }
 .location-map iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
@@ -121,21 +98,19 @@ a.contact-method:hover { border-color: var(--line-strong); color: var(--ink); ba
 .landing-subsection + .landing-subsection { margin-top: clamp(3rem, 6vw, 5rem); }
 .landing-subsection h2 { margin-bottom: .5rem; }
 .landing-subsection > .lead { margin-bottom: 1.75rem; }
-.landing-support { display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; align-items: center; justify-content: space-between; margin-top: clamp(3rem, 7vw, 6rem); padding: clamp(1.5rem, 3vw, 2.5rem); border-radius: var(--radius); background: var(--lime-pastel); }
-.landing-support h2 { font-size: 1.9rem; }
-.landing-support p:not(.eyebrow) { max-width: 30rem; margin-bottom: 0; color: var(--muted); }
-.landing-support .actions { margin-top: 0; }
 
 @media (max-width: 980px) {
-  .doctor-intro, .equipment-teaser, .contact-band, .contact-overview, .profile-layout, .schedule-intro, .schedule-meta { grid-template-columns: 1fr; }
-  .doctor-intro figure { max-width: 24rem; }
+  .contact-overview, .profile-layout, .schedule-intro, .schedule-meta { grid-template-columns: 1fr; }
   .team-portrait { position: static; max-width: 26rem; }
   .schedule-contact { width: fit-content; }
   .location-map { min-height: 24rem; }
 }
-@media (max-width: 680px) {
+@media (max-width: 720px) {
   .article { font-size: 1rem; }
-  .cta-card, .landing-support { flex-direction: column; align-items: flex-start; }
+  .cta-card { flex-direction: column; align-items: flex-start; }
+  .landing-subsection + .landing-subsection { margin-top: 2rem; }
+  .landing-subsection h2 { margin-bottom: .25rem; padding-inline: .25rem; font-size: 1.5rem; }
+  .landing-subsection > .lead { margin-bottom: .875rem; padding-inline: .25rem; color: var(--muted); font-size: .9375rem; }
   .equipment-grid { grid-template-columns: 1fr; }
   .schedule-contact { width: 100%; }
   .credential-section dl > div { grid-template-columns: 1fr; gap: .1rem; }

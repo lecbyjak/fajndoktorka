@@ -5,6 +5,7 @@ path: "/post/roušky/"
 category: "news"
 navigationOrder: 10
 pinned: true
+published: 2022-05-11
 visible: true
 ---
 

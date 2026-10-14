@@ -1,8 +1,10 @@
 ---
+import Icon from "../Icon.astro";
 import Link from "./Link.astro";
 import Logo from "./Logo.astro";
 import OfficeStatus from "../structured/OfficeStatus.astro";
-import { phoneHref, type SiteData } from "../../lib/site";
+import { headerNav } from "../../lib/nav";
+import { isCurrentSection, phoneHref, type SiteData } from "../../lib/site";
 
 export interface Props {
     /** Page path without the deployment base, e.g. "/cenik/". */
@@ -10,48 +12,28 @@ export interface Props {
     site: SiteData;
 }
 
-const { site } = Astro.props;
-const path = decodeURI(Astro.props.currentPath).replace(/\/+$/, "") || "/";
-const navItems = [
-    { href: "/o-ordinaci/", label: "O ordinaci" },
-    { href: "/o-nas/", label: "Náš tým" },
-    { href: "/ordinacni-hodiny/", label: "Ordinační hodiny" },
-    { href: "/informace-pro-pacienty/", label: "Pro pacienty" },
-    { href: "/cenik/", label: "Ceník" },
-    { href: "/mapa/", label: "Kontakt" },
-];
-const isActive = (href: string) => {
-    const target = href.replace(/\/+$/, "");
-    return path === target || path.startsWith(`${target}/`);
-};
+const { currentPath, site } = Astro.props;
+
 ---
 
+{/* Below 1024px the navigation moves to the bottom tab bar (TabBar.astro); the header keeps the brand and live status. */}
 <header class="site-header">
-    <div class="header-inner">
+    <div class="shell header-inner">
         <Logo />
-        <nav class="site-nav" id="site-navigation" data-open="false" aria-label="Hlavní navigace">
+        <nav class="site-nav" aria-label="Hlavní navigace">
             {
-                navItems.map(({ href, label }) => (
-                    <Link href={href} aria-current={isActive(href) ? "page" : undefined}>
+                headerNav.map(({ href, label }) => (
+                    <Link href={href} aria-current={isCurrentSection(currentPath, href) ? "page" : undefined}>
                         {label}
                     </Link>
                 ))
             }
-            <div class="site-nav-footer">
-                <OfficeStatus />
-                <a class="button" href={phoneHref(site.phone)}>Zavolat {site.phone}</a>
-            </div>
         </nav>
         <div class="header-actions">
             <OfficeStatus />
-            <a class="button button--small" href={phoneHref(site.phone)}>
-                <span class="header-phone">{site.phone}</span>
-                <span class="header-call">Zavolat</span>
+            <a class="button header-call" href={phoneHref(site.phone)}>
+                <Icon name="phone" /><span>Zavolat<span class="header-phone"> {site.phone}</span></span>
             </a>
         </div>
-        {/* Toggled by src/scripts/site.ts; visible below 980px. */}
-        <button class="menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false" aria-label="Otevřít menu">
-            <span></span><span></span>
-        </button>
     </div>
 </header>

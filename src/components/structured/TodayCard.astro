@@ -1,0 +1,69 @@
+---
+// Homepage "Dnes je úterý" card: today's visit types on one bar, who is in, and a call button.
+// Every weekday's panel is pre-rendered hidden; src/scripts/office-status.ts shows today's
+// (or the closed panel), fills in the weekday and date, and moves the "now" marker.
+import Icon from "../Icon.astro";
+import Link from "../navigation/Link.astro";
+import OfficeStatus from "./OfficeStatus.astro";
+import { purposeLabels, purposeShortLabels, toHours, type Purpose, type WeekDay } from "../../lib/office-status";
+import { phoneHref, type SiteData } from "../../lib/site";
+
+export interface Props {
+    week: WeekDay[];
+    site: SiteData;
+}
+
+const { week, site } = Astro.props;
+const percent = (value: number) => `${+(value * 100).toFixed(2)}%`;
+const days = week
+    .filter((day) => day.slots.length > 0)
+    .map((day) => {
+        const start = toHours(day.slots[0].from);
+        const end = toHours(day.slots.at(-1)!.to);
+        const at = (time: string) => (toHours(time) - start) / (end - start);
+        return {
+            ...day,
+            start,
+            end,
+            segments: day.slots.map((slot) => ({ ...slot, left: percent(at(slot.from)), width: percent(at(slot.to) - at(slot.from)) })),
+            ticks: [...new Set([...day.slots.map((slot) => slot.from), day.slots.at(-1)!.to])].map((time) => ({ time, left: percent(at(time)) })),
+            purposes: [...new Set(day.slots.map((slot) => slot.purpose))] as Purpose[],
+            summary: day.slots.map((slot) => `${slot.from} až ${slot.to} ${purposeLabels[slot.purpose].toLocaleLowerCase("cs")}`).join(", "),
+        };
+    });
+---
+
+<section class="today" aria-labelledby="today-title" data-today>
+    <header class="today-head">
+        <h2 id="today-title" data-today-title>Dnes v ordinaci</h2>
+        <p class="today-date"><span data-today-date></span> · Poliklinika Mazurská</p>
+    </header>
+    <div class="today-panel">
+        <OfficeStatus tone="dark" class="today-status" />
+        <Link class="today-week-link" href="/ordinacni-hodiny/">Celý týden<Icon name="chevron" /></Link>
+        {
+            days.map((day) => (
+                <div class="today-day" data-today-day={day.weekday} hidden>
+                    <div class="today-bar" role="img" aria-label={`Dnešní rozvrh: ${day.summary}`}>
+                        {day.segments.map((segment) => (
+                            <span data-purpose={segment.purpose} style={`left: ${segment.left}; width: ${segment.width}`} />
+                        ))}
+                        <span class="today-now" data-today-now data-start={day.start} data-end={day.end} hidden />
+                    </div>
+                    <div class="today-ticks" aria-hidden="true">
+                        {day.ticks.map((tick) => <span style={`left: ${tick.left}`}>{tick.time}</span>)}
+                    </div>
+                    <ul class="today-legend">
+                        {day.purposes.map((purpose) => <li data-purpose={purpose}>{purposeShortLabels[purpose]}</li>)}
+                    </ul>
+                    <p class="today-clinician">
+                        <Icon name="stethoscope" />
+                        <span>Ordinuje <strong>{day.clinician}</strong></span>
+                    </p>
+                </div>
+            ))
+        }
+        <p class="today-day today-closed" data-today-day="closed" hidden>Dnes neordinujeme. Akutní potíže mimo ordinační hodiny řeší pohotovost, v ohrožení života volejte <strong>155</strong>.</p>
+        <a class="button today-call" href={phoneHref(site.phone)}><Icon name="phone" />Zavolat {site.phone}</a>
+    </div>
+</section>

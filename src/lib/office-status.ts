@@ -20,7 +20,9 @@ export interface WeekDay {
 
 export interface OfficeStatus {
     open: boolean;
+    /** "Otevřeno" / "Zavřeno". */
     label: string;
+    /** "do 14:30" while open, "zítra od 07:30" while closed; empty without any upcoming slot. */
     detail: string;
     /** Schedule row to highlight as "today" (undefined on weekends). */
     todayWeekday?: number;
@@ -30,6 +32,14 @@ export const purposeLabels: Record<Purpose, string> = {
     acute: "Akutní pacienti",
     appointment: "Objednaní pacienti",
     prebooked: "Pouze předem objednaní",
+    "vaccination-and-sampling": "Očkování a odběry",
+};
+
+/** Compact legend labels for the homepage "today" bar. */
+export const purposeShortLabels: Record<Purpose, string> = {
+    acute: "Akutní",
+    appointment: "Objednaní",
+    prebooked: "Předem objednaní",
     "vaccination-and-sampling": "Očkování a odběry",
 };
 
@@ -55,9 +65,16 @@ export function pragueNow(date = new Date()): { weekday: number; hour: number } 
 
 export function officeStatus(week: WeekDay[], now: { weekday: number; hour: number }): OfficeStatus {
     const today = week.find((day) => day.weekday === now.weekday);
-    const current = today?.slots.find((slot) => toHours(slot.from) <= now.hour && now.hour < toHours(slot.to));
-    if (current) {
-        return { open: true, label: "Teď otevřeno", detail: `do ${current.to} · ${purposeLabels[current.purpose]}`, todayWeekday: now.weekday };
+    const slots = today?.slots ?? [];
+    const currentIndex = slots.findIndex((slot) => toHours(slot.from) <= now.hour && now.hour < toHours(slot.to));
+    if (currentIndex !== -1) {
+        // Back-to-back slots read as one opening: report when the whole run ends.
+        let closes = slots[currentIndex].to;
+        for (const slot of slots.slice(currentIndex + 1)) {
+            if (slot.from !== closes) break;
+            closes = slot.to;
+        }
+        return { open: true, label: "Otevřeno", detail: `do ${closes}`, todayWeekday: now.weekday };
     }
     // Next opening: later today, or the first slot of the next scheduled day.
     for (let ahead = 0; ahead <= 7; ahead++) {
@@ -65,7 +82,7 @@ export function officeStatus(week: WeekDay[], now: { weekday: number; hour: numb
         const slot = week.find((day) => day.weekday === weekday)?.slots.find((s) => ahead > 0 || toHours(s.from) > now.hour);
         if (slot) {
             const when = ahead === 0 ? "dnes" : ahead === 1 ? "zítra" : DAY_LOCATIVE[weekday];
-            return { open: false, label: "Zavřeno", detail: `Otevíráme ${when} v ${slot.from}`, todayWeekday: today?.weekday };
+            return { open: false, label: "Zavřeno", detail: `${when} od ${slot.from}`, todayWeekday: today?.weekday };
         }
     }
     return { open: false, label: "Zavřeno", detail: "", todayWeekday: today?.weekday };

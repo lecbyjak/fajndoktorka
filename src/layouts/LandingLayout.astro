@@ -1,5 +1,5 @@
 ---
-// Page hero followed by one full-width content section.
+// Page hero on lavender, then the content on a white sheet rising over it.
 import BaseLayout from "./BaseLayout.astro";
 import PageHero from "../components/page-content/PageHero.astro";
 
@@ -16,8 +16,8 @@ const { title, description, lead = description } = Astro.props;
 <BaseLayout {title} {description}>
     <main id="obsah">
         <PageHero {title} {lead} />
-        <section class="section">
+        <div class="sheet">
             <div class="shell"><slot /></div>
-        </section>
+        </div>
     </main>
 </BaseLayout>

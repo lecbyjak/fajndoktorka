@@ -1,13 +1,15 @@
 @media print {
   @page { margin: 1.5cm; }
 
-  body { color: #000; background: #fff; font-size: 11pt; }
+  body { padding: 0; color: #000; background: #fff; font-size: 11pt; }
 
-  .site-header, .site-footer, .back-to-top, .side-nav, .actions, .skip-link, .office-status, .news-panel, .location-map { display: none !important; }
+  .site-header, .site-footer, .back-to-top, .tabbar, .side-nav, .actions, .skip-link, .office-status, .today, .news, .location-map, .contact-card .button { display: none !important; }
 
-  .section, .hero, .page-hero { padding: 1rem 0; background: none; }
-  .hero::before { display: none; }
-  .section--ink { color: #000; }
+  .hero, .page-hero { padding: 1rem 0; background: none; }
+  .sheet { margin: 0; padding: 1rem 0; border: 0; box-shadow: none; }
+  .sheet::before { content: none; }
+  .contact-card { color: #000; background: none; box-shadow: none; }
+  .contact-card-list a { color: inherit; }
   .content-layout { display: block; }
   .timeline-slot { background: none; }
 

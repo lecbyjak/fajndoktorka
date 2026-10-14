@@ -1,6 +1,6 @@
 # FajnDoktorka
 
-Static [Astro](https://astro.build) website of the FajnDoktorka general practice (Praha 8 – Bohnice). No client framework; the only client script handles the mobile menu, the back-to-top button and the live "open now" status.
+Static [Astro](https://astro.build) website of the FajnDoktorka general practice (Praha 8 – Bohnice). No client framework; the only client script handles the back-to-top button and the live "open now" status.
 
 ## Commands
 
@@ -41,6 +41,7 @@ category: "prevention"        # medical | prevention | practical | news
 navigationOrder: 50           # order in listings and side navigation
 pinned: true                  # news only: show in the "Aktuálně" panel on the homepage
 visible: false                # optional; hides the article everywhere and skips building its page
+published: 2026-09-29         # news only, optional; the homepage shows a "Nové" badge for 30 days after this date
 sources:                      # optional external links rendered under the article
   - label: "SVL: Chřipka"
     url: "https://…"
@@ -52,18 +53,20 @@ sources:                      # optional external links rendered under the artic
 
 Type: Instrument Serif for headings, Instrument Sans for everything else (fontsource via Astro's fonts API, static weights, latin + latin-ext for Czech). Palette: pastel lime for emphasis and actions, blue-violet for ink and surfaces; all tokens live at the top of `src/styles/base.css`. Visit types on the schedule are coloured through `[data-purpose]` → `--slot`.
 
-The schedule is rendered three ways from the same data: a week-at-a-glance card in the homepage hero (`WeekCard.astro`), a timeline (`OfficeHours.astro`; one row per day, bars positioned with CSS custom properties, list layout below 980px), and the live status pill in the header (`OfficeStatus.astro`). `BaseLayout` embeds the week as JSON; `src/scripts/office-status.ts` evaluates it in Europe/Prague time (`src/lib/office-status.ts`), fills the pill and marks today's row. Without JavaScript the pill stays hidden and the static schedule remains.
+Every page has a lavender hero (`--hero-surface`) with a white `.sheet` rising over it; the homepage ends with the ink contact card (`ContactCard.astro`). From 1024px the header carries the navigation and call button; below it the bottom tab bar (`TabBar.astro`) takes over; both read their links from `src/lib/nav.ts`. Below 720px card grids, the homepage news and the clinic cards turn into inset grouped lists; copy that differs between the two layouts uses `.only-wide` / `.only-narrow`.
+
+The schedule is rendered three ways from the same data: the homepage "Dnes je …" card (`TodayCard.astro`; one pre-rendered panel per weekday, the script shows today's and places the "now" marker), a timeline (`OfficeHours.astro`; one row per day, bars positioned with CSS custom properties, list layout below 1024px), and the live status pill (`OfficeStatus.astro`). `BaseLayout` embeds the week as JSON; `src/scripts/office-status.ts` evaluates it in Europe/Prague time (`src/lib/office-status.ts`), fills the pills, the today card and marks today's row. Without JavaScript the pill and today's panel stay hidden and the static schedule remains.
 
 ## Structure
 
 ```
 src/
-  components/      navigation (header, logo), footer, page building blocks (PageHero, TopicCard, …), data-driven sections
+  components/      Icon, navigation (header, tab bar, logo), footer, page building blocks (PageHero, TopicCard, …), data-driven sections
   content/         Markdown articles
   data/            JSON collections (see table above)
   layouts/         BaseLayout (head, header, footer) → LandingLayout | ArticleLayout
-  lib/             site.ts (site data, base-path and contact helpers), articles.ts (categories),
-                   collections.ts (visible articles, office hours), office-status.ts (open/closed logic)
+  lib/             site.ts (site data, base-path, contact and map-URL helpers), nav.ts (header/footer/tab-bar links),
+                   articles.ts (categories), collections.ts (visible articles, office hours), office-status.ts (open/closed logic)
   pages/           routes; article routes are generated from `path`
   scripts/         client behaviour (site.ts imports office-status.ts)
   styles/          global.css imports base → layout → components → pages → print

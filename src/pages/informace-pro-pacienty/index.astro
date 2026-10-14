@@ -3,9 +3,8 @@ import TopicCard from "../../components/page-content/TopicCard.astro";
 import LandingLayout from "../../layouts/LandingLayout.astro";
 import { patientCategories, type PatientCategory } from "../../lib/articles";
 import { getArticles } from "../../lib/collections";
-import { getSite, phoneHref } from "../../lib/site";
 
-const [articles, site] = await Promise.all([getArticles(), getSite()]);
+const articles = await getArticles();
 const sections = Object.entries(patientCategories).map(([category, meta]) => ({
     ...meta,
     entries: articles.filter((entry) => entry.data.category === (category as PatientCategory)),
@@ -30,16 +29,4 @@ const sections = Object.entries(patientCategories).map(([category, meta]) => ({
             </section>
         ))
     }
-
-    <aside class="landing-support">
-        <div>
-            <p class="eyebrow">Nenašli jste odpověď?</p>
-            <h2>Ozvěte se přímo do ordinace</h2>
-            <p>Pokud si nejste jistí, kam váš dotaz patří, rádi vás nasměrujeme.</p>
-        </div>
-        <div class="actions">
-            <a class="button" href={phoneHref(site.phone)}>Zavolat {site.phone}</a>
-            <a class="button secondary" href={`mailto:${site.email}`}>Napsat e-mail</a>
-        </div>
-    </aside>
 </LandingLayout>

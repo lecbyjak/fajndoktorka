@@ -5,6 +5,7 @@ path: "/post/očkovani/"
 category: "news"
 navigationOrder: 5
 pinned: true
+published: 2026-09-29
 visible: true
 ---
 

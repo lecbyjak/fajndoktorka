@@ -15,18 +15,42 @@ export function withBase(path: string): string {
     return `${import.meta.env.BASE_URL.replace(/\/$/, "")}${path}`;
 }
 
+/** Phone number without spaces, as used in `tel:` links and structured data. */
+export function phoneDigits(phone: string): string {
+    return phone.replaceAll(" ", "");
+}
+
 export function phoneHref(phone: string): string {
-    return `tel:${phone.replaceAll(" ", "")}`;
+    return `tel:${phoneDigits(phone)}`;
 }
 
 export function fullAddress({ address }: SiteData): string {
     return `${address.street}, ${address.postalCode} ${address.locality}`;
 }
 
+function mapsQuery(site: SiteData): string {
+    return encodeURIComponent(fullAddress(site));
+}
+
 export function mapsSearchUrl(site: SiteData): string {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress(site))}`;
+    return `https://www.google.com/maps/search/?api=1&query=${mapsQuery(site)}`;
+}
+
+export function mapsDirectionsUrl(site: SiteData): string {
+    return `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery(site)}`;
+}
+
+export function mapsEmbedUrl(site: SiteData): string {
+    return `https://www.google.com/maps?q=${mapsQuery(site)}&output=embed`;
 }
 
 export function byOrder<T extends { data: { order: number } }>(a: T, b: T): number {
     return a.data.order - b.data.order;
+}
+
+/** Whether `currentPath` (without the base) is `href` or a page beneath it; drives `aria-current` in the navigation. */
+export function isCurrentSection(currentPath: string, href: string): boolean {
+    const path = decodeURI(currentPath).replace(/\/+$/, "");
+    const target = href.replace(/\/+$/, "");
+    return target === "" ? path === "" : path === target || path.startsWith(`${target}/`);
 }

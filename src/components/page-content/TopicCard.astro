@@ -1,5 +1,7 @@
 ---
-// One card of a `<ul class="card-grid">`; surfaces alternate lime/violet via CSS.
+// One card of a `<ul class="card-grid">`: surfaces alternate lime/violet via CSS on wide
+// screens; below 720px the grid becomes an inset grouped list of rows with a chevron.
+import Icon, { type IconName } from "../Icon.astro";
 import Link from "../navigation/Link.astro";
 
 export interface Props {
@@ -7,15 +9,21 @@ export interface Props {
     title: string;
     description: string;
     cta?: string;
+    icon?: IconName;
+    tone?: "violet" | "lime" | "blue";
 }
 
-const { href, title, description, cta = "Zjistit více" } = Astro.props;
+const { href, title, description, cta = "Zjistit více", icon, tone = "violet" } = Astro.props;
 ---
 
 <li>
     <Link class="topic-card" href={href}>
-        <h3>{title}</h3>
-        <p>{description}</p>
+        {icon && <span class={`tile tile--${tone}`}><Icon name={icon} /></span>}
+        <div class="topic-card-body">
+            <h3>{title}</h3>
+            <p>{description}</p>
+        </div>
         <span class="topic-card-cta">{cta} <span aria-hidden="true">→</span></span>
+        <Icon name="chevron" class="chevron" />
     </Link>
 </li>
