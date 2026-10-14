@@ -1,0 +1,13 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "fajndoktorka",
+	"compatibility_date": "2026-10-14",
+	// Static site: no Worker code. `public/_redirects` and `public/_headers` are copied into dist/ and applied by Cloudflare.
+	"assets": {
+		"directory": "./dist",
+		// Matches `trailingSlash: 'always'`: /page serves /page/index.html via a redirect to /page/.
+		"html_handling": "auto-trailing-slash",
+		// Unknown URLs get dist/404.html with a 404 status.
+		"not_found_handling": "404-page"
+	}
+}

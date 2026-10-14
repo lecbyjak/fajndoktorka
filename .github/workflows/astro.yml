@@ -18,6 +18,10 @@ jobs:
         uses: actions/checkout@v7
       - name: Install, type-check, build, test, and upload
         uses: withastro/action@v6
+        env:
+          # Preview build served from a project subpath, not the production domain.
+          SITE_URL: https://lecbyjak.github.io
+          SITE_BASE: /fajndoktorka
         with:
           # `npm test` builds the site, then checks internal links in dist/.
           build-cmd: npm run check && npm test
