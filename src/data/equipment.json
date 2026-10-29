@@ -27,7 +27,7 @@
     "id": "equipment-4",
     "name": "Clover HbA1c - glykovaný hemoglobin",
     "order": 4,
-    "description": "Přístroj k měření tzv. „dlouhého“ cukru.",
+    "description": "Přístroj k měření tzv. „dlouhodobého“ cukru.",
     "purpose": "Z vyšetření vyplyne jaká je dlouhodobá kompenzace u cukrovkářů. Takže dieta 3 dny před kontrolou vás nezachrání.",
     "procedure": "Vyšetření obnáší drobné píchnutí do prstu, kdy je nutné získat kapku krve. Krev se v pipetě potom vloží do přístroje. Výsledek je znám cca za 10 minut."
   },
