@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 // robots.txt and JSON-LD follow `site`/`base`; canonical URLs always use
 // `baseUrl` from src/data/site.json.
 export default defineConfig({
-    site: process.env.SITE_URL ?? 'https://www.fajndoktorka.com',
+    site: process.env.SITE_URL ?? 'https://fajndoktorka.com',
     base: process.env.SITE_BASE,
     trailingSlash: 'always',
     // Never inline scripts into the HTML, so the CSP in public/_headers can stay `script-src 'self'`.

@@ -78,7 +78,7 @@ Internal links must go through `components/navigation/Link.astro` (or `withBase(
 
 ## Deployment
 
-Production runs on Cloudflare (Workers static assets) at <https://www.fajndoktorka.com/>, built with `npm run check && npm test` and deployed with `npx wrangler deploy` (Workers Builds on the GitHub repo does both). Config lives in:
+Production runs on Cloudflare (Workers static assets) at <https://fajndoktorka.com/>, built with `npm run check && npm test` and deployed with `npx wrangler deploy` (Workers Builds on the GitHub repo does both). Config lives in:
 
 - `wrangler.jsonc`: serves `dist/`, trailing-slash handling matching `trailingSlash: 'always'`, `404.html` for unknown URLs.
 - `public/_redirects`: 301s from the old Wix URLs. Sources are percent-encoded.
