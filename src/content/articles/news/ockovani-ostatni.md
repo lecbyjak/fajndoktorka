@@ -1,4 +1,3 @@
-```markdown
 ---
 title: "Začínáme očkovat proti chřipce"
 description: "Očkujeme všechny věkové kategorie. Objednávejte se u sestřičky."
@@ -13,4 +12,3 @@ visible: true
 ## Informace pro návštěvu ordinace
 
 Očkujeme všechny věkové kategorie. Objednávejte se u sestřičky.
-```
